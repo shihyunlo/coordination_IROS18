@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{mavrogiannis2016decentralized}
+Christoforos~I Mavrogiannis and Ross~A Knepper.
+\newblock Decentralized multi-agent navigation planning with braids.
+\newblock In {\em Proceedings of the Workshop on the Algorithmic Foundations of
+  Robotics. San Francisco, USA}, 2016.
+
+\bibitem{nikolaidis2016formalizing}
+Stefanos Nikolaidis, Anton Kuznetsov, David Hsu, and Siddharta Srinivasa.
+\newblock Formalizing human-robot mutual adaptation: A bounded memory model.
+\newblock In {\em The Eleventh ACM/IEEE International Conference on Human Robot
+  Interaction}, pages 75--82. IEEE Press, 2016.
+
+\end{thebibliography}
