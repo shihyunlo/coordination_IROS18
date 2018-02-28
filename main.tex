@@ -44,8 +44,8 @@ Markov Games with Time-variant Types as a Framework for Human-Robot Coordination
   human-robot conflict-resolving on limited shared resources. Mis-coordination 
   deteriorates task 
   efficiency of both parties, as well as human trust and patience on robotic 
-  agents. In this work, we model propose a game-theoretic framework to analyze convergence in 
-  human-robot coordination and propose both offline and online solutions.
+  agents. In this work, we propose a game-theoretic framework to analyze convergence in 
+  human-robot coordination.
   We also propose human behavior hypotheses on their 
   decision-making mechanisms under the framework, 
   to capture how human's 1) perceived robot 
@@ -53,77 +53,103 @@ Markov Games with Time-variant Types as a Framework for Human-Robot Coordination
   trust affect their policies and adaptability in dynamic environments. 
   We provide human-robot path crossing as an instantiation, and use the 
   hypothesized human behaviors to simulate real-world observed interaction 
-  patterns. Lastly, we simulate human adaptive behavior to observed robot 
-  policies, as 
-  an initiative to eliminate the gap from using human-human interaction data 
-  to design human-robot interaction algorithms. 
+  patterns. Lastly, we simulate humans acting adaptively to their observed robot 
+  policies, as an initiative to eliminate the gap from using human-human 
+  interaction data to design human-robot interaction algorithms. 
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
 Human-robot interaction has raised attention in recent years due to the 
 emerging interest in deploying robots in human environments. Such 
-environments may involve human-robot collaboration on given tasks (cite..), 
-human-robot co-working in a shared workspace (cite..), or simply service 
-robots deployed in human environments (cite..). In such environments, robots 
+environments may involve human-robot collaboration on given tasks, 
+human-robot co-working in a shared workspace, or simply service 
+robots deployed in human environments. In such environments, robots 
 may need to coordinate with humans with partially shared information and 
 partially shared objectives; agents may need to reach agreement on one 
 solution among multiple feasible choices, which makes the coordination non-trivial to 
-settle (cite..). 
+settle. Shown in Fig.~\ref{fig:intro}, three agents coordinate at an 
+intersection, where each agent has personal goals to reach. 
 
 For a robot to engage coordination without cause of human confusion, it first 
 requires the basic capabilities to understand human intent, and to respond in a 
-legible manner. Besides those, to negotiate and agree on the coordinating 
-solutions, the robot needs to reason about the potential behavioral types of humans to predict 
-their action outcomes (cite.. bayesian games), the reaction time humans need 
-to update their policies~\cite{shah2011improved}, and the potential 
-impacts of its own actions on humans' future decisions (cite.. multi-agent 
-learning, repeated game strategies: carrot or stick, good new model). Then the 
-robot can plan and coordinate in an intent-consistent fashion. 
+legible manner~\cite{dragan13legibility}. Beyond those, to negotiate and agree on the coordinating 
+solutions, the robot needs knowledge of human agents' behaviors to 
+predict the outcome of its own choice of action~\cite{aumann1987correlated}. 
+It also needs to known the reaction time humans need 
+to update their policies~\cite{shah2011improved}, and to consider potential 
+impacts of its own actions on humans' future 
+decisions~\cite{fujiwara2015non,foerster2017learning}. Then the 
+robot can plan and coordinate with humans in an intent-consistent fashion. 
 
 Research topics arise 
 to improve human-robot coordination from many aspects, including: intent-expressive robot 
-motion~\cite{dragan2013legibility,lichtenthaler2012influence}, human 
+motion generation~\cite{dragan2013legibility,lichtenthaler2012influence}, human 
 preference-aware behavior modeling and its 
 use for coordination~\cite{gombolay2015coordination,dorsa2017active}, human-robot mutual 
 adaptation~\cite{nikolaidis2013human,nikolaidis2016formalizing}, human 
 expectations on robot capability~\cite{cha2015perceived,kwon2016human}, as well as trust and comfort for long-term 
-deployment\cite{yang2017evaluting}. 
+deployment\cite{yang2017evaluating}. 
 
-While those topics feature different factors which jointly affect the overall human behavior and 
-their decision-making mechanism, 
+While those topics are featured by different factors which jointly affect human behaviors and 
+their decision-making mechanisms, 
 %such as reaction timing and 
 %policy adaptation rate, to incorporate future impacts of robot actions into 
 %robot online planning, 
 there lacks a unifying framework to keep track of how those factors correlate with 
-each other, how they combinatorially affect human decisions and motions, and 
-how they may evolve over time subject to different robot interaction policies. 
-The contribution of this work is our proposed real-time game 
-model for human-robot coordination, 
-where agents have hidden preferences and time-variant adaptive behaviors to 
-other agents.
+each other in different situations, how they combinatorially affect human 
+decisions and motions, and 
+how they evolve over time subject to different robot interaction policies. 
+Those questions are important for designing intent-consistent robots to 
+interact with humans in a daily situations. And they are important to design 
+robots that are aware of human 
+adaptation for their long-term deployments.  
 
-To incorporate the decision factors into human behavior simulation, 
-we propose hypotheses on human decision-making mechanisms under the framework. 
-We use the model to discuss human behaviors in interactions with robots, and 
-show how those factors affect human decisions and their motion realizations in 
-social navigation domain. We compare simulated behaviors with real-world collected 
-data. 
+   \begin{figure}[t]\label{fig:intro}
+      \centering
+      \vspace{-1em}
+      \includegraphics[scale=0.32]{intro}
+      \vspace{-1.5em}
+      %\hspace{-5em}
+      \caption{Human-robot coordination in a crossing intersection. Since 
+      people have different prior assumptions on robot behaviors, their choice 
+      of actions differ.}
+      \vspace{-1.5em}
+   \end{figure}
+To fulfill such purposes, the main contribution of this work is our proposed game-theoretic 
+model for human-robot coordination, 
+where agents have hidden preferences and time-variant adaptive behaviors based 
+on online observations on others' behaviors.
+
+To discuss human behaviors while interacting with robots, We also organized 
+important factors that have been proposed in the human-robot interaction 
+community, such as perceived robot capability, personal preferences, and 
+trust on robot ability. We illustrate how they affect human behaviors through 
+our proposed human decision-making model under the game framework, using a 
+receding-horizon approach. We also propose two factors that we observed to be 
+important in social navigation 
+domain: level of self-interest and social trust. We incorporate them along 
+with others to analyze how people interact with the robot, with different 
+personal preferences and assumptions on robot 
+behaviors. We use real-world collected human-robot interaction data to 
+illustrate our model effectiveness. 
 
 %maybe too much, don't show..
-We also use the model to discuss human policy adaptabilities,
-and simulate humans adaption to robots after perceiving robot socially trust-worthy behaviors. 
+We also use the decision-making model to discuss human policy adaptabilities,
+and simulate human adaption to robots after perceiving robot 
+socially trust-worthy behaviors. 
 
-Lastly, for the robot to deploy the models to coordinate with humans 
-on-the-fly, it needs real-time 
-capabilities to update its prior knowledge 
-along interactions~\cite{sezer2015towards,bai2015intention}, 
-and then re-analyze its plan convergence criteria in coordination with other 
-human participants. We therefore propose the 
-receding-horizon planning approach, instantiate in the social 
-navigation domain. With that we show efficient robot online adaptive planning 
-to human 
-agents.   
+%%%%%%%%%%the algorithm: too much, don't show
+%Lastly, for the robot to deploy the models to coordinate with humans 
+%on-the-fly, it needs real-time 
+%capabilities to update its prior knowledge 
+%along interactions~\cite{sezer2015towards,bai2015intention}, 
+%and then re-analyze its plan convergence criteria in coordination with other 
+%human participants. We therefore propose the 
+%receding-horizon planning approach, instantiate in the social 
+%navigation domain. With that we show efficient robot online adaptive planning 
+%to human 
+%agents.   
 
 %It is significant in highly dynamic situations, whereas good reaction 
 %timing prevents 
@@ -144,25 +170,23 @@ agents.
 %1. real-time fluent planning in a human-aware manner, what people have done to 
 %improve from traditional planning approaches:
 Despite the emerging interest to deploy robots in human-coexisting workspaces, 
-planning algorithms to incorporate multi-agent collective-behavior predictions 
-and human factors have remained challenging.
-While traditional planning algorithms have shown success in static 
-environments (cite..), deploying such approaches alongside humans have shown 
+planning algorithms for smooth human-robot co-navigation have remained a 
+challenge. While traditional planning algorithms have shown success in static 
+environments, deploying such approaches alongside humans have shown 
 insufficiency in adaptability to highly dynamic environments, as well as their motion 
 awkwardness in expressing intents for human 
 understanding~\cite{lichtenthaler2012influence,dragan2013legibility,kruse2012legible}. 
 As a result, approaches considering time-variant factors, such as temporal constraints for multi-agent collision 
 avoidance~\cite{van2011reciprocal}, as well as human factors, such as human 
 collision-avoidance behavior anticipation~\cite{helbing1995social}, have raised attention for robot planning in human workspaces. Approaches such as to emulate human behavior in crowd 
-navigation has shown fluency to improve from  
-(cite.. robot planning with social force).
+navigation has shown fluency to improve from~\cite{shiomi2014towards}.
 
 On the other hand, another community solves robot planning in human environments as a 
 joint multi-agent planning problem, to explain the collective behaviors with 
 explicit modeling of the effect of agent actions on its 
-surround agents (GP, MCMC, decentralized). Such joint modeling methodology has 
+surround agents~\cite{trautman2010unfreezing,kuderer2012feature,mavrogiannis2016decentralized}. Such joint modeling methodology has 
 shown effectiveness to output smooth human-mimicking trajectories at the same 
-time acting responsively to its surrounding agents. In (cite..dorsa), human reactions are 
+time acting responsively to its surrounding agents. In ~\cite{sadigh2016planning}, human reactions are 
 explicitly modeled as a function of other agents' actions to incorporate 
 similar effects. 
 
@@ -173,7 +197,7 @@ interaction community, do not act the same way around a robot compared to in
 pure-human environments. This gap has shown 
 inefficiency of such approaches when humans engage unexpected behaviors 
 around robots - behaviors that humans will not present in front of another 
-human (cite, gp, predictable motions). 
+human~\cite{pfeiffer2016predicting}. 
 
 %To keep track of the improvement in such joint modeling approach on human 
 %robot interaction, we need to incorporate studies on robot factors on human 
@@ -203,7 +227,7 @@ To model joint behaviors among agents - how one's action affects the other -
 another way is to incorporate individual's action values with correlations 
 with other agents' actions. Such joint behavior formulation is widely studied 
 in Game theory: with different player assumptions, games evolve with different 
-outcomes (cite..). In the artificial intelligence community, such game 
+outcomes. In the artificial intelligence community, such game 
 formulation has been incorporated with Markov Decision Process for multi-agent 
 reinforcement learning~\cite{littman1994markov}. Such incorporation enables strategy 
 design for multi-agent robotic systems with mutual adaptability. 
@@ -261,7 +285,7 @@ $a^H \in A^H$ and $a^R \in A^R$ be the action space of humans and robots,
 respectively. Consider a two-player game with agent $R$ and $H$, a strategy profile $s^* = (a^{R*}_{0:T},a^{H*}_{0:T})$ is a \textit{Nash Equilibrium}, if no 
 agent benefits from unilateral deviation from his or her current actions:
 \begin{equation}
-  \forall i \in \{H,R\}, t,\sigma^{i*}_t \in A^i, f^i(a^{i*}_t,a^{-i*}_t) \geq f^i(a^{i}_t,a^{-i*}_t). 
+  \forall i \in \{H,R\}, t,a^{i*}_t \in A^i, f^i(a^{i*}_t,a^{-i*}_t) \geq f^i(a^{i}_t,a^{-i*}_t). 
 \end{equation}
 Here $a^{-i}_t$ refers to actions at time $t$ from all agents but $i$, e.g. $a_t^{-H} = a_t^R$. 
 
@@ -269,8 +293,9 @@ In repeated games, agents not only need to consider the current outcome of an
 action, but also its impact on the other agents' future actions, which affect 
 their own expected cumulative rewards. 
 
-
-\subsection{Cooperative Games v.s. Non-cooperative Games}
+%too much.. only motivate it as games
+%\subsection{Cooperative Games v.s. Non-cooperative Games}
+\subsection{Human-robot Interaction as Games}
 One common game example is social navigation~\cite{mavrogiannis2016decentralized}: each agent optimizes his or her own path to reach a final goal, while other agents' choices of trajectories may intersect and then cause delays. Agents therefore need to plan based on predictions of other agents' actions, to efficiently resolve such resource conflicts.  Another example is the table carrying task~\cite{nikolaidis2016formalizing}, where agents share the same objective to collaboratively carry out a large piece of furniture.
 %%3. cooperative game v.s. uncooperative games
 %%4. human-robot teaming v.s. co-existing in shared workspace
@@ -281,20 +306,34 @@ individual outcomes, especially those with profit conflicts: the
 \textit{non-cooperative games}. For cooperative games, there is only one 
 strategy profile that maximizes the collective payoff; whereas in 
 non-cooperative games, multiple Nash equilibria may exist. In those games, 
-cooperative behaviors may also be observed based on mutual trust(cite..), 
-self-interested strategies such as \textit{early commitments} and \textit{threats} are commonly used during the 
-bargaining process to maximize self-interest.
+cooperative behaviors may also be observed based on mutual trust~\cite{fujiwara2015non}, 
+but oftentimes self-interested strategies such as \textit{early commitments} 
+and \textit{threats} are applied to maximize personal game outcomes.
 
-In either, common topics such as how player \textit{trust, reciprocity, and 
+In either, common topics such as how player \textit{trust and 
 perceived capability} affect the joint performance in human-robot interaction, 
 and how human \textit{level of self-interest and personal preferences} affect 
-the interaction, can be jointly discussed in the game framework. Details can 
-be seen in Sec.  
+the interaction, can be jointly discussed in the game framework (detailed in Sec.~\ref{sec:human_behavior}).  
 
 %how he or she predicts the other agents' behaviors; whereas \textit{self-interest level and personal preferences} affect his or her own utility function to parametrize game outcomes. Details will be discussed in Sec. on human behaviors and interactions with robots. 
 \subsection{Markov Games}
+Markov games~\cite{littman1994markov} are defined on top of Markov Decision Process, with finite state space 
+$s \in S$, finite action space $a \in A$, and other agents' action space 
+$a' \in A'$.  Agent reward 
+function is a function of the state, action, as well as other agents' actions: 
+$r(s,a,a')$. The framework is commonly used for multi-agent reinforcement 
+learning, where agent action value $Q(x,a)$ is defined to take in the other agents' actions:
+\begin{equation}
+  Q(s,a,a') = r(s,a,a') + \gamma \Sigma_{s'}\mathcal{T}(s'|s,a,a')V(s'),
+\end{equation}
+where $\gamma$ is the discount rate, $s'$ is the state transition from 
+$(s,a,a')$, $\mathcal{T}$ is the transition probability, and $V$ is the value 
+function.
 
-
+We propose a model, extended from Markov Games, with \textit{continuous-space} 
+state space $X$ and input space $U$, to better apply on real-world robotics 
+domains. We also introduce types as in Bayesian 
+games~\cite{armbruster1979bayesian}, to extend the game outcome with influences by agent types.
 \section{Markov Games with Time-variant Types}
 We model agents $i = 1,\cdots ,k$ to work in a joint state space $X$, where each individual has its own state 
 representation $x_t^i \in X^i$ at time $t$, and control input from a bounded 
@@ -383,31 +422,33 @@ We present this framework, as Markov games with unknown time-variant types,
 as a tool to analyze the convergence criteria of human-robot coordinating 
 process. We first 
 introduce general solutions for the framework in both pre-computation and 
-online setting in Sec; we then introduce our approximation of human 
-decision-making mechanism to incorporate state-of-the-art research topics on 
-human interaction behaviors with robots in Sec.; lastly, we use the 
-approximate model to simulate human-robot path crossing.
+online setting in Sec.~\ref{sec:realtime_game}; we then introduce our approximation of human 
+decision-making mechanism to incorporate research topics on 
+human interaction behaviors with robots in Sec.~\ref{sec:human_behavior}; 
+lastly, we use the proposed model to simulate human-robot navigation with path 
+crossing.
 
-Consider agent 
-$i=R$, and $-i=H_1,\ldots,H_{k-1}$, for the robot to solve for the optimal 
-solution in Eq.\ref{eq:optimal}, essentially it needs knowledge of 
-how $\theta_t$ and $\sigma_t$ evolve over time. However, in real-world, only 
-$\theta^R_t$ is directly observable to the robot. Prediction of $a^H_t$ given 
-past interaction is also non-trial given unknown $\theta^{H}_t$ and their 
-occasionally irrational decisions (cite..).
+%too much..
+%Consider agent 
+%$i=R$, and $-i=H_1,\ldots,H_{k-1}$, for the robot to solve for the optimal 
+%solution in Eq.\ref{eq:optimal}, essentially it needs knowledge of 
+%how $\theta_t$ and $\sigma_t$ evolve over time. However, in real-world, only 
+%$\theta^R_t$ is directly observable to the robot. Prediction of $a^H_t$ given 
+%past interaction is also non-trial given unknown $\theta^{H}_t$ and their 
+%occasionally irrational decisions.
 
-Inaccurate estimate of those parameters potentially lead to awkward 
-coordination, or even incapability to converge to a Nash Equilibrium at 
-termination.
-%we want to introduce subgame perfection NE in this work and perfect Bayesian 
-% NE, to discuss the convergence criteria given different game settings
+%Inaccurate estimate of those parameters potentially lead to awkward 
+%coordination, or even incapability to converge to a Nash Equilibrium at 
+%termination.
+%%we want to introduce subgame perfection NE in this work and perfect Bayesian 
+%% NE, to discuss the convergence criteria given different game settings
 
-\section{Human-Robot Game in Real-time}\label{sec:game}
+\section{Human-Robot Game in Real-time}\label{sec:realtime_game}
 To formally discuss the coordinating process between humans and robots, we define the real-time game setting as the following: 
 \subsubsection{Game start criteria}
 %game: start
 In a scenario where agents' actions affect the outcome of each other, we define as it meets the criteria of \textit{potential interaction}, $\mathcal{C}_{PI}$; when agents become aware of each other and start acting according to the perceived strategy of the other agents, it meets the criteria of \textit{mutual awareness}, $\mathcal{C}_{MA}$. Once the two criteria hold, game begins. 
-(A counterexample is when agents are aware of each other but their actions do not affect each other's outcome. In such scenarios, such as pedestrians walking on different sides of a traffic intersection, no potential interaction is concerned; another example is when only partial party is aware of the other agents. In that case, merely one-way adaptation among agents happens, which we do not treat as interactions.%show graph illustration)  
+%(A counterexample is when agents are aware of each other but their actions do not affect each other's outcome. In such scenarios, such as pedestrians walking on different sides of a traffic intersection, no potential interaction is concerned; another example is when only partial party is aware of the other agents. In that case, merely one-way adaptation among agents happens, which we do not treat as interactions.%show graph illustration)  
 \subsubsection{Game horizon and termination criteria}
 %termination, finite-step
 When interactions start at time $t=0$, the game repeats \textit{finitely} 
@@ -425,11 +466,12 @@ a simultaneous-move fashion, is shown in Fig.~\ref{fig:game_tree} as an extensiv
    \begin{figure}[t]
       \centering
       \vspace{-3em}
-      \includegraphics[scale=0.25]{game_tree}
-      \vspace{-6em}
+      \includegraphics[scale=0.23]{game_tree}
+      \vspace{-4em}
       %\hspace{-5em}
       \caption{Two-player human-robot interaction, modeled as a 
       simultaneous-move game. }
+      \vspace{-2em}
       \label{fig:game_tree}
    \end{figure}
 
@@ -453,8 +495,6 @@ abbreviated as a function of his or her type $\theta^i_t$,
 a^i_t \sim \pi^i(x_t,\theta^i_t|\sigma_{0:t-1}),
 \end{equation}
 without loss of generality.
-
-
 
 More specifically, at each decision node, the player chooses an action based on current state $x_t$, and the policy, as to optimize Eq.~\ref{eq:optimal}, is to 
 compute the following at each decision node:
@@ -490,10 +530,11 @@ Eq.~\ref{eq:g_function}, given prior on other agents' types $p(\theta^{-i}_t)$.
 When planning for long-horizon purposes, agents ideally 
 want to optimize their outcome considering full-horizon accumulation, as introduced in 
 Eq.~\ref{eq:optimal}. However, due to the high uncertainty in dynamic 
-environments, pre-computed solutions may not fit well given newly received 
-observation data. Observations may affect agent's inference of the other 
-agent: their action profiles, their action realizations, or state transitions. Therefore, when 
-playing in real-time, agents need to online re-plan at high frequency to adapt their strategies. 
+environments, pre-computed solutions may not fit well to newly received 
+observation data, which affects agent's inference of the other 
+agent: their future action profiles, their action realizations, or state transitions. Therefore, when 
+playing in real-time, agents need constant online re-planning to adapt 
+to unmodeled dynamic situations. 
 %\begin{equation}
 %    a^{i*}_{0:T} = \argmax_{a^i_{0:T}} \mathbb{E}_{a^{-i}_{0:T}} \big{[}\Sigma_{t=0}^{\beta_t=True} \gamma^t r^i(s_t)\big{]}. 
 %\end{equation}
@@ -501,13 +542,14 @@ playing in real-time, agents need to online re-plan at high frequency to adapt t
 With that said, instead of running search algorithms to solve for the total 
 horizon at $t=0$, agents run \textit{belief updates} whenever new 
 observations arrive, and 
-\textit{replan for certain horizon} from current time $t$, for as long as computational resource allows. 
+\textit{replan for certain horizon} from current time $t$, for as much 
+lookahead horizon as computational resource allows. 
 We assume agents have knowledge of the termination timing even in the dynamic setting $\beta_t$. 
 \subsubsection{belief updates}\label{sec:belief_update}
 During real-world interactions, observations can be from direct measures, such as 
 the relative positions and velocities of all agents. Observations can also 
-be implicit as to infer private messages (cite..), such as eye contacts (cite..) or body 
-languages (cite..), to express messages such as intent (cite.).
+be implicit as to infer private messages, through ways like eye contacts or body 
+languages, to express messages such as intent~\cite{knepper2017implicit}.
 %While the topics of inferring human intent are non-negligible in human-robot 
 %interaction (cite..), in this work, we explicitly exclude the discussion on 
 %robot planning with ambiguous human expressions (cite..); we focus on 
@@ -515,7 +557,8 @@ languages (cite..), to express messages such as intent (cite.).
 %easily understood by all parties. Details on such approximations can be seen 
 %in Sec.
 
-In either form of observations $o_{0:t}$, for long-horizon planning, agents 
+In either form of observations $o_{0:t}$, for long-horizon planning on 
+Markov games with time-variant types, agents 
 update their beliefs of the following:
 
 (a) type estimate of other agents $b^i_t(\theta_t^{-i})$: 
@@ -567,8 +610,7 @@ where $\hat{V}_{H+1}(x_H,\sigma_H,\theta_H)$ is the cost-to-go estimate for
 following $\sigma_H$ from $t=H+1$ to $T$.
 
 For coordination games, it is usually true that the earlier the termination, 
-the better the final outcome is, similar to games with benefit discounts 
-(cite..). Take table turning task for example, the faster the two agents 
+the better the final outcome is: similar to games with benefit discounts. Take table turning task for example, the faster the two agents 
 reach agreement on the direction to go, the faster progress they make, despite 
 the potentially longer routes. Therefore, biased search to 
 strategies with early termination has its empirically advantage; agents 
@@ -605,9 +647,11 @@ into the framework, we have can better analyze how different paradigms in
 human-robot coordination affect the overall convergence.
 
 \subsection{Adaptability to other agents}\label{sec:adaptability}
-Humans observe other agents and adapt their strategies accordingly. This is 
-commonly seen in human-robot interaction~\cite{nikolaidis2016formalizing,yang2017evaluating}. As agents are parameterize with time-variant types 
-$\theta^H_t$, it is to capture how agents update their beliefs and adapt their 
+Humans observe other agents and adapt their strategies 
+accordingly~\cite{nikolaidis2016formalizing,yang2017evaluating}. In the 
+proposed framework, 
+agents parameterize with time-variant types 
+$\theta^H_t$, to capture how agents update their beliefs and adapt their 
 strategies in dynamic environments. More specifically,
 \begin{equation}
   \theta^H_t = \begin{bmatrix}
@@ -617,8 +661,9 @@ strategies in dynamic environments. More specifically,
 \end{equation}
   where $z^H$ is a \textit{time-invariant} type parameter, featuring personal 
   preferences such as travel efficiency versus travel energy. 
-  $b^H_t(\theta^{-H}_t)$ is referred to as the \textit{information budget} humans 
-  possess to reason about other agents' behaviors.
+  $b^H_t(\theta^{-H}_t)$ is referred to the \textit{belief} of humans other 
+  agents' types. As for the detailed form in the belief, we hypothesize that 
+  humans possess certain \textit{information budget} to reason about other agents' behaviors.
 
  Below, we propose our hypothesis on human's information budget, which 
  correlates to their computational capability to infer about other agents' 
@@ -653,24 +698,26 @@ two-layer inference: to plan according to what they predict the others'
 predictions about themselves 
 $a^i_t \sim \pi^i(x_t, b^i_t(\pi^{-i}(x_t,b^{-i}_t(\pi^i(x_t,\hat{\theta}^i)))))$
 . This is the maximum budget we assume humans can afford for real-time 
-inference.
+inference, and is not applied for planning due to its 
+intrinsic complexity. 
 
-Therefore, with the information budget assumption, we consider human policies 
-being adaptive to their perceived behavior of other agents 
-$b^H_t(\theta^{-H}_t)$. The higher adaptation rate is, the more flexible they 
+Therefore, with the information budget assumption $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies 
+being adaptive to their perceived, presumably static, behavior of other 
+agents. The higher adaptation rate is, the more flexible they 
 appear in the joint policy. 
 
-However, due to the coupled terms on other agents' personal preferences $z^{-H}$ 
-as well as the assumed perceived preferences by other agents $\hat{z^{H}}$, 
-agents may have \textit{biased adaptation} due to \textit{biased prior} on 
-robot behavior.  
+%too much to show..
+%However, due to the coupled terms on other agents' personal preferences $z^{-H}$ 
+%as well as the assumed perceived preferences by other agents $\hat{z^{H}}$, 
+%agents may have \textit{biased adaptation} due to \textit{biased prior} on 
+%robot behavior.  
 
 \subsection{Bounded memory belief updates}
 As introduced in Sec.~\ref{sec:belief_update}, we also assume humans to maintain their 
 beliefs of other agents' types as well as their future strategy profile 
 through out online planning. 
-Here, we further assume humans to possess \textit{bounded} memory on past observations and 
-interaction history for belief updates, as suggested in \cite{nikolaidis2016formalizing} 
+Here, we further assume humans to either run Bayesian updates, or possess \textit{bounded} memory on past observations and 
+interaction history for belief updates, as suggested in \cite{nikolaidis2016formalizing}: 
 $$
 b^H_t(\sigma_{t}|I^i_{t-(t-n)},
 $$
@@ -687,15 +734,19 @@ Agents act as if the current game is the termination game.
 %--------(proof)assuming their value estimates are consistent with the true value
 
 \subsubsection{multi-step lookahead, H$>$0}
-When agents plan as the game has more than one period, early commitments and 
-bluffing are commonly seen to arrive at an equilibrium with higher 
-self-interests. In the real-time game setting, oftentimes one agent senses the 
-interaction and acts first, which easily allows early commitments to play the 
-role and influence other agents' strategies. Such strategies anticipate other 
-agents' strategies to be influenced by their owns: 
-$\pi^{-i}(x_0,a^i_0,\theta_0)$. 
+When agents plan as the game has more than one period, adaptive behaviors due 
+to belief updates are expected~\cite{nikolaidis2016formalizing}.
 
-Such strategy is commonly seen in dense crowd navigation (cite..), where agents look at each other (to initialize the game through signaling awareness), act, and then quickly look away without waiting for responses. Agents then continue the same action through out the interaction and benefit from ruthless road-taking.
+%too much .. anti-adaptation
+%early commitments and 
+%bluffing are commonly seen to arrive at an equilibrium with higher 
+%self-interests. In the real-time game setting, oftentimes one agent senses the 
+%interaction and acts first, which easily allows early commitments to play the 
+%role and influence other agents' strategies. Such strategies anticipate other 
+%agents' strategies to be influenced by their owns: 
+%$\pi^{-i}(x_0,a^i_0,\theta_0)$. 
+
+%Such strategy is commonly seen in dense crowd navigation~\cite{knepper2017implicit}, where agents look at each other (to initialize the game through signaling awareness), act, and then quickly look away without waiting for responses. Agents then continue the same action through out the interaction and benefit from ruthless road-taking.
 
 
 \subsection{Anticipation of other agents' policy}
@@ -719,13 +770,15 @@ b^H_t(a^{-H}_{t}|s_{0:t}) \sim  b^H_t(\pi^{-H} (x_t, ,b_{t}^{-H}(a^H_{t}|s_{0:t}
 As a result, at each decision node, human maintains belief on how other agents 
 would act according to their beliefs on his or her own policy.
 
-When planning with one-layer inference to anticipate the others, as in 
-Eq.~\ref{eq:human_decision1}, humans adapt \textit{themselves} to other 
-agents' behavior. On the other hand, planning with two-layer inference 
-anticipation assumes other agents to be adaptive to themselves as well. In 
-that case, players may choose strategies that expect the others to adapt 
-to themselves. This behavior, due to the adaptability assumption of the other 
-agent, results in potentially \textit{anti-adaptive} strategies. 
+%% too much.. anti adaptive behaviors
+%When planning with one-layer inference to anticipate the others, as in 
+%Eq.~\ref{eq:human_decision1}, humans adapt \textit{themselves} to other 
+%agents' behavior. On the other hand, planning with two-layer inference 
+%anticipation assumes other agents to be adaptive to themselves as well. In 
+%that case, players may choose strategies that expect the others to adapt 
+%to themselves. This behavior, due to the adaptability assumption of the other 
+%agent, results in potentially \textit{anti-adaptive} strategies. 
+
 %and further, they may anticipate $N^{-H}$ steps of future reactions,   
 %\begin{align}~\label{eq:human_decisionN}
 %b^H_t(a^{-H}_{t}|s_{0:t})& \sim  b^H_t(\pi^{-H} (x_t, ,b_{t}^{-H}(\pi^H(...,\\
@@ -755,9 +808,9 @@ proposed framework, personal preferences contribute to agents' policy
 realizations, transition functions, and affect the joint performances. In the 
 reward function, they can be characterized as feature weighting $y^i$~\cite{dorsa2017active}:
 \begin{equation}
-  r^i = -(y^i)C, 
+  r^i = -y^{iT}C, 
 \end{equation}
-where $C$ is some cost function.
+where $C$ is some vector of cost function.
 \subsubsection{level of self-interest}
 When agents are deployed in public environments, the notion of public welfare 
 plays in to assess policy fairness~\cite{fehr2004social}. While the public welfare is the 
@@ -766,22 +819,22 @@ deviate from cooperative behaviors for personal benefits~\cite{fujiwara2015non}.
 When individuals plan in a shared workspace, resource conflicts may occur. 
 While cooperative policies are the most efficient for social welfare, agents 
 may gain more resource allocation when playing selfishly. It has been shown 
-that people are conditionally collaborative in such situations: they sancation 
+that people are conditionally collaborative in such situations: they sanction 
 selfish behaviors out of fairness; further, the more benefit they gain from 
 cooperative policies, the higher they sanction on others' non-cooperative 
 behaviors. This notion of fairness can be characterized as weighting on all 
-parties' interest $\omega^i$:
+parties' interest $\alpha^i$:
 \begin{equation}
-  r^{i'} = (\omega^i) r^{1:k}.
+  r^{i'} = (\alpha^i)r^i+ \Sigma(1-\alpha^i)r^{-i}/(k-1).
 \end{equation}
 
-Level of self-interest and personal preferences jointly contribute to the 
+Level of self-interest $\alpha^i$ and personal preferences $y^i$ jointly contribute to the 
 static preferences $z^i$.
-\subsection{Perceived robot capability}
+\subsection{Perceived robot capability}~\label{sec:perceived}
 %When deploying robots into shared workspaces with humans, people may not have prior experience working with those agents. Intention confusion, incapability in predicting future behaviors, and mistrust are commonly described in the literature in human-robot interaction. 
 The gap between true robot capability and human perceived robot capability  
 has shown to deteriorate both joint and individual work efficiency in 
-different task domains (cite..). 
+different task domains~\cite{dragan2015effects}. 
 
 Here, we characterize human perceived robot capability for human-robot interaction into two categories: 1) functional capability and 2) social inference capability:
 
@@ -792,26 +845,26 @@ $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met by all parties, or
 confusions may arise. Due to lack of social signaling capability, such as gazes, 
 humans may be uncertain whether the robot is aware of the potential 
 interactions. This may result in distantly-avoiding behaviors through out the interaction, since 
-people are not sure whether to engage (cite..).
+people are not sure whether to engage~\cite{dragan2015effects}.
 This also includes the knowledge of robot action set $A^R$, and the confidence of 
 whether the robot is able to \textit{succeed in its target actions} $a^R_t$, 
-especially when complex domains are considered (cite..). 
+especially when complex domains are considered~\cite{chen2018planning}. 
 
 \subsubsection{social inference capability}
 This involves whether they perceive the robot to be capable of engaging the 
-game with, where implicite communication may involve to interact in a intent-aware and intent-informative manner~\cite{knepper2017implicit}. It 
+game with, where implicit communication may involve to interact in a intent-aware and intent-informative manner~\cite{knepper2017implicit}. It 
 includes the ability to
 \textit{identify human's intended high-level actions} based the inference from 
 past observations, and to \textit{express its own intent} in a clear, 
 context-aware, or, legible manner~\cite{dragan2013legibility}. Failing to 
 present such capabilities out of human expectations, actions to 
-be interpretable within certain amount of time, deterioate human patience 
-therefore overall efficiency on given tasks (cite.). 
+be interpretable within certain amount of time, deteriorate human patience 
+therefore overall efficiency on given tasks~\cite{cha2015perceived}. 
 
-The above two perceived capabilities are prerequisites for humans to engange in the 
+The above two perceived capabilities are prerequisites for humans to engage in the 
 coordination process with robots. In complex domains, those criteria have shown to be 
 challenging~\cite{knepper2017implicit}, therefore prior experiences on 
-cross-training, teaching, and learningi~\cite{zhang2017} may be required 
+cross-training, teaching, and learning~\cite{zhang2017plan} may be required 
 to prepare for natural engagement. 
 \subsection{Social trust}% and reciprocity}
 Perceived capabilities are preliminary for human trust to interact with 
@@ -830,67 +883,315 @@ trust-worthy agents, humans predict robots to have non-hostile behaviors.
 %assume compliant robot behaviors. In that situation, their belief of robot 
 %reaction to human action is false placed.
 \section{Problem Instantiation}
-%In Sec.~\ref{sec:game}, we proposed a generalized framework to analyze 
+%In Sec.~\ref{sec:realtime_game}, we proposed a generalized framework to analyze 
 %human-robot interaction as a game, and described the receding-horizon approach 
 %to deal with uncertainties in agent type $\theta^t$.
 
-\subsection{Robot navigation in human environments}
-Great progress has been made in the past two decades in pedestrian simulations 
-(cite..), robot navigation with human predictive models (cite..shah, pomdp,gp,feature), and 
-socially-friendly robot planning (cite..knepper-decentralized, social norm 
-robot17). Still, there remains the gap to bridge to take into account the 
-behavior differences when humans are around a robot and around a human. More 
-importantly, we need a robust way to model how humans adapt their behaviors 
-overtime when social robots are deployed in their environments (cite.), so we 
-can design agents that foster human adaptations of desire. 
+We instantiate the framework on 2-player human-robot navigation with path 
+crossing, shown in Fig. , but do not restrict the framework from other domains 
+and applications.
 
-Social navigation is a good testbed to learn human behavior adaptation
+\subsection{Intention-aware social navigation}
+Great progress has been made in the past two decades in pedestrian simulations~\cite{karamouzas2009predictive,treuille2006continuum}, robot navigation with human predictive models~\cite{trautman2010unfreezing,kuderer2012feature}, and 
+socially-friendly robot 
+planning~\cite{mavrogiannis2016decentralized,chen2017socially}, to smoothly 
+deploy robots in human workspaces. In human-robot interaction community, 
+robot motion intention-expressiveness has gained attention for human 
+understanding~\cite{dragan2013legibility}, and the concept of trajectory 
+goal-interpretability has been applied on robot navigation in crowded 
+environments to identify goals of pedestrians~\cite{bai2015intention,unhelkar2015human}. 
+
+Here we make use of the social force model with explicit collision prediction~\cite{zanlungo2011social}, which was inspired by the 
+social-force model but equipped with explicit avoidance behaviors. Other 
+choices of human behavioral model can also fit in the framework for 
+simulation; we choose this model for its underlying motion \textit{legibility} 
+concept in distinguishing choices of avoidance behaviors, shown in Fig..  
+
+When two agents have the paths intersected and have similar timing to arrive 
+at the intersection, explicit avoidance behaviors are involved. Particularly, 
+an agent has to decide whether to avoid in front or behind the other. This 
+leaves the coordination to agree on two action combinations: (passing$\_$first,yielding), 
+or (yielding,passing$\_$first).
+
+We define the state space as the following: $x_t^R = \begin{bmatrix}
+p^R_t\\
+v^R_t
+\end{bmatrix}$, and $x_t^H = \begin{bmatrix}
+p^H_t\\
+v^H_t
+\end{bmatrix}$
+where $p^R_t, p^H_t$ are the positions of the robot and human, and 
+$v^R_t,v^H_t$ are the velocities of the robot and human, respectively. All 
+variables are described in 2D, therefore, $p^R_t,p^H_t,v^R_t,v^H_t \in \mathbb{R}^2$. 
+\subsection{Game start and termination criteria}
+As pointed out in Sec.~\ref{sec:realtime_game}, to initiate interactive 
+behaviors between agents, the potential-interaction criteria $\mathcal{C}_{PI}$ 
+and mutual-awareness criteria $\mathcal{C}_{MA}$ are prerequisites to start the 
+game. In path crossing, $\mathcal{C}_{PI}$ is met if:
+\begin{enumerate}
+  \item two agents have path intersections in near future: 
+    $\exists t^H<t^{rH}, t^R<t^{rR}$, such that $v^R_t \times t^R + p^R_t = v^H_t \times t^H +p^H_t$
+  \item the arrival timing different is within certain threshold: $|t^H-t^R|<\delta$
+\end{enumerate}
+Here, the reaction time $t^{rH}$ is the timing that agents decide to 
+engage in the scenario. For pedestrian avoidance, experimental results suggest 
+that $t^{rH}$ is on average 4 secs before reaching the intersection~\cite{pettre2009experiment}. 
+The arrival timing difference depends on agent velocities, the safety margin 
+to keep from other pedestrians, and the noise in estimation. Here, we use an 
+estimate value of 1.5 sec, which is the upper bound on time difference for 
+which agents respond to the intersecting scenario.
+
+Game terminates whenever two agents have passed each other, or the estimated 
+minimum relative distance has passed.
+
+\subsection{Intentions in path crossing}
+The action set is defined as the following: $A^R = \{a^{pf}, a^y\}$, 
+$A^H = \{a^{pf},a^y\}$, where $a^{pf}$ is corresponding to the class of 
+trajectory realizations to pass first, in front of the other agent; whereas 
+$a^y$ is corresponding to the class to yield to the other. 
+
+Empirical study on human-robot crossing has suggested distinctive velocity and 
+trajectory profiles among two classes of avoidance 
+actions~\cite{paris2007pedestrian}. Agents who intend to pass first often 
+accelerate and bend their trajectories away from the other; agents who intend 
+to yield often slow down. Such changes in motion profiles are clear 
+signals for agent passing intents, and one can observe responses to such 
+intention within short period of time, around 0.7 sec.    
 
 
-In real-world settings, however, agents take time to perceive intent and then reason 
-about their future actions. While the simultaneous-move setting captures the 
-nature of human-robot interaction, uncoordinated timings of decision may 
-introduce oscillations in the process. Along with the time delay  
 
 
-With proper waiting time after the initial action, the decision timing of both agents can be clearly 
-separated to prevent oscillation, which results in a form  
 
-, which involves 
-decisions involving longer time duration and game early termination.
+%However, due to the 
+%gap between human-robot and human-human interaction behaviors, when deploying 
+%robots using learnt algorithms from human crowd data, 
+%state-of-the-art motion planning approaches have shown 
+%large bias in human predictions~\cite{}
+
+%Social navigation has its intrinsic complexity due to the following reasons: 
+%\begin{enumerate}
+%  \item agents have distinctive choices over path homotopy classes, which 
+%    are associated with diverse motions
+%  \item agents have personal preferences in navigation patterns
+%  \item agents have adaptive navigation patterns to that of the other agents'
+%  \item while the choice of homotopy classes are assigned by agent arrival timings, 
+%    humans often break such assignments through changes in navigation 
+%    patterns and social signaling, and expect the other agents to adapt accordingly
+%  \item people choose different policies to interact with the others based on 
+%    the perceived relative capability and identity. For example, adults yield 
+%    more to elderlies 
+%\end{enumerate}
+
+%As a result, social navigation suffers much on prediction errors due to the 
+%distinctive avoidance behaviors, and it inherits social hierarchy that is not 
+%directly observable. Different human-robot interaction patterns are caused by 
+%different behaviors.   
+
+%Still, there remains the gap to bridge to take into account the 
+%behavior differences when humans are around a robot and around a human. More 
+%importantly, we need a robust way to model how humans adapt their behaviors 
+%overtime when social robots are deployed in their environments (cite.), so we 
+%can design agents that foster human adaptations of desire. 
+
+
+
+%In real-world settings, however, agents take time to perceive intent and then reason 
+%about their future actions. While the simultaneous-move setting captures the 
+%nature of human-robot interaction, uncoordinated timings of decision may 
+%introduce oscillations in the process. Along with the time delay  
+
+
+%With proper waiting time after the initial action, the decision timing of both agents can be clearly 
+%separated to prevent oscillation, which results in a form  
+
+%, which involves 
+%decisions involving longer time duration and game early termination.
 \subsection{Time delays in action realization}
-When agents change decisions in their high-level actions $a^i_t$, the 
-low-level realization takes 
-time $\tau$ to respond: $u^i_t = g^i(x_t,a^i_{t-\tau},\theta^i_t)$. Those 
-decisions may also take time to compute.
-Further, intentions take time to convey as well as for the other 
-agents to comprehend, as the inference model 
-$p(a^i_t|x_{t-\delta:t},u_{t-\delta:t})$ 
-may not be efficient given complex domains. Therefore, in real-world 
-interaction, agents need to reason with expected response delay by other 
-agents, and to adapt to other agents in a delay-aware manner, or oscillations 
-may occur. 
+Despite the intention-expressive avoidance behaviors observed among 
+pedestrians, people require more than 0.5 sec to respond to perceived 
+intentions. This psychological tension in action realization, combined with 
+the decision-making process time and intent signal process time, contribute to 
+an overall reaction time $\tau^H$: the minimum time for human agents to 
+react to their own changes of high-level actions. Here, it is assumed to be 
+sometime between 0.7s to 0.9s. For more complex domains, higher values should 
+be considered.
 
-Due to the delayed response time, there are potential situations where it too late for an 
-agent to respond after comprehension. We refer this as T.5-step game 
-termination. In this case, 0-step lookahead is anticipated as no 
+\subsection{Response-time-adapted turn-taking structure}
+While the interaction process is modeled as a simultaneous-move game in 
+Sec.~\ref{sec:realtime_game}, with the time delays in action realization, it 
+is often played as a \textit{turn-taking} game. With proper waiting time after 
+the initial action, the decision timing of both agents can be clearly 
+separated to prevent oscillations. Despite the nature in the simultaneous-move 
+setting for interactions, turn-taking games simplify the simulation setting 
+and therefore save computation. The overall turn-taking game used in this 
+instantiation is illustrated in Fig., with time intervals $\tau^R$ and $\tau^H$ 
+to approximate human-robot interaction response times at each period of the game.
+
+%When agents change decisions in their high-level actions $a^i_t$, the 
+%low-level realization takes 
+%time $\tau$ to respond: $u^i_t = g^i(x_t,a^i_{t-\tau},\theta^i_t)$. Those 
+%decisions may also take time to compute.
+%Further, intentions take time to convey as well as for the other 
+%agents to comprehend, as the inference model 
+%$p(a^i_t|x_{t-\delta:t},u_{t-\delta:t})$ 
+%may not be efficient given complex domains. Therefore, in real-world 
+%interaction, agents need to reason with expected response delay by other 
+%agents, and to adapt to other agents in a delay-aware manner, or oscillations 
+%may occur. 
+Due to the non-trial delay in response time, there are potential scenarios 
+where agents have no enough time to respond to the other agents strategies 
+before termination. We refer this as 0.5-step  
+termination. In this case, 0-step lookahead is anticipated, as no 
 adjustments from other agents can be expected.
 % extensive-form turn-taking tree introduction
 
-\subsection{Response-time-adapted turn-taking structure}
+When the robot plans in the turn-taking setting, it needs to take human 
+response time into consideration to estimate game termination. As a result, in 
+situations where one of the agents may be facing 0.5-step termination, early 
+termination should be planned, as to enforce convergence for safety concerns.
 
-criteria: early termination for safety concern, 
-\subsection{Human-robot crossing}
-preference: velocity deviation (aggressiveness v.s. social friendliness)
-self-interest: (self-interested weight v.s. social welfare)
-perceived capability: (to show largely avoidant behavior)
-trust: 
-1.(to show interactive, but frequently yielding behavior)
-2.(to show interactive, exploration behavior, probing behavior)
+\section{Experiments}
+We deploy a mobile robot into a building atrium, and record human crossing 
+trajectories using tracking packages on laser scans~\cite{leigh2015person}. 
+Eight participants joined the experiments, each was requested to head towards 
+a set of goals. During then, the robot followed a given route 
+that intersected with humans for four times in each run. We asked each participant 
+to take two runs to compare behavior changes. The robot was implemented with a 
+local planner with emergent slow-down when sensing an object within 1 meter. 
+We used it to test out human responses before seeing the robot's reaction to 
+the intersection, and used the collected data to verify human-behavior 
+hypotheses introduced in Sec.~\ref{sec:human_behavior}. 
 
-%\section{ACKNOWLEDGMENT}
+   \begin{figure*}[t]
+      \centering
+      \hspace{-5em}
+      \vspace{-1em}
+      \includegraphics[scale=0.5]{cautious_2}
+      \hspace{-5em}
+      \caption{REAL human-robot crossing with cautious type, compared with 
+      agents with gradual slow-down and speed-up (noted as ``normal''). 
+      The two photos in the bottom-left corner show cautious yielding (left) 
+      and cautious passing first (right). The corresponding motion patterns 
+      can be seen on the right; from top to down, the trajectory over time, 
+      speed profile over time, and speed profile over relative distance 
+      between two agents are shown for yielding (left two) and passing first 
+      (right two), compared between cautious and normal agents. While cautious 
+      behaviors may be caused by incomplete perceived robot capability as well 
+      as low belief on robot social trust, one distinctive behavior helped 
+      distinguishing the two: agent attention to robot. We observed some agents 
+      not paying attention to the robot but just walk fast past whenever 
+      nearby, which we refer to as non-engaging behavior.
+      }
+      \vspace{-1.5em}
+     \label{fig:cautious_recording}
+   \end{figure*}
+   \begin{figure}[t]
+      \centering
+      \hspace{-5em}
+      \vspace{-1em}
+      \includegraphics[scale=0.37]{cautious_simulation2}
+      \hspace{-5em}
+      \caption{SIMULATED human-robot crossing with cautious yielding. With 
+      high prior on robot hostile strategies, simulated pedestrian yields even 
+      when initially set with earlier arrival timing (-0.7 sec) at intersection.} 
+      \vspace{-0.5em}
+     \label{fig:cautious_simulation}
+   \end{figure}
+   \begin{figure}[t]
+      \centering
+      \hspace{-5em}
+      \vspace{-1em}
+      \includegraphics[scale=0.37]{adaptation}
+      \hspace{-5em}
+      \caption{SIMULATED human-robot crossing with cautious agent updating 
+      belief on robot strategies. While the simulated pedestrian yields at the 
+      beginning (with -0.7 sec arrival timing difference), after observing 
+      robot yielding behavior, she updates her 
+      belief and changes the action in the next time frame.}
+      \vspace{-1.5em}
+     \label{fig:adaptation}
+   \end{figure}
+With the same prior on robot strategy profile, with 0-step lookahead, 
+virtual pedestrians act compliantly after observing the other agent's action, 
+due to the assumption of immediate termination. With 1-step lookahead, agents assume 
+the game may end with the robot playing minimax strategy, therefore plays 
+conservatively. With 2-step lookahead, virtual 
+pedestrians are capable of planning for the optimistic (2nd step) in the 
+worst case robot strategy (1st step). Therefore the behavior is less 
+conservative compared to the previous two options. While different priors give 
+different behaviors, on average, with 2-step lookahead, virtual pedestrians 
+become to yield when the estimated advance in arrival time is 0.0 sec; with 1-step lookahead, 
+agents yield when the advance becomes less than 0.6 sec. Agents with 0-step 
+lookahead act only after the other agent has acted, and their actions are 
+always compliant.  
 
+We simulate virtual pedestrians with type $\theta^H_t = [z^H, b^H_t(z^R)]$, 2-step 
+lookahead, memory bound on interaction history = 2,  
+in the turn-taking formulation. This is associated with the decision-making 
+capacity to reason: ``what would the robot do after seeing my action, and what 
+I could do to in reaction to that action?''. Other combinations can be 
+considered. High-level actions $a^H_t$ are realized 
+through the social force model with choice of collision avoidance action.
+We implement robot planning using the social force model with explicit collision 
+prediction, which enables the robot to decide its avoidance action based on 
+arrival timing estimates. We chose the simple model for demonstration clarify on human 
+responses; more complex models can be used.
 
+%preference: velocity deviation (aggressiveness v.s. social friendliness)
+%self-interest: (self-interested weight v.s. social welfare)
+%perceived capability: (to show largely avoidant behavior)
+%trust: 
+%1.(to show interactive, but frequently yielding behavior)
+%2.(to show interactive, exploration behavior, probing behavior)
+\subsection{Perceived capabilities}
+Complete set of perceived capabilities are specified in Sec.~\ref{sec:perceived} as 
+prerequisites for humans to engage in the coordination process with robots. 
+For social navigation, when people see a robot coming, they may be unsure 
+whether 1) the robot sees them (of $\mathcal{C}_{MA}$), 2) the robot is aware of the potential 
+collision (of $\mathcal{C}_{PI}$), 3) when they choose an avoidance action, the robot can identify the underlying 
+intention (of social inference capability on perception), and 4) when the robot 
+avoid, humans can identify the underlying intention (of social inference 
+capability on motion generation). 
+
+Since the participants mostly had no prior experience interacting with the 
+robot, we observed many non-engaging behaviors through out the passing 
+process. Two example recordings are shown in Fig~\ref{fig:cautious_recording}. 
+
+\subsection{Types in path crossing}
+Agents perceived other agents' behaviors and update their own type $\theta^H_t$. In 
+social navigation, personal spacing is a common example, as people act 
+repellently more to unfamiliar agents. People's urgency to travel to their own 
+goals are common factors to describe navigation preferences. In simulation, we 
+simulate agents to choose avoidance actions based on the following cost formulation:
+\begin{equation}
+  r^H_t = -\gamma \alpha C^H_t  -(1-\alpha) C^{-H}_t,
+\end{equation}
+where $C^H_t$ is the estimated time delay, $\gamma \in [0,1]$ is the urgency 
+level, and $\alpha \in [0,1]$ is the level of self-interest.
+
+\subsection{Social trust}
+When navigation around a robot, the assumption of whether it is socially 
+compliant affects human's avoidance decision. We commonly observe, at the 
+beginning of the experiment, participants slow down to wait for the robot to 
+pass first, even when the robot has a later arrival 
+timing; people speed up and stay far from the robot when trying to pass in 
+front, even when the robot is still far from the intersection. We refer this 
+type of behavior as cautious, shown in 
+Fig.~\ref{fig:cautious_recording}. The behavior can be simulated through 
+varying the perceived robot level of 
+self-interest: $b^H_t(z^R)$. With high belief on the robot's level of 
+self-interest, virtual pedestrians have higher probability to yield to the 
+robot and stay far. A simulated cautious yielding pedestrian is shown in Fig.~\ref{fig:cautious_simulation}.
+
+\subsection{Human exploration and adaptation}
+We observed many conservative decisions on human crossing, where 
+pedestrians constantly yield to the robot. 
+There was one agent who tried to pass in front of the 
+robot after a couple of times of crossing and then decided to pass first. We 
+refer this process as the agent was gradually gaining social trust on the 
+robot; she updated her belief of robot behavior and then adapted her own 
+strategy. Similar behavior was simulated on virtual human with high belief 
+update rate, shown in Fig~\ref{fig:adaptation}.   
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{plain}
