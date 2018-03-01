@@ -40,7 +40,8 @@ Markov Games with Time-variant Types as a Framework for Human-Robot Coordination
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
   Coordination between humans and robots commonly happens when they 
-  co-exist in a shared workspace: human-robot teaming on collaborative tasks, 
+  co-exist in a shared workspace. Such scenario includes human-robot teaming on 
+  collaborative tasks, and 
   human-robot conflict-resolving on limited shared resources. Mis-coordination 
   reduces 
   efficiency of both parties, and reduces the human's trust and patience with 
@@ -48,14 +49,14 @@ Markov Games with Time-variant Types as a Framework for Human-Robot Coordination
   convergence in 
   human-robot coordination.
   We also propose human behavior hypotheses on their 
-  decision-making mechanisms under the framework, 
-  to capture human's 1) perception of the robot's capabilities, 2) personal preferences, 3) level of self-interest, and 4) social 
+  decision-making mechanisms under this framework, 
+  to capture how the human 1) perception of the robot's capabilities, 2) personal preferences, 3) level of self-interest, and 4) social 
   trust affect their policies and adaptability in dynamic environments. 
-  We provide human-robot path crossing as an instantiation of the framework, and use the 
+  We provide human-robot path crossing as an instantiation of our framework, and use the 
   hypothesized human behaviors to simulate real-world observed interaction 
   patterns. Lastly, we simulate humans acting adaptively to their observed robot 
-  policies, as an initiative to eliminate the gap from using human-human 
-  interaction data to design human-robot interaction algorithms. 
+  policies, as an initiative to incorporate effects on humans when designing 
+  robot algorithms using human-human interaction data.
 \end{abstract}
 \vspace{-.2em}
 \section{Introduction}
@@ -68,22 +69,22 @@ robots deployed in human environments. In such environments, robots
 may need to coordinate with humans with partially shared information and 
 partially shared objectives; agents may need to reach agreement on one 
 solution among multiple feasible choices, which makes the coordination non-trivial to 
-settle. Shown in Fig.~\ref{fig:intro}, three agents coordinate at an 
-intersection, where each agent has personal goals to reach. 
+settle. For a motivating example, see Fig.~\ref{fig:intro}, which shows three agents coordinating at an 
+intersection, where each agent has an individual goal to reach. 
 
-For a robot to engage coordination without cause of human confusion, it first 
+For a robot to engage coordination without confusing the human, it first 
 requires the basic capabilities to understand human intent, and to respond in a 
 legible manner~\cite{dragan2013legibility}. Beyond those, to negotiate and agree on the coordinating 
 solutions, the robot needs knowledge of human agents' behaviors to 
-predict the outcome of its own choice of action. 
+predict the outcome of its own actions. 
 It also needs to known the reaction time humans need 
 to update their policies~\cite{shah2011improved}, and to consider potential 
 impacts of its own actions on humans' future 
 decisions~\cite{fujiwara2015non,foerster2017learning}. Then the 
 robot can plan and coordinate with humans in an intent-consistent fashion. 
 
-Research topics arise 
-to improve human-robot coordination from many aspects, including: intent-expressive robot 
+Past research has sought to improve human-robot coordination in a variety of 
+ways, including: intent-expressive robot 
 motion generation~\cite{dragan2013legibility,lichtenthaler2012influence}, human 
 preference-aware behavior modeling and its 
 use for coordination~\cite{gombolay2015coordination,dorsa2017active}, human-robot mutual 
@@ -91,47 +92,48 @@ adaptation~\cite{nikolaidis2013human,nikolaidis2016formalizing}, human
 expectations on robot capability~\cite{cha2015perceived,kwon2016human}, as well as trust and comfort for long-term 
 deployment\cite{yang2017evaluating}. 
 
-While these topics focus on different factors which jointly affect human behaviors and 
+While these topics share a focus on factors which affect human behaviors and 
 their decision-making mechanisms, 
 %such as reaction timing and 
 %policy adaptation rate, to incorporate future impacts of robot actions into 
 %robot online planning, 
 they lack a unifying framework to keep track of how those factors correlate with 
-each other in different situations, how they combinatorially affect human 
+each other in different situations, how they affect human 
 decisions and motions, and 
-how they evolve over time subject to different robot interaction policies. 
+how they evolve over time as a function of robot interaction policies. 
 Those questions are important for designing intent-consistent robots to 
-interact with humans in a daily situations. And they are important for 
+interact with humans in daily situations. And they are important for 
 designing 
 robots that are aware of human 
-adaptation for their long-term deployments.  
+adaptation to their long-term deployments.  
 
-   \begin{figure}[t]\label{fig:intro}
+   \begin{figure}[t]
       \centering
       \vspace{-1em}
       \includegraphics[scale=0.32]{intro}
       \vspace{-1.5em}
       %\hspace{-5em}
-      \caption{Human-robot coordination in a crossing intersection. Since 
+      \caption{Human-robot coordination in a crossing interaction. Since 
       people have different prior assumptions on robot behaviors, their choice 
       of actions differ.}
       \vspace{-2em}
+    \label{fig:intro}
    \end{figure}
 To fulfill such purposes, the main contribution of this work is a proposed game-theoretic 
 model for human-robot coordination where agents have hidden preferences and time-variant adaptive behaviors based 
 on online observations of others' behaviors.
 
-To discuss human behaviors while interacting with robots, we also organized 
+To discuss human behaviors while interacting with robots, we point out some
 important factors that have been proposed in the human-robot interaction 
 community, such as perceived robot capability, personal preferences, and 
 trust on robot ability. We illustrate how they affect human behaviors through 
 our proposed human decision-making model under the game framework, using a 
 receding-horizon approach. We also propose two factors that we observed to be 
-important in social navigation 
+important in the social navigation 
 domain: level of self-interest and social trust. We incorporate them along 
 with others to analyze how people interact with the robot, with different 
-personal preferences and assumptions on robot 
-behaviors. We use real-world collected human-robot interaction data to 
+personal preferences and assumptions about robot 
+behaviors. We collect real-world human-robot interaction data to 
 illustrate our model effectiveness. 
 
 %maybe too much, don't show..
@@ -169,18 +171,18 @@ socially trust-worthy behaviors.
 %motion generation, b) human-emulating robot navigation..)
 %1. real-time fluent planning in a human-aware manner, what people have done to 
 %improve from traditional planning approaches:
-Despite the emerging interest to deploy robots in human-coexisting workspaces, 
+Despite the growing interest in deploying robots in human populated workspaces, 
 motion planning algorithms for smooth human-robot coordination have remained a 
 challenge. While traditional planning algorithms have shown success in static 
 environments, deploying such approaches alongside humans has shown 
-insufficient adaptability to highly dynamic environments, and produces awkward 
+insufficient adaptability to highly dynamic environments, and produce awkward 
 motions making 
 interpretability difficult
 ~\cite{lichtenthaler2012influence,dragan2013legibility,kruse2012legible}. 
 Approaches considering time-variant factors, such as temporal constraints for multi-agent collision 
 avoidance~\cite{van2011reciprocal}, have drawn attention for such 
 applications; approaches considering human factors, such as human 
-collision-avoidance behavior anticipation~\cite{helbing1995social}, have also raised attention for robot planning in human workspaces~\cite{shiomi2014towards}.
+collision-avoidance behavior anticipation~\cite{helbing1995social}, have also gained attention for robot planning in human workspaces~\cite{shiomi2014towards}.
 
 On the other hand, another community solves robot planning in human environments as a 
 joint multi-agent planning problem, to incorporate the collective crowd 
@@ -459,13 +461,16 @@ crossing.
 %% NE, to discuss the convergence criteria given different game settings
 \vspace{-.2em}
 \section{Human-Robot Game in Real-time}\label{sec:realtime_game}
-To formally discuss the coordinating process between humans and robots, we define the real-time game setting as the following: 
+To formally discuss the coordinating process between humans and robots, we 
+define the real-time game setting through game start and termination criteria. 
+When players sense the game has started, they plan by taking other agents' 
+behaviors into consideration, until they sense game termination. 
 \subsubsection{Game start criteria}
 %game: start
 In a scenario where agents' actions affect the outcome of each other, we 
-define as it meets the criteria of \textit{potential interaction}, 
+define as it meets the criterion of \textit{potential interaction}, 
 $\mathcal{C}_{PI}$; when agents become aware of each other and start acting 
-according to the perceived strategy of the other agents, it meets the criteria 
+according to the perceived strategy of the other agents, it meets the criterion 
 of \textit{mutual awareness}, $\mathcal{C}_{MA}$. Once the two criteria hold, 
 the game begins. 
 %(A counterexample is when agents are aware of each other but their actions do not affect each other's outcome. In such scenarios, such as pedestrians walking on different sides of a traffic intersection, no potential interaction is concerned; another example is when only partial party is aware of the other agents. In that case, merely one-way adaptation among agents happens, which we do not treat as interactions.%show graph illustration)  
@@ -830,7 +835,7 @@ decisions based on only one-layer inference.
 %\begin{equation}~\label{eq:human_decision2bounded}
 %b^H_t(a^{-H}_{t}|s_{0:t}) \sim  b^H_t(\pi^{-H} (x_t, ,b_{t}^{-H}(a^H_{t}|s_{0:t}))),
 %\end{equation}
-\section{Describing phenomena in human-robot interaction}
+\section{Explaining influential factors in human-robot interaction}
 As pointed out in Sec.~\ref{sec:human_behavior}, human policies for high-level 
 decisions are parametrized by $\theta^i_t$, which include that person's static 
 type $z^H$ and dynamically perceived types $b^H_t(\theta^{-H}_t)$ of other 
@@ -943,8 +948,9 @@ may cooperate at ease.
 %human-robot interaction as a game, and described the receding-horizon approach 
 %to deal with uncertainties in agent type $\theta^t$.
 We instantiate the framework on 2-player human-robot navigation with path 
-crossing, shown in Fig.~\ref{fig:intro} , but do not restrict the framework from other domains 
-and applications.
+crossing, shown in Fig.~\ref{fig:intro}.
+%but do not restrict the framework from other domains 
+%and applications.
 
 \vspace{-.2em}
 \subsection{Intention-aware social navigation}
@@ -1160,19 +1166,21 @@ instantiation is illustrated in Fig.~\ref{fig:turn_taking}.
 %response time into consideration to estimate game termination. As a result, in 
 %situations where one of the agents may be facing 0.5-step termination, early 
 %termination should be planned, as to enforce convergence for safety concerns.
-\vspace{-.2em}
+\vspace{-.4em}
 \subsection{Experiments}
 \vspace{-.2em}
+We hypothesize that our proposed framework can explain different types of 
+avoidance behaviors when their paths intersect with robots. We use our 
+framework to simulate a particular type, cautious behavior, in comparison with 
+collected trajectory data, to show that the framework can capture distinctive 
+interaction patterns among people.
+
 We deploy a mobile robot into a building atrium, and record human crossing 
 trajectories using tracking packages on laser scans~\cite{leigh2015person}. 
-Eight participants joined the experiments, each was requested to head towards 
-a set of goals. The robot followed a given route 
-that intersected with human four times in each run. We asked each participant 
-to take two runs to compare behavior changes. The robot was implemented with a 
+Eight participants were requested to head towards a set of goals, while the 
+robot followed a given route that intersected with human eight times.
+The robot was implemented with a 
 local planner with emergent slow-down when sensing an object within 1 meter. 
-We used it to test out human responses before seeing the robot's reaction to 
-the intersection, and used the collected data to verify human-behavior 
-hypotheses introduced in Sec.~\ref{sec:human_behavior}. 
 
 With the same prior on robot strategy profile, with 0-step lookahead, 
 virtual pedestrians act compliantly after observing the other agent's action, 
@@ -1199,7 +1207,7 @@ conservative compared to the previous two options.
       beginning (with -0.7 sec arrival timing difference), after observing 
       robot yielding behavior, she updates her 
       belief and changes the action in the next time frame.}
-      \vspace{-1.5em}
+      \vspace{-2em}
      \label{fig:adaptation}
    \end{figure}
 We simulate virtual pedestrians with type $\theta^H_t = [z^H, b^H_t(z^R)]$, 2-step 
