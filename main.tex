@@ -19,15 +19,16 @@
 \newcommand{\argmin}{\arg\!\min}
 \newcommand{\argmax}{\arg\!\!\max}
 \newtheorem{thm}{Hypothesis}
-\linespread{0.97}
+\linespread{0.968}
 \title{\LARGE \bf
-Markov Games with Time-variant Types as a Framework for Human-Robot Coordination
+Markov Games with Time-variant Types as a Framework for Human-robot Coordination
 }
 \author{Shih-Yun Lo$^{1}$, Shani Alkoby$^{2}$, Benito Fernandez$^{1}$, and Peter Stone$^{2}$% <-this % stops a space
 %\thanks{*This work was supported by }% <-this % stops a space
-%\thanks{$^{1}$Albert Author is with Faculty of Electrical Engineering, Mathematics and Computer Science,
+%\thanks{$^{1}$ Mechanical Engineering Department, the University of Texas at 
+%Austin, USA. 
 %        University of Twente, 7500 AE Enschede, The Netherlands
-%        {\tt\small albert.author@papercept.net}}%
+%{\tt\small $\{$yunl,benito$\}$@utexas.edu}}
 %\thanks{$^{2}$Bernard D. Researcheris with the Department of Electrical Engineering, Wright State University,
 %        Dayton, OH 45435, USA
 %        {\tt\small b.d.researcher@ieee.org}}%
@@ -58,7 +59,7 @@ Markov Games with Time-variant Types as a Framework for Human-Robot Coordination
   policies, as an initiative to incorporate effects on humans when designing 
   robot algorithms using human-human interaction data.
 \end{abstract}
-\vspace{-.2em}
+\vspace{-.3em}
 \section{Introduction}
 \vspace{-.2em}
 Human-robot interaction has received increased attention in recent years due to the 
@@ -106,7 +107,6 @@ interact with humans in daily situations. And they are important for
 designing 
 robots that are aware of human 
 adaptation to their long-term deployments.  
-
    \begin{figure}[t]
       \centering
       \vspace{-1em}
@@ -164,8 +164,9 @@ socially trust-worthy behaviors.
 %perceived robot capability and human trust, and show simulation on how they affect 
 %the coordination process on social navigation domain, in correspondence with 
 %real-world observed human behaviors.  
-
+\vspace{-0.3em}
 \section{Related Work}
+\vspace{-0.2em}
 %motion planning: time-variant dynamics, motion legibility
 %** community of planning considering human factors (existing motion planning algorithms consider: a) intent expressiveness in 
 %motion generation, b) human-emulating robot navigation..)
@@ -262,6 +263,7 @@ human-robot interaction with multi-agent learning problems to eliminate the gap.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 
 
+\vspace{-.3em}
 \section{Preliminaries}
 \vspace{-.2em}
 \subsection{Game Definition}
@@ -340,7 +342,9 @@ function.
 We propose a model, extended from Markov Games, to incorporate types as in 
 Bayesian games, which assign game outcomes based on both agent actions and 
 types.The model can also take in continuous-space input space $U$ to apply to real-world robotics domains. 
+\vspace{-.3em}
 \section{Markov Games with Time-variant Types}
+\vspace{-.2em}
 We model agents $i = 1,\cdots ,k$ to work in a joint state space $X$, where each individual has its own state 
 representation $x_t^i \in X^i$ at time $t$, and control input from a bounded 
 input space $u_t^i \in U^i$. $x_t = (x^1_t,\ldots,x^k_t) \in X$.
@@ -459,8 +463,9 @@ crossing.
 %termination.
 %%we want to introduce subgame perfection NE in this work and perfect Bayesian 
 %% NE, to discuss the convergence criteria given different game settings
-\vspace{-.2em}
+\vspace{-.3em}
 \section{Human-Robot Game in Real-time}\label{sec:realtime_game}
+\vspace{-.2em}
 To formally discuss the coordinating process between humans and robots, we 
 define the real-time game setting through game start and termination criteria. 
 When players sense the game has started, they plan by taking other agents' 
@@ -835,7 +840,9 @@ decisions based on only one-layer inference.
 %\begin{equation}~\label{eq:human_decision2bounded}
 %b^H_t(a^{-H}_{t}|s_{0:t}) \sim  b^H_t(\pi^{-H} (x_t, ,b_{t}^{-H}(a^H_{t}|s_{0:t}))),
 %\end{equation}
+\vspace{-0.3em}
 \section{Explaining influential factors in human-robot interaction}
+\vspace{-0.2em}
 As pointed out in Sec.~\ref{sec:human_behavior}, human policies for high-level 
 decisions are parametrized by $\theta^i_t$, which include that person's static 
 type $z^H$ and dynamically perceived types $b^H_t(\theta^{-H}_t)$ of other 
@@ -890,7 +897,7 @@ Level of self-interest $\alpha^i$ and personal preferences $y^i$ jointly contrib
 static preferences $z^i$.
 \vspace{-.3em}
 \subsection{Perceived robot capability}~\label{sec:perceived}
-\vspace{-.3em}
+\vspace{-.2em}
 %When deploying robots into shared workspaces with humans, people may not have prior experience working with those agents. Intention confusion, incapability in predicting future behaviors, and mistrust are commonly described in the literature in human-robot interaction. 
 The gap between true robot capability and human perceived robot capability  
 has shown to deteriorate both joint and individual work efficiency in 
@@ -959,7 +966,7 @@ Great progress has been made in the past two decades in pedestrian simulations~\
 socially-friendly robot 
 planning~\cite{mavrogiannis2016decentralized,chen2017socially}, to smoothly 
 deploy robots in human workspaces. In human-robot interaction community, 
-robot motion intention-expressiveness has gained attention for human 
+robot motion legibility has gained attention for human 
 understanding~\cite{dragan2013legibility}, and the concept of trajectory 
 interpretability has been applied on robot navigation in crowded 
 environments to identify goals of pedestrians~\cite{bai2015intention,unhelkar2015human}. 
@@ -1021,7 +1028,6 @@ which agents respond to the intersecting scenario.
 
 The game terminates whenever two agents have passed each other, or the 
 minimum relative distance has passed.
-
 \vspace{-.2em}
 \subsection{Intentions in path crossing and time delay}
 \vspace{-.2em}
@@ -1092,7 +1098,7 @@ signals for agent passing intents, and one can observe responses within short pe
         based on finite-horizon predictions. $\tau^R$ and $\tau^H$ 
   are approximate time intervals for robot and human response times. The game may 
      terminate at either player's decision nodes.}
-      \vspace{-1.5em}
+      \vspace{-1.7em}
      \label{fig:turn_taking}
    \end{figure}
 %Despite the intention-expressive avoidance behaviors observed among 
@@ -1140,7 +1146,7 @@ instantiation is illustrated in Fig.~\ref{fig:turn_taking}.
       %not paying attention to the robot and walking fast past whenever 
       %nearby, which we refer to as non-engaging behavior.
       }
-      \vspace{-1.5em}
+      \vspace{-1.7em}
      \label{fig:cautious_recording}
    \end{figure*}
 %%When agents change decisions in their high-level actions $a^i_t$, the 
@@ -1173,9 +1179,7 @@ We hypothesize that our proposed framework can explain different types of
 avoidance behaviors when their paths intersect with robots. We use our 
 framework to simulate a particular type, cautious behavior, in comparison with 
 collected trajectory data, to show that the framework can capture distinctive 
-interaction patterns among people.
-
-We deploy a mobile robot into a building atrium, and record human crossing 
+interaction patterns among people. We deploy a mobile robot into a building atrium, and record human crossing 
 trajectories using tracking packages on laser scans~\cite{leigh2015person}. 
 Eight participants were requested to head towards a set of goals, while the 
 robot followed a given route that intersected with human eight times.
@@ -1277,7 +1281,9 @@ refer this process as the agent was gradually gaining social trust on the
 robot; she updated her belief of robot behavior and then adapted her own 
 strategy. Similar behavior was simulated on virtual human with high belief 
 update rate, shown in Fig~\ref{fig:adaptation}.   
+\vspace{-.4em}
 \section{Conclusion and Future Work}
+\vspace{-.2em}
 We propose a Markov Game model with time-variant types to analyze human-robot 
 coordination outcome, and propose a human decision-making model to describe 
 phenomena in human-robot interactions. With the framework, we simulate virtual 
@@ -1290,6 +1296,7 @@ assumptions.
 %and how we can design robot policy to trigger adaptations that 
 %correct false human assumptions on robots.     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{-0.2em}
 \bibliographystyle{plain}
 \bibliography{reference}
 \end{document}
