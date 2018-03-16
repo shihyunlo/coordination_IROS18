@@ -3,44 +3,70 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: reference.bib
-You've used 2 entries,
+Repeated entry---line 507 of file reference.bib
+ : @inproceedings{unhelkar2015human
+ :                                 ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 573 of file reference.bib
+ : @inproceedings{pfeiffer2016predicting
+ :                                      ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 598 of file reference.bib
+ : @inproceedings{karamouzas2009predictive
+ :                                        ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 616 of file reference.bib
+ : @inproceedings{paris2007pedestrian
+ :                                   ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 644 of file reference.bib
+ : @inproceedings{leigh2015person
+ :                               ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 661 of file reference.bib
+ : @inproceedings{pfeiffer2016predicting
+ :                                      ,
+I'm skipping whatever remains of this entry
+Warning--can't use both volume and number fields in paris2007pedestrian
+You've used 34 entries,
             2118 wiz_defined-function locations,
-            508 strings with 4478 characters,
-and the built_in function-call counts, 781 in all, are:
-= -- 74
-> -- 36
-< -- 1
-+ -- 14
-- -- 12
-* -- 47
-:= -- 127
-add.period$ -- 7
-call.type$ -- 2
-change.case$ -- 12
+            685 strings with 10971 characters,
+and the built_in function-call counts, 15135 in all, are:
+= -- 1548
+> -- 700
+< -- 26
++ -- 275
+- -- 240
+* -- 990
+:= -- 2301
+add.period$ -- 124
+call.type$ -- 34
+change.case$ -- 221
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 35
-empty$ -- 67
-format.name$ -- 12
-if$ -- 171
+cite$ -- 35
+duplicate$ -- 649
+empty$ -- 1182
+format.name$ -- 240
+if$ -- 3378
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 2
-newline$ -- 13
-num.names$ -- 4
-pop$ -- 19
+int.to.str$ -- 34
+missing$ -- 35
+newline$ -- 173
+num.names$ -- 68
+pop$ -- 296
 preamble$ -- 1
-purify$ -- 10
+purify$ -- 188
 quote$ -- 0
-skip$ -- 23
+skip$ -- 483
 stack$ -- 0
-substring$ -- 34
-swap$ -- 11
-text.length$ -- 1
+substring$ -- 923
+swap$ -- 259
+text.length$ -- 26
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 8
-warning$ -- 0
-while$ -- 7
-width$ -- 3
-write$ -- 24
+type$ -- 134
+warning$ -- 1
+while$ -- 141
+width$ -- 36
+write$ -- 394
+(There were 6 error messages)

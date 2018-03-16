@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.4.27)  18 FEB 2018 12:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.4.27)  15 MAR 2018 19:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -194,18 +194,18 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
-LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
 (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count105
@@ -258,31 +258,125 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 37.
-LaTeX Font Info:    Try loading font information for U+msa on input line 37.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 38.
+LaTeX Font Info:    Try loading font information for U+msa on input line 38.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 37.
+LaTeX Font Info:    Try loading font information for U+msb on input line 38.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+) <intro.png, id=1, 762.85pt x 410.53375pt>
+File: intro.png Graphic file (type png)
+<use intro.png>
+Package pdftex.def Info: intro.png used on input line 113.
+(pdftex.def)             Requested size: 244.11699pt x 131.37347pt.
+[1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-]
-Overfull \hbox (20.69902pt too wide) detected at line 144
-\OML/cmm/m/it/10 a[] \OT1/cmr/m/n/10 = []   [] \U/msb/m/n/10 E[][]\OT1/cmr/m/n/
-10 ^^F[]\OML/cmm/m/it/10 ^^M[]r[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 s[]\OT1/cmr/
-m/n/10 ) + [](\OML/cmm/m/it/10 s[]\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ;
+ <./intro.png>] [2]
+Overfull \hbox (7.03415pt too wide) detected at line 375
+\OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j\OML/c
+mm/m/it/10 x[]; a[]; ^^R[]\OT1/cmr/m/n/10 ) = [][] \OML/cmm/m/it/10 p\OT1/cmr/m
+/n/10 (\OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 
+x[]; u[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 u[
+]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 x[]; a[]; ^^R[]\OT1/cmr/m/n/10 )\OML/cmm/m/
+it/10 du[]:
+ []
+
+<game_tree.pdf, id=25, 1027.84pt x 770.88pt>
+File: game_tree.pdf Graphic file (type pdf)
+<use game_tree.pdf>
+Package pdftex.def Info: game_tree.pdf used on input line 499.
+(pdftex.def)             Requested size: 215.85277pt x 161.88957pt.
+[3 <./game_tree.pdf>] [4]
+Underfull \hbox (badness 4403) in paragraph at lines 746--750
+[]\OT1/ptm/m/n/10 Therefore, with the in-for-ma-tion bud-get as-sump-tion
  []
 
 
-Underfull \hbox (badness 4168) in paragraph at lines 176--177
- \OT1/ptm/m/it/10 1) Bounded mem-ory for be-lief prop-a-ga-tion: [][] \OT1/ptm/
-m/n/10 -------
+LaTeX Font Warning: Command \small invalid in math mode on input line 893.
+
+LaTeX Font Info:    Calculating math sizes for size <> on input line 894.
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 894.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 894.
+
+[5] <pedestrian_avoidance.png, id=62, 458.71375pt x 261.97874pt>
+File: pedestrian_avoidance.png Graphic file (type png)
+<use pedestrian_avoidance.png>
+Package pdftex.def Info: pedestrian_avoidance.png used on input line 977.
+(pdftex.def)             Requested size: 123.85437pt x 70.7352pt.
+<turn_taking.png, id=63, 1011.78pt x 487.8225pt>
+File: turn_taking.png Graphic file (type png)
+<use turn_taking.png>
+Package pdftex.def Info: turn_taking.png used on input line 1093.
+(pdftex.def)             Requested size: 202.35242pt x 97.56276pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1124
+[]\OT1/ptm/m/n/10 While the in-ter-ac-tion pro-cess is mod-eled as a
  []
 
-[2] (./main.bbl)
+
+Underfull \hbox (badness 1694) in paragraph at lines 1116--1124
+\OT1/ptm/m/n/10 the sim-u-la-tion set-ting and there-fore save com-pu-ta-tion.
+ []
+
+[6 <./pedestrian_avoidance.png> <./turn_taking.png>] <iros_exp.png, id=70, 1022
+.82124pt x 300.12125pt>
+File: iros_exp.png Graphic file (type png)
+<use iros_exp.png>
+Package pdftex.def Info: iros_exp.png used on input line 1130.
+(pdftex.def)             Requested size: 490.94862pt x 144.05656pt.
+<adaptation.png, id=71, 633.36626pt x 187.70125pt>
+File: adaptation.png Graphic file (type png)
+<use adaptation.png>
+Package pdftex.def Info: adaptation.png used on input line 1208.
+(pdftex.def)             Requested size: 209.0115pt x 61.94159pt.
+
+Underfull \hbox (badness 3492) in paragraph at lines 1217--1230
+[]\OT1/ptm/m/n/10 We sim-u-late vir-tual pedes-tri-ans with type $\OML/cmm/m/it
+/10 ^^R[] \OT1/cmr/m/n/10 =
+ []
+
+(./main.bbl [7]
+Underfull \hbox (badness 10000) in paragraph at lines 204--209
+[]\OT1/ptm/m/n/8 Yu Zhang, Sarath Sreed-ha-ran, Anagha Kulka-rni, Tatha-gata
+ []
+
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -294,38 +388,47 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[3
+[8 <./iros_exp.png> <./adaptation.png>] (./main.aux)
 
-] (./main.aux) ) 
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 4.5pt have occurred.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3018 strings out of 493089
- 43398 string characters out of 6134842
- 113441 words of memory out of 5000000
- 6463 multiletter control sequences out of 15000+600000
- 42313 words of font info for 96 fonts, out of 8000000 for 9000
+ 3127 strings out of 493089
+ 45147 string characters out of 6134842
+ 114681 words of memory out of 5000000
+ 6560 multiletter control sequences out of 15000+600000
+ 46364 words of font info for 111 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,9n,26p,687b,289s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc
-}</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
-/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
-ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loca
-l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/t
-exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texl
-ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
-ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive
-/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2
-015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texli
-ve/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/te
-xmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2015/texmf-dist/
-fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/urw/times/utmri8a.pfb>
-Output written on main.pdf (3 pages, 174349 bytes).
+ 38i,11n,26p,706b,289s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local
+/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/
+texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/te
+xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texl
+ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2015/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2015/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015/texmf-dist/fonts/typ
+e1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2015/texmf-dist/fonts
+/type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw
+/times/utmbi8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/ut
+mr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (8 pages, 1013047 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
- 57 compressed objects within 1 object stream
+ 154 PDF objects out of 1000 (max. 8388607)
+ 106 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

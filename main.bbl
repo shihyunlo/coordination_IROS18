@@ -1,4 +1,119 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{bai2015intention}
+Haoyu Bai, Shaojun Cai, Nan Ye, David Hsu, and Wee~Sun Lee.
+\newblock Intention-aware online pomdp planning for autonomous driving in a
+  crowd.
+\newblock In {\em Robotics and Automation (ICRA), 2015 IEEE International
+  Conference on}, pages 454--460. IEEE, 2015.
+
+\bibitem{cha2015perceived}
+Elizabeth Cha, Anca~D Dragan, and Siddhartha~S Srinivasa.
+\newblock Perceived robot capability.
+\newblock In {\em Robot and Human Interactive Communication (RO-MAN), 2015 24th
+  IEEE International Symposium on}, pages 541--548. IEEE, 2015.
+
+\bibitem{chen2018planning}
+Min Chen, Stefanos Nikolaidis, Harold Soh, David Hsu, and Siddhartha Srinivasa.
+\newblock Planning with trust for human-robot collaboration.
+\newblock {\em arXiv preprint arXiv:1801.04099}, 2018.
+
+\bibitem{chen2017socially}
+Yu~Fan Chen, Michael Everett, Miao Liu, and Jonathan~P How.
+\newblock Socially aware motion planning with deep reinforcement learning.
+\newblock {\em arXiv preprint arXiv:1703.08862}, 2017.
+
+\bibitem{dorsa2017active}
+Anca D~Dragan Dorsa~Sadigh, Shankar Sastry, and Sanjit~A Seshia.
+\newblock Active preference-based learning of reward functions.
+\newblock In {\em Robotics: Science and Systems (RSS)}, 2017.
+
+\bibitem{dragan2015effects}
+Anca~D Dragan, Shira Bauman, Jodi Forlizzi, and Siddhartha~S Srinivasa.
+\newblock Effects of robot motion on human-robot collaboration.
+\newblock In {\em Proceedings of the Tenth Annual ACM/IEEE International
+  Conference on Human-Robot Interaction}, pages 51--58. ACM, 2015.
+
+\bibitem{dragan2013legibility}
+Anca~D Dragan, Kenton~CT Lee, and Siddhartha~S Srinivasa.
+\newblock Legibility and predictability of robot motion.
+\newblock In {\em Human-Robot Interaction (HRI), 2013 8th ACM/IEEE
+  International Conference on}, pages 301--308. IEEE, 2013.
+
+\bibitem{fehr2004social}
+Ernst Fehr and Urs Fischbacher.
+\newblock Social norms and human cooperation.
+\newblock {\em Trends in cognitive sciences}, 8(4):185--190, 2004.
+
+\bibitem{foerster2017learning}
+Jakob~N Foerster, Richard~Y Chen, Maruan Al-Shedivat, Shimon Whiteson, Pieter
+  Abbeel, and Igor Mordatch.
+\newblock Learning with opponent-learning awareness.
+\newblock {\em arXiv preprint arXiv:1709.04326}, 2017.
+
+\bibitem{fujiwara2015non}
+Takako Fujiwara-Greve.
+\newblock {\em Non-cooperative game theory}, volume~1.
+\newblock Springer, 2015.
+
+\bibitem{gombolay2015coordination}
+Matthew~C Gombolay, Cindy Huang, and Julie~A Shah.
+\newblock Coordination of human-robot teaming with human task preferences.
+\newblock In {\em AAAI Fall Symposium Series on AI-HRI}, volume~11, page 2015,
+  2015.
+
+\bibitem{helbing1995social}
+Dirk Helbing and Peter Molnar.
+\newblock Social force model for pedestrian dynamics.
+\newblock {\em Physical review E}, 51(5):4282, 1995.
+
+\bibitem{karamouzas2009predictive}
+Ioannis Karamouzas, Peter Heil, Pascal van Beek, and Mark~H Overmars.
+\newblock A predictive collision avoidance model for pedestrian simulation.
+\newblock In {\em International Workshop on Motion in Games}, pages 41--52.
+  Springer, 2009.
+
+\bibitem{knepper2017implicit}
+Ross~A Knepper, Christoforos~I Mavrogiannis, Julia Proft, and Claire Liang.
+\newblock Implicit communication in a joint action.
+\newblock In {\em Proceedings of the 2017 acm/ieee international conference on
+  human-robot interaction}, pages 283--292. ACM, 2017.
+
+\bibitem{kruse2012legible}
+Thibault Kruse, Patrizia Basili, Stefan Glasauer, and Alexandra Kirsch.
+\newblock Legible robot navigation in the proximity of moving humans.
+\newblock In {\em Advanced Robotics and its Social Impacts (ARSO), 2012 IEEE
+  Workshop on}, pages 83--88. IEEE, 2012.
+
+\bibitem{kuderer2012feature}
+Markus Kuderer, Henrik Kretzschmar, Christoph Sprunk, and Wolfram Burgard.
+\newblock Feature-based prediction of trajectories for socially compliant
+  navigation.
+\newblock In {\em Robotics: science and systems}. Citeseer, 2012.
+
+\bibitem{kwon2016human}
+Minae Kwon, Malte~F Jung, and Ross~A Knepper.
+\newblock Human expectations of social robots.
+\newblock In {\em The Eleventh ACM/IEEE International Conference on Human Robot
+  Interaction}, pages 463--464. IEEE Press, 2016.
+
+\bibitem{leigh2015person}
+Angus Leigh, Joelle Pineau, Nicolas Olmedo, and Hong Zhang.
+\newblock Person tracking and following with 2d laser scanners.
+\newblock In {\em Robotics and Automation (ICRA), 2015 IEEE International
+  Conference on}, pages 726--733. IEEE, 2015.
+
+\bibitem{lichtenthaler2012influence}
+Christina Lichtenth{\"a}ler, Tamara Lorenzy, and Alexandra Kirsch.
+\newblock Influence of legibility on perceived safety in a virtual human-robot
+  path crossing task.
+\newblock In {\em RO-MAN, 2012 IEEE}, pages 676--681. IEEE, 2012.
+
+\bibitem{littman1994markov}
+Michael~L Littman.
+\newblock Markov games as a framework for multi-agent reinforcement learning.
+\newblock In {\em Machine Learning Proceedings 1994}, pages 157--163. Elsevier,
+  1994.
 
 \bibitem{mavrogiannis2016decentralized}
 Christoforos~I Mavrogiannis and Ross~A Knepper.
@@ -11,5 +126,85 @@ Stefanos Nikolaidis, Anton Kuznetsov, David Hsu, and Siddharta Srinivasa.
 \newblock Formalizing human-robot mutual adaptation: A bounded memory model.
 \newblock In {\em The Eleventh ACM/IEEE International Conference on Human Robot
   Interaction}, pages 75--82. IEEE Press, 2016.
+
+\bibitem{nikolaidis2013human}
+Stefanos Nikolaidis and Julie Shah.
+\newblock Human-robot cross-training: computational formulation, modeling and
+  evaluation of a human team training strategy.
+\newblock In {\em Proceedings of the 8th ACM/IEEE international conference on
+  Human-robot interaction}, pages 33--40. IEEE Press, 2013.
+
+\bibitem{paris2007pedestrian}
+S{\'e}bastien Paris, Julien Pettr{\'e}, and St{\'e}phane Donikian.
+\newblock Pedestrian reactive navigation for crowd simulation: a predictive
+  approach.
+\newblock In {\em Computer Graphics Forum}, volume~26, pages 665--674. Wiley
+  Online Library, 2007.
+
+\bibitem{pettre2009experiment}
+Julien Pettr{\'e}, Jan Ond{\v{r}}ej, Anne-H{\'e}l{\`e}ne Olivier, Armel
+  Cretual, and St{\'e}phane Donikian.
+\newblock Experiment-based modeling, simulation and validation of interactions
+  between virtual walkers.
+\newblock In {\em Proceedings of the 2009 ACM SIGGRAPH/Eurographics Symposium
+  on Computer Animation}, pages 189--198. ACM, 2009.
+
+\bibitem{pfeiffer2016predicting}
+Mark Pfeiffer, Ulrich Schwesinger, Hannes Sommer, Enric Galceran, and Roland
+  Siegwart.
+\newblock Predicting actions to act predictably: Cooperative partial motion
+  planning with maximum entropy models.
+\newblock In {\em Intelligent Robots and Systems (IROS), 2016 IEEE/RSJ
+  International Conference on}, pages 2096--2101. IEEE, 2016.
+
+\bibitem{shah2011improved}
+Julie Shah, James Wiken, Brian Williams, and Cynthia Breazeal.
+\newblock Improved human-robot team performance using chaski, a human-inspired
+  plan execution system.
+\newblock In {\em Proceedings of the 6th international conference on
+  Human-robot interaction}, pages 29--36. ACM, 2011.
+
+\bibitem{shiomi2014towards}
+Masahiro Shiomi, Francesco Zanlungo, Kotaro Hayashi, and Takayuki Kanda.
+\newblock Towards a socially acceptable collision avoidance for a mobile robot
+  navigating among pedestrians using a pedestrian model.
+\newblock {\em International Journal of Social Robotics}, 6(3):443--455, 2014.
+
+\bibitem{trautman2010unfreezing}
+Peter Trautman and Andreas Krause.
+\newblock Unfreezing the robot: Navigation in dense, interacting crowds.
+\newblock In {\em Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ
+  International Conference on}, pages 797--803. IEEE, 2010.
+
+\bibitem{unhelkar2015human}
+Vaibhav~V Unhelkar, Claudia P{\'e}rez-D'Arpino, Leia Stirling, and Julie~A
+  Shah.
+\newblock Human-robot co-navigation using anticipatory indicators of human
+  walking motion.
+\newblock In {\em Robotics and Automation (ICRA), 2015 IEEE International
+  Conference on}, pages 6183--6190. IEEE, 2015.
+
+\bibitem{van2011reciprocal}
+Jur Van Den~Berg, Stephen~J Guy, Ming Lin, and Dinesh Manocha.
+\newblock Reciprocal n-body collision avoidance.
+\newblock In {\em Robotics research}, pages 3--19. Springer, 2011.
+
+\bibitem{yang2017evaluating}
+X~Jessie Yang, Vaibhav~V Unhelkar, Kevin Li, and Julie~A Shah.
+\newblock Evaluating effects of user experience and system transparency on
+  trust in automation.
+\newblock In {\em HRI}, pages 408--416, 2017.
+
+\bibitem{zanlungo2011social}
+Francesco Zanlungo, Tetsushi Ikeda, and Takayuki Kanda.
+\newblock Social force model with explicit collision prediction.
+\newblock {\em EPL (Europhysics Letters)}, 93(6):68005, 2011.
+
+\bibitem{zhang2017plan}
+Yu~Zhang, Sarath Sreedharan, Anagha Kulkarni, Tathagata Chakraborti,
+  Hankz~Hankui Zhuo, and Subbarao Kambhampati.
+\newblock Plan explicability and predictability for robot task planning.
+\newblock In {\em Robotics and Automation (ICRA), 2017 IEEE International
+  Conference on}, pages 1313--1320. IEEE, 2017.
 
 \end{thebibliography}
