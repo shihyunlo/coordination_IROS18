@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.3.2)  15 MAR 2018 20:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.3.2)  22 MAR 2018 15:24
 entering extended mode
 **./main.tex
 (main.tex
@@ -333,7 +333,7 @@ Package pdftex.def Info: intro.png  used on input line 111.
 
 
  <./intro.png>] [2]
-Overfull \hbox (3.14525pt too wide) detected at line 277
+Overfull \hbox (3.14525pt too wide) detected at line 276
 \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j\OML/c
 mm/m/it/10 x[]; a[]; []\OT1/cmr/m/n/10 ) = [][] \OML/cmm/m/it/10 p\OT1/cmr/m/n
 /10 (\OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 x[]; u[]\OT1/cmr/m/
@@ -348,74 +348,69 @@ File: game_tree.pdf Graphic file (type pdf)
 Package pdftex.def Info: game_tree.pdf  used on input line 367.
 (pdftex.def)             Requested size: 215.85277pt x 161.88957pt.
  [4 <./game_tree.pdf>]
-Underfull \hbox (badness 4403) in paragraph at lines 467--469
+Underfull \hbox (badness 4403) in paragraph at lines 468--470
 []\OT1/ptm/m/n/10 Therefore, with the in-for-ma-tion bud-get as-sump-tion
- []
-
-
-Underfull \hbox (badness 1924) in paragraph at lines 472--474
-[]\OT1/ptm/m/n/10 ***I AM NOT SURE WHY WE ARE TALK-ING
  []
 
 [5]
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 506.
+LaTeX Font Warning: Command \small invalid in math mode on input line 507.
 
-LaTeX Font Info:    Calculating math sizes for size <> on input line 507.
+LaTeX Font Info:    Calculating math sizes for size <> on input line 508.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 507.
+(Font)              size <5> substituted on input line 508.
 
 <pedestrian_avoidance.png, id=56, 458.71375pt x 261.97874pt>
 File: pedestrian_avoidance.png Graphic file (type png)
 <use pedestrian_avoidance.png>
-Package pdftex.def Info: pedestrian_avoidance.png  used on input line 543.
+Package pdftex.def Info: pedestrian_avoidance.png  used on input line 544.
 (pdftex.def)             Requested size: 123.85437pt x 70.7352pt.
 
-Underfull \hbox (badness 1484) in paragraph at lines 556--557
+Underfull \hbox (badness 1484) in paragraph at lines 557--558
 \OT1/ptm/m/n/10 tim-ing to ar-rive at the in-ter-sec-tion, ex-plicit avoid-ance
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 556--557
+Underfull \hbox (badness 10000) in paragraph at lines 557--558
 \OT1/ptm/m/n/10 (passing$[]$first,yielding), or (yielding,passing$[]$first).
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 556--557
+Underfull \hbox (badness 10000) in paragraph at lines 557--558
 []\OT1/ptm/m/n/10 ***shouldn't it be:(passing$[]$first,yielding), or
  []
 
@@ -423,25 +418,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 556--557
 <turn_taking.png, id=67, 1011.78pt x 487.8225pt>
 File: turn_taking.png Graphic file (type png)
 <use turn_taking.png>
-Package pdftex.def Info: turn_taking.png  used on input line 592.
+Package pdftex.def Info: turn_taking.png  used on input line 593.
 (pdftex.def)             Requested size: 202.35242pt x 97.56276pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 604--605
+Underfull \hbox (badness 10000) in paragraph at lines 605--606
 []\OT1/ptm/m/n/10 While the in-ter-ac-tion pro-cess is mod-eled as a
  []
 
 <iros_exp.png, id=68, 1022.82124pt x 300.12125pt>
 File: iros_exp.png Graphic file (type png)
 <use iros_exp.png>
-Package pdftex.def Info: iros_exp.png  used on input line 611.
+Package pdftex.def Info: iros_exp.png  used on input line 612.
 (pdftex.def)             Requested size: 490.94862pt x 144.05656pt.
 <adaptation.png, id=69, 633.36626pt x 187.70125pt>
 File: adaptation.png Graphic file (type png)
 <use adaptation.png>
-Package pdftex.def Info: adaptation.png  used on input line 627.
+Package pdftex.def Info: adaptation.png  used on input line 628.
 (pdftex.def)             Requested size: 209.0115pt x 61.94159pt.
 
-Underfull \hbox (badness 3492) in paragraph at lines 637--638
+Underfull \hbox (badness 3492) in paragraph at lines 638--639
 []\OT1/ptm/m/n/10 We sim-u-late vir-tual pedes-tri-ans with type $\OML/cmm/m/it
 /10 [] \OT1/cmr/m/n/10 =
  []
@@ -472,7 +467,7 @@ LaTeX Font Warning: Size substitutions with differences
 Here is how much of TeX's memory you used:
  3138 strings out of 493303
  46582 string characters out of 3129785
- 114733 words of memory out of 3000000
+ 114738 words of memory out of 3000000
  6632 multiletter control sequences out of 15000+200000
  50134 words of font info for 115 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -505,7 +500,7 @@ a.pfb><C:/Users/Shani/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/u
 tmbi8a.pfb><C:/Users/Shani/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/ti
 mes/utmr8a.pfb><C:/Users/Shani/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/ur
 w/times/utmri8a.pfb>
-Output written on main.pdf (9 pages, 1036678 bytes).
+Output written on main.pdf (9 pages, 1036752 bytes).
 PDF statistics:
  154 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

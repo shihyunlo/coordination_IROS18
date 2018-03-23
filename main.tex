@@ -269,7 +269,6 @@ $g^i:X \times A^i \times \Theta^i \rightarrow U$ can take in any model
 formulation, possibly stochastic, to sample inputs from $p(u_t^i|x_t,a^i_t,\theta_t^i)$. 
 One example for high-level actions is the table-turning directions; the low-level inputs to realize such actions are manipulator torque inputs \textcolor{red}{***Shih-Yun -please elaborate a little bit more about this example***}. We will use $x_t$ to denote all agents' state representation at time $t$, i.e., $x_t = (x^1_t,\ldots,x^k_t) \in X$. Note that, $u_t^i$ is a function of $x_t$ and not solely of $x^i_t$, since agents adjust their motions based on other agents' status in the joint state space. 
 
-\subsection{Analysis}
 Since dealing with high level actions is much more intuitive than dealing with the low level ones we will use a different representation of the state transition function of agent $i$, $\mathcal{T}^i:X \times U^i \rightarrow X$ using $p(x^i_{t+1}|x_t,a^i_t,\theta^i_t)$, by marginalizing over $u^i_t$:
 \begin{equation}
   p(x^i_{t+1}|x_t,a^i_t,\theta^i_t) = \int_{u^i \in U^i} 
@@ -313,6 +312,7 @@ r^i_t = r(x_t,\sigma_t,\theta_t).
 %\end{equation}
 
 %\subsection{Policies for Bayesian Games with State Transitions}
+\subsection{Analysis}
 Given the reward function $r$ defined in Equation \ref{eq:r_function}, the optimal 
 policy is to find the strategy $s^i$ that maximizes the cumulative rewards,
 \begin{equation}\label{eq:optimal}
@@ -333,7 +333,7 @@ with the low-level control inputs $u^i_t$, and although discrete actions are com
 \textcolor{red}{***This is not a full description of what we are doing in the paper. Please update it after we will talk***} We present the framework of Markov games with unknown time-variant types as a tool to analyze the convergence criteria of human-robot coordinating process. We first introduce general solutions for the framework in both pre-computation and online setting in Section ~\ref{sec:realtime_game}; we then introduce our approximation of human decision-making mechanism to incorporate research topics on human interaction behaviors with robots in Section ~\ref{sec:human_behavior}; lastly, we use the proposed model to simulate human-robot navigation with path crossing.<><>>
 
 \vspace{-.3em}
-\section{Human-Robot Game in Real-time}\label{sec:realtime_game}
+\section{Real-time Game}\label{sec:realtime_game}
 \vspace{-.2em}
 \subsection{Game Setting}
 To formally discuss the coordinating process between humans and robots, we 
@@ -438,11 +438,12 @@ where $\hat{V}_{H+1}(x_H,\sigma_H,\theta_H)$ is the cost-to-go estimate for the 
 
 For coordination games, it is usually true that the earlier the termination, the better the final outcome is: similar to games with benefit discounts. Take the table turning task for example, the faster the two agents reach agreement on the direction to go, the faster progress they make, despite the potentially longer routes. Therefore, biased search to strategies with early termination has its empirically advantage; agents can even trade off computation depth with breadth to better explore its action profile. 
 
-\section{Human Behavior and Decision-Making Model}\label{sec:human_behavior}
+\section{Human-Robot Game}
+\subsection{Human Behavior and Decision-Making Model}\label{sec:human_behavior}
 Since one of the main purposes of our proposed framework is to model \textit{human} interaction with AI agents, we are now introducing our hypotheses regarding human behaviors and decision-making mechanism; by implementing these hypotheses into the suggest framework, we will achieve better analysis of how different paradigms in human-robot coordination affect the overall convergence.
 
 \vspace{-.2em}
-\subsection{Adaptability to other agents}\label{sec:adaptability}
+\subsubsection{Adaptability to other agents}\label{sec:adaptability}
 \vspace{-.2em}
 In interaction, it is many times the case that humans observe other agents and adapt their strategies accordingly ~\cite{nikolaidis2016formalizing,yang2017evaluating}. Our modeling of this behavior, in the proposed framework, suggests that an agent's type $\theta^H_t$ is parameterized by a static parameter $z^H$, which is associated with his personal preferences that do not change in short period of time, and by a \textit{time-variant} parameter $b^H_t(\theta^{-H}_t)$, to capture the agent's dynamic \textit{beliefs} of other agents' types. More specifically,
 \begin{equation}
@@ -467,15 +468,15 @@ We now define the concept of \textit{information budget} to be an agent's comput
 Therefore, with the information budget assumption $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies being adaptive to their perceived, presumably static, behavior of other agents. The higher adaptation rate is, the more flexible they 
 appear in the joint policy. 
 
-\color{red}\subsection{Bounded memory belief updates}
+\color{red}\subsubsection{Bounded memory belief updates}
 
 ***I AM NOT SURE WHY WE ARE TALKING ABOUT THIS***As introduced in Section ~\ref{sec:belief_update}, we also assume humans maintain their 
 beliefs of other agents' types as well as their future strategy profile through out online planning. Here, we further assume humans to either run Bayesian updates, or possess \textit{bounded} memory on past observations and interaction history for belief updates\cite{nikolaidis2016formalizing}: $b^H_t(\sigma_{t}|I^i_{t-(t-n)}),$ and $b^H_t(\theta^{-i}_t|o_{t-n:t})$.
 
-\subsection{Finite-step lookahead}
+\subsubsection{Finite-step lookahead}
 As introduced in Section ~\ref{sec:receding}, we also assume humans re-planning online with finite-step lookahead. Finite-step lookahead can be either \textit{0-step lookahead} (i.e., $H=0$), where agents act as if the current game is the termination game or \textit{multi-step lookahead} (i.e., $H>0$), where agents plan as the game has more than one period. We note that if $H>0$, adaptive behaviors due to belief updates are expected ~\cite{nikolaidis2016formalizing}.
 
-\subsection{Anticipation of other agents' policy}
+\subsubsection{Anticipation of other agents' policy}
 As pointed out in Section ~\ref{sec:adaptability}, humans adapt their policies based on their beliefs of other agents' behavior. When planning at time $t$, agents predict other agents' action profile $\sigma_{t:t+H}$ based on past interactions:
 
 \begin{equation}~\label{eq:human_decision1}
@@ -487,11 +488,11 @@ their policies are non-adaptive, $a^{-H}_t \sim \pi^{-H(x_t,z^{-H})}$,
 associated with the one-layer inference. 
 %(i.e, two-layers inference for planning). In this paper, we discuss human decisions based on only one-layer inference.
 
-\color{black}\section{Influential factors in human-robot interaction}
+\color{black}\subsection{Influential factors in human-robot interaction}
 As pointed out in Section ~\ref{sec:human_behavior}, human policies for high-level decisions are parametrized by $\theta^i_t$, which include that person's static type $z^H$ and dynamically perceived types $b^H_t(\theta^{-H}_t)$ of other agents. With different perceptions on the other, humans act differently. For example, pedestrians take over others' roads when they are in a hurry; however, they yield when encountering the elderly. Similar situation 
 applies to human-robot interaction: people have distinctive behaviors based on their prior assumptions of robots, which affect their policies and their adaptabilities when new observations come in. In this section we discuss how to use the above proposed model in order to describe	 existing phenomena in human-robot interactions. 
 
-\subsection{Static preferences}
+\subsubsection{Static preferences}
 
 \begin{itemize}
 	\item \textit{Personal preferences:} Since people have different perception and long-time experience in interactions with the environment, they preserve distinctive characteristics in their behaviors that do not change in short period of time. Therefore, when planning considering joint actions, robots should be aware of such types to plan accordingly for agent comfort and overall efficiency ~\cite{gombolay2015coordination}. In our proposed framework, personal preferences contribute to agents' policy realizations, transition functions, and affect the joint performances. Regarding the reward function, they can be characterized as feature weighting $y^i$~\cite{dorsa2017active}:
@@ -499,7 +500,7 @@ applies to human-robot interaction: people have distinctive behaviors based on t
 	r^i = -y^{iT}C, 
 	\end{equation}
 	
-	\textcolor{red}{***Shih-Yun - what is th "T" next to the "y" stands for? We didn't mentioned it before.*** } where $C$ is some vector of cost function.
+	where $C$ is some vector of cost function.
 	\item \textit{Level of self-interest:} When agents are deployed in public environments, the notion of public welfare plays in to assess policy fairness ~\cite{fehr2004social}. While the public welfare is the self-interest in collaborative tasks, in non-cooperative games, agents have incentives to deviate from cooperative behaviors for personal benefits ~\cite{fujiwara2015non}. When individuals plan in a shared workspace with personal objectives to achieve, resource conflicts may occur. 
 	While cooperative policies are the most efficient for social welfare, agents may gain more resource allocation when playing selfishly. This notion of fairness can be characterized as weighting on all parties' interest $\alpha^i$:
 	\begin{equation}
@@ -513,7 +514,7 @@ applies to human-robot interaction: people have distinctive behaviors based on t
 
 We note that the level of self-interest, $\alpha^i$, and the personal preferences, $y^i$, jointly contribute to the static preferences, $z^i$.
 
-\subsection{Perceived robot capability}~\label{sec:perceived}
+\subsubsection{Perceived robot capability}~\label{sec:perceived}
 The gap between true robot capability and human perceived robot capability has shown to deteriorate both joint and individual work efficiency in different task domains ~\cite{dragan2015effects}. Here, we characterize human perceived robot capability for human-robot interaction into two categories which are functional capability and social inference capability.
 
 \begin{itemize}
@@ -523,7 +524,7 @@ The gap between true robot capability and human perceived robot capability has s
 
 The above two perceived capabilities are prerequisites for humans to engage in the coordination process with robots. In complex domains, those criteria have shown to be challenging ~\cite{knepper2017implicit}, therefore prior experiences on cross-training, teaching, and learning ~\cite{zhang2017plan} may be required to prepare for natural engagement. 
 
-\subsection{Social trust}% and reciprocity}
+\subsubsection{Social trust}% and reciprocity}
 Perceived capabilities are preliminary for human trust to interact with robots ~\cite{yang2017evaluating}, since the knowledge of the action set of the robot enables 
 human prediction of robot future actions. When there are resource conflicts in shared workspaces, self-interested agents may not be socially compliant to the other agents. 
 In this case, trust on social collaborativity in conflicted situations, captured by humans' belief of robot static type $b^H_t(z^R)$, affects human policies through their anticipation of robot policy. While perceiving robots as socially trust-worthy agents, humans predict robots to have non-hostile behaviors and may cooperate at ease.   
@@ -643,7 +644,7 @@ We simulate virtual pedestrians with type $\theta^H_t = [z^H, b^H_t(z^R)]$, 2-st
 prerequisites for humans to engage in the coordination process with robots. When dealing with social navigation, people, if noticing robot coming toward them, may be unsure regarding to whether the robot sees them or not (i.e., $\mathcal{C}_{MA}$); whether the robot is aware of the potential collision (i.e., $\mathcal{C}_{PI}$); whether the robot can identify the underlying intention if they choose an avoidance action (i.e., social inference capability on perception); whether they can identify the underlying intention of the robot if it chooses an avoidance action (i.e., social inference capability on motion generation). 
 
 \subsubsection{Types in path crossing}
-\textcolor{red}{***I did not understand what are you saying in this paragraph***}Agents perceived other agents' behaviors and update their own type $\theta^H_t$. In social navigation, personal spacing is a common example, as people act repellently more to unfamiliar agents. People's urgency to travel to their own goals are common factors to describe navigation preferences. In simulation, we simulate agents to choose avoidance actions based on the following cost formulation:\textcolor{red}{***You are using C here  although you already used C as a notation for something else before***}
+\textcolor{red}{***I did not understand what are you saying in this paragraph***}Agents perceived other agents' behaviors and update their own type $\theta^H_t$. In social navigation, personal spacing is a common example, as people act repellently more to unfamiliar agents. People's urgency to travel to their own goals are common factors to describe navigation preferences. In simulation, we simulate agents to choose avoidance actions based on the following cost formulation:
 \begin{equation}
   r^H_t = -\eta \alpha C^H_t  -(1-\alpha) C^{-H}_t,
 \end{equation}
