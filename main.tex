@@ -188,7 +188,7 @@ human-robot interaction with multi-agent learning problems to eliminate the gap.
 
 
 \section{Preliminaries}
-In almost every real life daily interaction between robots and humans, each agent's utility  is being influenced by the other agents' actions in addition to his own action. Thus, we choose to model human-robot interaction as a game. We propose a model, extended from Markov Games, to incorporate types as in Bayesian games, which assign game outcomes based on both agent actions and types \footnote{The model can also take in continuous-space input space $U$ to apply to real-world robotics domains}. A formal game definition as well as a quick overview about Markov Games are given in the following subsections.  
+In almost every real-life interaction between robots and humans, each agent's utility is being influenced by the other agents' actions in addition to his own action. Thus, we choose to model human-robot interaction as a game. We propose a model, extended from Markov Games, to incorporate types as in Bayesian games, which assign game outcomes based on both agent actions and types \footnote{The model can also take in continuous-space input space $U$ to apply to real-world robotics domains}. A formal game definition as well as a quick overview about Markov Games are given in the following subsections.  
 \subsection{Game Definition}
 Consider a game $G$ with $k$ players, where each player $i \in \{1...k\}$ has 
 a finite action set $A^i$. The set of action profiles is denoted as 
@@ -206,8 +206,10 @@ Where $\sigma_t$ is the action profile at time $t$.
 We will define a \textit{strategy profile} to be the series of action profiles $\sigma_t$ over time, i.e., $s = \sigma_0 \times \cdots \sigma_T \in S$. We note that in repeated games, agents need to consider not only the current outcome of an action, but also its impact on the other agents' future actions (which eventually will affect their own expected cumulative rewards).
 
 %human robot interaction as a game
-Let $a^H \in A^H$ and $a^R \in A^R$ be the action space of humans and robots, 
-respectively. A \textit{Nash Equilibrium} in such a game is defined to be such that no agent (human or robot) benefits from unilateral deviation from his current strategy (i.e., set of actions). Formally:
+Let $A^H$ and $ A^R$ be the action space of humans and robots, $a^H \in A^H$ 
+and $a^R \in A^R$. A \textit{Nash Equilibrium} in such a game is defined to be such that 
+no agent (human or robot) benefits from unilateral deviation from his current 
+strategy (i.e., set of actions). Formally:
 \begin{equation}
 	\forall i \in \{H,R\}, t,a^{i*}_t \in A^i, f^i(a^{i*}_t,a^{-i*}_t) \geq f^i(a^{i}_t,a^{-i*}_t). 
 \end{equation}
@@ -260,32 +262,56 @@ input space $u_t^i \in U^i$.
 
 While actions $a_t^i \in A^i$ define the \textit{high-level, finite} actions an 
 agent can take to affect the game outcome, $u_t^i$ defines the low-level continuous-space
-realization of such options, by:
+realization of such actions, by:
 \begin{equation}\label{eq:g_function}
   u_t^i = g^i(x_t, a^i_t, \theta^i_t),
 \end{equation}
-where $\theta^i_t \in \Theta^i$ is some parametrization of the agent's (potentially) time-variant behavior.
+where $\theta^i_t \in \Theta^i$ is some parametrization of the agent's (potentially time-variant) behavior.
 $g^i:X \times A^i \times \Theta^i \rightarrow U$ can take in any model 
 formulation, possibly stochastic, to sample inputs from $p(u_t^i|x_t,a^i_t,\theta_t^i)$. 
-One example for high-level actions is the table-turning directions; the low-level inputs to realize such actions are manipulator torque inputs \textcolor{red}{***Shih-Yun -please elaborate a little bit more about this example***}. We will use $x_t$ to denote all agents' state representation at time $t$, i.e., $x_t = (x^1_t,\ldots,x^k_t) \in X$. Note that, $u_t^i$ is a function of $x_t$ and not solely of $x^i_t$, since agents adjust their motions based on other agents' status in the joint state space. 
+One example for high-level actions is the table-turning directions, clockwise 
+or counterclockwise; the 
+low-level inputs to realize such actions are motor torque commands to 
+control the position and orientation (the state) of the end effector of the 
+manipulator. We will use $x_t$ 
+to denote all agents' state representation at 
+time $t$, i.e., $x_t = (x^1_t,\ldots,x^k_t) \in X$. Note that, $u_t^i$ is a 
+function of $x_t$ and not solely of $x^i_t$, since agents adjust their 
+motions (the realization of their high-level actions) based on other agents' 
+status in the joint state space. One example would be collision avoidance 
+among two dynamic agents.
 
-Since dealing with high level actions is much more intuitive than dealing with the low level ones we will use a different representation of the state transition function of agent $i$, $\mathcal{T}^i:X \times U^i \rightarrow X$ using $p(x^i_{t+1}|x_t,a^i_t,\theta^i_t)$, by marginalizing over $u^i_t$:
+Given control input $u_t^i$, agent state transition function $\mathcal{T}^i$ 
+can be individually presented by: $p(x^i_{t+1}|x^i_t,u^i_t)$
+. Since dealing with high-level actions is much more intuitive than dealing with 
+the low-level ones, we will use a different representation of the state 
+transition function of agent $i$, $p(x^i_{t+1}|x_t,a^i_t,\theta^i_t)$, by marginalizing over $u^i_t$:
 \begin{equation}
   p(x^i_{t+1}|x_t,a^i_t,\theta^i_t) = \int_{u^i \in U^i} 
   p(x_{t+1}^i|x^i_t,u^i_t) p(u^i_t|x^t,a^i_t,\theta^i_t)du^i.
 \end{equation}
 
-We note that we use $X$ as a part of agent $i$'s new representation of the state transition function ($\mathcal{T}^i:X \times A^i \times \Theta^i \rightarrow X$) due to the fact that agent $i$'s states are part of a joint state space. The \textit{joint state transition function} $\mathcal{T}$ however, represent a collective behavior among all agents and therefor takes in the following form: $\mathcal{T}:X \times \Sigma \times \Theta \rightarrow X$. 
+We note that we use $X$ as a part of agent $i$'s new representation of the 
+state transition function (
+$\mathcal{T}^i:X \times A^i \times \Theta^i \rightarrow X^i$), due to the fact 
+that action realization, $g^i$, takes in the joint state $x_t$. The \textit{joint state 
+transition function}, $\mathcal{T}$, then represents a collective behavior 
+among all agents, therefore takes in the following form: 
+$\mathcal{T}:X \times \Sigma \times \Theta \rightarrow X$. 
 
-After taking input $u_t^i$ at state $x_t$, agent $i$ receives an immediate reward of $r^i_t$ calculated according to: 
+After taking control command $u_t^i$ at state $x_t$, agent $i$ receives an immediate reward of $r^i_t$ calculated according to: 
 \begin{equation}\label{eq:r_control_input}
-  r^i_t = r(x_t,u^i_t,u^{-i}_t),
+  r^i_t = r^i(x_t,u^i_t,u^{-i}_t),
 \end{equation}
 where $u^{-i}_t$ is the control input of other agents at time $t$. 
 
-The reward function $r: X \times U \rightarrow \mathbb{R}$ considers all agents' states $x_t$ and inputs $u_t \in U = U^1\times \cdots \times U^k$ for evaluation. Using Equation ~\ref{eq:g_function}, a new representation of $r$ ($r:X\times \Sigma \times \Theta \rightarrow \mathbb{R}$) can be used:
+The agent reward function $r^i: X \times U \rightarrow \mathbb{R}$ considers 
+all agents' states $x_t$ and inputs $u_t \in U = U^1\times \cdots \times U^k$ 
+for evaluation. Using Equation ~\ref{eq:g_function}, a new representation of 
+$r^i$ using high-level actions ($r^i:X\times \Sigma \times \Theta \rightarrow \mathbb{R}$) can 
+be presented by:
 \begin{equation}\label{eq:r_function}
-r^i_t = r(x_t,\sigma_t,\theta_t).
+r^i_t = r^i(x_t,\sigma_t,\theta_t).
 \end{equation}
 
 %\subsection{Bayesian Games with State Transitions}
@@ -313,8 +339,8 @@ r^i_t = r(x_t,\sigma_t,\theta_t).
 
 %\subsection{Policies for Bayesian Games with State Transitions}
 \subsection{Analysis}
-Given the reward function $r$ defined in Equation \ref{eq:r_function}, the optimal 
-policy is to find the strategy $s^i$ that maximizes the cumulative rewards,
+Given the reward function $r^i$ defined in Equation \ref{eq:r_function}, the optimal 
+policy is to find the strategy $a^{i*}_{0:T}$ that maximizes the cumulative rewards,
 \begin{equation}\label{eq:optimal}
 \begin{aligned}
   a^{i*}_{0:T} = \argmax_{a^i_{0:T}} 
@@ -327,10 +353,23 @@ policy is to find the strategy $s^i$ that maximizes the cumulative rewards,
 where $V^i_{T+1}$ is some cost-to-go function for terminating using $\sigma_T$ at 
 time $T$.
 
-\textcolor{red}{***Shih-Yun - please make sure that the following paragraph says what you intended it to say***} Despite the general formalism of this framework which allows planning directly 
-with the low-level control inputs $u^i_t$, and although discrete actions are computationally more expensive for plan evaluation, for the rest of the paper we will use the high level action planning. This is due to the fact that using a high level actions space (which is discrete) is much cheaper to perform a search and oftentimes easily obtained for domain-specific applications. Discrete action planning also well approximate human planning with hierarchical reasoning.  
+Despite the general formalism of this framework which allows planning directly 
+with the low-level control inputs $u^i_t$, 
+%and although discrete actions are computationally more expensive for plan evaluation, 
+for the rest of the paper we will consider the high-level action space for planning. This is due to the fact that using a high level actions space (which is discrete) is much cheaper to perform a search and oftentimes easily obtained for domain-specific applications. Discrete action planning also well approximate human planning with hierarchical reasoning.  
 
-\textcolor{red}{***This is not a full description of what we are doing in the paper. Please update it after we will talk***} We present the framework of Markov games with unknown time-variant types as a tool to analyze the convergence criteria of human-robot coordinating process. We first introduce general solutions for the framework in both pre-computation and online setting in Section ~\ref{sec:realtime_game}; we then introduce our approximation of human decision-making mechanism to incorporate research topics on human interaction behaviors with robots in Section ~\ref{sec:human_behavior}; lastly, we use the proposed model to simulate human-robot navigation with path crossing.<><>>
+We present Markov games with time-variant types as a framework to incorporate 
+human 1) adaptive and 2) typed behaviors in interactions with robots, and to 
+design algorithms that leverages multi-agent action effects for 
+human-aware robot planning.   
+%to analyze the convergence criteria of human-robot coordinating 
+%process. 
+We first introduce general solutions for the framework in both 
+pre-computation and online setting in Section ~\ref{sec:realtime_game}; we 
+then introduce our approximation of human decision-making mechanism to 
+incorporate research topics on human interaction behaviors with robots in 
+Section ~\ref{sec:human_behavior}; lastly, we use the proposed model to 
+simulate human-robot navigation with path crossing.
 
 \vspace{-.3em}
 \section{Real-time Game}\label{sec:realtime_game}
@@ -340,25 +379,45 @@ To formally discuss the coordinating process between humans and robots, we
 define the real-time game setting through game \textit{start} and \textit{termination} criteria. Those criteria are very important as they define the time frame in which each agent considers the other agents' behaviors.
 
 \begin{enumerate}
-	\item \textbf{Game start criteria -} In order for the game to begin two criteria need to hold:
+	\item \textbf{Game start criteria -} In order for the game to begin, two 
+    criteria need to hold for agents to start acting according to the 
+    perceived strategy of the other agents:
 	\begin{itemize}
-		\item $\mathcal{C}_{PI}$ (\textit{potential interaction}) - The criteria is met when agents' actions affect each other outcome.
-		\item $\mathcal{C}_{MA}$ (\textit{mutual awareness}) - The criteria is met when agents become aware of each other and start acting according to the perceived strategy of the other agents.
+		\item $\mathcal{C}_{PI}$ (\textit{potential interaction}) - The criteria 
+      is met when agents' actions affect the outcome of each other.
+		\item $\mathcal{C}_{MA}$ (\textit{mutual awareness}) - The criteria is met when agents are aware of each other.
 	\end{itemize} 
-	\item \textbf{Game termination criteria -} When interactions start at time $t=0$, the game repeats \textit{finitely} until a termination criteria $\beta: X \times \Sigma \rightarrow \{True,False\}$ is satisfied. Termination criteria may be a predefined criteria, $t>T$, where $T$ is a pre-specified time frame of mandatory co-working. Termination criteria may also take a dynamic format, such as finish the game whenever $\mathcal{C}_{PI}$ no longer holds. One example can be crowd interactions, when pedestrians are past the route intersections with one another, the game terminates; as no further intervention is expected.
+	\item \textbf{Game termination criteria -} After interactions start at time 
+    $t=0$, the game repeats \textit{finitely} until a termination criteria 
+    $\beta: X \times \Sigma \rightarrow \{True,False\}$ is satisfied. 
+    Termination criteria may be a predefined criteria, $t>T$, where $T$ is a 
+    pre-specified time frame of mandatory co-working. Termination criteria may 
+    also take a dynamic format, such as finish the game whenever 
+    $\mathcal{C}_{PI}$ no longer holds. One example can be navigation in 
+    crowds. When pedestrians are past the route intersections with one 
+    another, the 
+    game terminates, as no further intervention is expected.
 \end{enumerate}
 
 
 \subsection{Game Solutions}
-If both $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met and the termination criteria has not met yet, the game time frame has started. Within this time frame agent $i$ is interested in finding the solution (i.e., strategy) which will optimize his cumulative rewards (calculating according Equation ~\ref{eq:optimal}). This process is being formally presented by the following simultaneous-move game tree representation (see example in Figure ~\ref{fig:game_tree}):
+\subsubsection{Action profile prediction, strategy evaluation, and search}
+If both $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met, the game unfolds 
+until the termination criteria is met. Within this game 
+time frame, agent $i$ is interested in finding the solution (i.e., strategy) 
+which optimizes his future cumulative rewards (calculated according to Equation 
+~\ref{eq:optimal}). This process is formally presented by the 
+simultaneous-move game tree representation (see example in Figure 
+~\ref{fig:game_tree}), which contains:
 \begin{enumerate}
-  \item Decision nodes: solid circles where players make choices, 
-    $a^i_t \in A^i$, based on current state $x_t$
-  \item Terminal nodes: hollow circles at the bottom where game outcomes 
-    $V(x_T,\sigma_T,\theta_T)$ are assigned
-  \item History set: observed history plays before current time, $I^i_t$. 
-    Decision nodes connected with a dashed line share the same history 
-    set. Players cannot distinguish nodes with the identical history sets. Therefore, in games with simultaneous moves, players share the same history set in one period.  
+  \item Decision nodes: nodes where players make action choices, 
+    $a^i_t \in A^i$, based on current state $x_t$ (solid circles). Each 
+    decision node is associated with one player only, $i=1..k$.
+  \item Terminal nodes: nodes where game outcomes 
+    $V(x_T,\sigma_T,\theta_T)$ are assigned (hollow circles at the bottom)
+  \item History set: $I^i_t$, history plays which the agent observed before current 
+    time, associated with each decision node. Decision nodes connected with a dashed line share the same history 
+    set, to incorporate games with simultaneous moves, where players share the same history set in one play.  
 \end{enumerate}
 
 \begin{figure}[t]
@@ -373,23 +432,46 @@ If both $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met and the termination cr
 	\label{fig:game_tree}
 \end{figure}
 
-We note that the policy of how an agent $i$ makes his high-level decision can be abbreviated as a function of his type $\theta^i_t$,
-\begin{equation}
-a^i_t \sim \pi^i(x_t,\theta^i_t|\sigma_{0:t-1}),
+We note that the policy of how an agent $i$ makes his high-level decision can 
+be abbreviated as a function of his (possibly time-variant) type $\theta^i_t$,
+\begin{equation}~\label{eq:pi}
+a^i_t \sim \pi^i(x_t,\theta^i_t),
 \end{equation}
-without loss of generality.
+without loss of generality; as $\theta^i_t$ can be time-variant to capture 
+human adaptive behaviors in uncertain environments.  
 
-More specifically, at each decision node, the player chooses an action based on current state $x_t$, and the policy such that Equation ~\ref{eq:optimal} will be optimize. In order to do so, the agent need to compute the following at each decision node:
+More specifically, at each decision node, agent $i$ chooses action(s) based on 
+current state $x_t$ for evaluation. In order to do so, an agent needs to 
+compute the following:
 \begin{enumerate}
-  \item $p(\sigma_{t}|I^i_t,x_t)$: game actions profile probability given history set
-  \item $r_{t}$ or $V_T$: 
-    reward estimate, or value estimate at termination nodes
+  \item $p(\sigma{-i}_t|I^i_t,x_t)$: action profile probability of other 
+    agents given history set, and
+  \item $r^i_t$ or $V^i_T$: 
+    reward estimate of current action profile of evaluation, or value estimate 
+    if at termination nodes.
 \end{enumerate}
 %$\theta^i_t$ contains three components: 
 %$\theta^i_t = (\theta^i, b^i_t(\theta^{-i}_t),b^i_t(a^{-i}_t))$. 
-We note that the form of game outcomes has no effect on the solution algorithm. Thus, the game outcomes  computation can be done both by using cumulative rewards, as commonly seen in Markov Decision Process, and terminal values, as commonly seen in extensive-form games.   
+We note that the form of the game outcomes, either defined by the cumulative 
+rewards (as commonly seen in Markov Decision Process) or terminal values (as 
+commonly seen in extensive-form games), has no effect on the solution algorithm. 
 
-\textcolor{red}{Please explain the following paragraph to me} Due to the continuous-space state space formulation, backward induction, a common solution for extensive-form games, is no longer applicable. Instead, forward-search approaches such as Monte Carlo Tree search can be applied: at each iteration, randomly sample an action $a^i_t$ and then expand the search tree by sampling the action profile $p(\sigma^t|I^R_t,x_t)$. To compute the reward of a stage game $r_t$, or the value at termination nodes $V_T$, Equation ~\ref{eq:r_control_input} can be applied by sampling $u_t$ from Equation ~\ref{eq:g_function}, given prior on other agents' types $p(\theta^{-i}_t)$. 
+We also note that, for the purpose of action evaluation, there are other 
+suitable computational models, such as that in Equation ~\ref{eq:pi}, 
+or the direct mapping from $x^i_t$ to $u^i_t$. Here we 
+present this high-level model for its generality, and further implement the 
+model to simulate specific human-robot interaction behaviors described in the 
+literature, using rules from the behavioral game theory literature.  
+
+Due to the forward state transitions in Markov Games, backward induction, a 
+common solution for extensive-form games, is no longer applicable. Instead, 
+forward-search approaches such as Monte Carlo Tree Search can be applied: at 
+each iteration, randomly sample an action $a^i_t$ for evaluation and then expand the search 
+tree by sampling the action profile $p(\sigma^t|I^R_t,x_t)$. To compute the 
+reward of a stage game $r^i_t$, or the value at termination nodes $V_T$, 
+Equation ~\ref{eq:r_control_input} can be applied by sampling $u_t$ from 
+Equation ~\ref{eq:g_function}, given prior on other agents' types 
+$p(\theta^{-i}_t)$. 
 %players observe past interactions to predict other agents' 
 %future policies 
 %$\pi^{-i}(x_t,\theta^i_t|\sigma_{0:t-1})$, and to estimate the type parameter 
@@ -398,22 +480,35 @@ We note that the form of game outcomes has no effect on the solution algorithm. 
 %the type parameter estimate are updated. 
 
 %\vspace{-.2em}
-%\subsection{Online game strategies}
+\subsubsection{Online solutions using imperfect models}
 %\vspace{-.2em}
 When planning for long-horizon purposes, agents ideally want to optimize their outcome considering full-horizon accumulation, as introduced in Equation ~\ref{eq:optimal}. However, due to the high uncertainty in dynamic environments, pre-computed solutions may not fit well to newly received 
 observation data, which affects agent's inference of the other agents' future action profiles, action realizations, or state transitions. Therefore, when playing in real-time, agents need constant online re-planning to adapt to unmodeled dynamic situations. 
 
-Therefore we are proposing the solution of using an \textit{online game strategies}, instead of running search algorithms to solve for the total horizon at $t=0$, agents will run \textit{belief updates} whenever new observations will arrive, and \textit{re-plan for certain horizon} from current time $t$, for as much lookahead horizon as computational resource allows. We assume agents have knowledge of the termination timing, $\beta_t$, even in the dynamic setting.
+Therefore we are proposing the solution of using an \textit{online game 
+strategies}; instead of running search algorithms to solve for the total 
+horizon, the agent will run \textit{belief updates} whenever new 
+observations arrive, and \textit{re-plan for certain horizon} from 
+current time $t$, for as much lookahead horizon as computational resource 
+allows. We assume agents have knowledge of the termination timing, $\beta_t$, 
+even in the dynamic setting.
 
-The following provide a detailed explanation regarding each agent's belief update and Receding-horizon planning.
+The following provides a detailed explanation regarding the belief update and 
+Receding-horizon planning of each agent.
  
 \subsubsection{belief updates}\label{sec:belief_update}
 During real-world interactions, observations can be from direct measures, such as the relative positions and velocities of all agents. Observations can also be implicit as to infer private messages, through ways like eye contacts or body languages, to express messages such as intent~\cite{knepper2017implicit}.
 
-In either form of observations $o_{0:t}$, for long-horizon planning on Markov games with time-variant types, agents will update their beliefs of the following:
+With either form of observations $o_{t:t+\tau} \in O$, where $1/\tau$ is the 
+update rate and $O$ is the observation space, agents can better infer about 
+future motions of the other agents, either through the low-level motion model 
+$u^{-i}_t \sim g^{-i}(x_t,\theta^{-i}_t)$ or high-level action profile model
+for planning in the high-level 
+action space $A^i$ on Markov 
+games with time-variant types, the agent needs to update his beliefs of the following:
 
 (a) Type estimate of other agents $b^i_t(\theta_t^{-i})$: 
-$p(\theta^{-i}_t|o_{0:t})$, in order to sample the state transitions function $\mathcal{T}$ and to compute reward function $r_t$.
+$p(\theta^{-i}_t|o_{0:t})$, in order to sample the state transitions function $\mathcal{T}$ and to compute reward $r^i_t$.
 
 (b) Future strategy profiles of other agents $b^i_t(\sigma_{t:T})$: $p(\sigma_h|I^i_h)$, where $t\leq h\leq T$ is the future time step of interest.
 
