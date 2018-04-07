@@ -401,7 +401,7 @@ define the real-time game setting through game \textit{start} and \textit{termin
 
 
 \subsection{Game Solutions}
-\subsubsection{Action profile prediction, strategy evaluation, and search}
+
 If both $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met, the game unfolds 
 until the termination criteria is met. Within this game 
 time frame, agent $i$ is interested in finding the solution (i.e., strategy) 
@@ -432,6 +432,9 @@ simultaneous-move game tree representation (see example in Figure
 	\label{fig:game_tree}
 \end{figure}
 
+\textbf{Action profile prediction, strategy evaluation, and search for 
+solution action sequence}:
+
 We note that the policy of how an agent $i$ makes his high-level decision can 
 be abbreviated as a function of his (possibly time-variant) type $\theta^i_t$,
 \begin{equation}~\label{eq:pi}
@@ -441,10 +444,10 @@ without loss of generality; as $\theta^i_t$ can be time-variant to capture
 human adaptive behaviors in uncertain environments.  
 
 More specifically, at each decision node, agent $i$ chooses action(s) based on 
-current state $x_t$ for evaluation. In order to do so, an agent needs to 
+current state $x_t$ for evaluation. In order to do so, agent $i$ needs to 
 compute the following:
 \begin{enumerate}
-  \item $p(\sigma{-i}_t|I^i_t,x_t)$: action profile probability of other 
+  \item $p(\sigma^{-i}_t|I^i_t,x_t)$: action profile probability of other 
     agents given history set, and
   \item $r^i_t$ or $V^i_T$: 
     reward estimate of current action profile of evaluation, or value estimate 
@@ -480,16 +483,23 @@ $p(\theta^{-i}_t)$.
 %the type parameter estimate are updated. 
 
 %\vspace{-.2em}
-\subsubsection{Online solutions using imperfect models}
+\textbf{Online solutions with prediction model updates}:
 %\vspace{-.2em}
-When planning for long-horizon purposes, agents ideally want to optimize their outcome considering full-horizon accumulation, as introduced in Equation ~\ref{eq:optimal}. However, due to the high uncertainty in dynamic environments, pre-computed solutions may not fit well to newly received 
-observation data, which affects agent's inference of the other agents' future action profiles, action realizations, or state transitions. Therefore, when playing in real-time, agents need constant online re-planning to adapt to unmodeled dynamic situations. 
 
-Therefore we are proposing the solution of using an \textit{online game 
-strategies}; instead of running search algorithms to solve for the total 
+When planning for long-horizon purposes, agents ideally want to optimize their 
+outcome considering full-horizon reward accumulation, as introduced in Equation 
+~\ref{eq:optimal}. However, due to modeling errors and typed behaviors among 
+humans, pre-trained models may not well accommodate newly observed behaviors. 
+Pre-computed solutions therefore may not suit well to the newly 
+encountered agents, therefore, online re-plan is needed to well adapt to new 
+situations, using real-time received observation data. 
+Inaccurate prediction includes those of other agents' future action profiles, action realizations, and state transitions. 
+
+Therefore we are proposing an \textit{online game 
+strategies} as the solution to deal with real-world uncertainties. Instead of running search algorithms to solve for the total 
 horizon, the agent will run \textit{belief updates} whenever new 
 observations arrive, and \textit{re-plan for certain horizon} from 
-current time $t$, for as much lookahead horizon as computational resource 
+current time $t$, for as much lookahead horizon $H$ as computational resource 
 allows. We assume agents have knowledge of the termination timing, $\beta_t$, 
 even in the dynamic setting.
 
@@ -499,21 +509,27 @@ Receding-horizon planning of each agent.
 \subsubsection{belief updates}\label{sec:belief_update}
 During real-world interactions, observations can be from direct measures, such as the relative positions and velocities of all agents. Observations can also be implicit as to infer private messages, through ways like eye contacts or body languages, to express messages such as intent~\cite{knepper2017implicit}.
 
-With either form of observations $o_{t:t+\tau} \in O$, where $1/\tau$ is the 
-update rate and $O$ is the observation space, agents can better infer about 
-future motions of the other agents, either through the low-level motion model 
-$u^{-i}_t \sim g^{-i}(x_t,\theta^{-i}_t)$ or high-level action profile model
-for planning in the high-level 
-action space $A^i$ on Markov 
-games with time-variant types, the agent needs to update his beliefs of the following:
+With either form of observations, $o^i_{t:t+\tau} \in O^i$, where $1/\tau$ is the 
+observation  
+update rate and $O^i$ is his observation data space, agents can better infer about 
+future motions of the other agents. Given computational models for motion 
+predictions, such as $u^{-i}_t \sim g^{-i}(x_t,a^{-i},\theta^{-i}_t)$ proposed 
+in our framework (but not restricted to such formulation), to plan in the 
+high-level action space $A^i$, agent $i$ needs to update his beliefs of the 
+following:
 
-(a) Type estimate of other agents $b^i_t(\theta_t^{-i})$: 
-$p(\theta^{-i}_t|o_{0:t})$, in order to sample the state transitions function $\mathcal{T}$ and to compute reward $r^i_t$.
+(a) Future strategy profiles of other agents $b^i_t(\sigma^{-i}_{t:T|I^i_h})$: 
+the strategy profile prediction based on history plays, $p(\sigma_h|I^i_h)$, 
+where $t\leq h\leq T$ is the future time step of 
+interest.
 
-(b) Future strategy profiles of other agents $b^i_t(\sigma_{t:T})$: $p(\sigma_h|I^i_h)$, where $t\leq h\leq T$ is the future time step of interest.
+(b) Type estimate of other agents $b^i_t(\theta_t^{-i})$: 
+the type estimate $p(\theta^{-i}_t|o^i_{t:t-\tau},\theta^{-i}_{t-\tau})$ (in 
+the Bayesian setting), in order to sample the joint state transition function 
+$\mathcal{T}$ and to compute action reward $r^i_t$.
 
-We note that belief updates are usually computationally cheap, so agents may run it at a high 
-rate (potentially higher than re-plan frequency) to deal with noisy 
+
+We note that belief updates are usually computationally cheap, so agents may run it at a high rate (potentially higher than re-plan rate) to deal with noisy 
 observations.
  
 \subsubsection{Receding-horizon planning}\label{sec:receding}
