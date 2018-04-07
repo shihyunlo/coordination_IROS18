@@ -547,8 +547,39 @@ for finite horizon strategy, known as receding-horizon planning, can be formulat
   \end{equation}
 where $\hat{V}_{H+1}(x_H,\sigma_H,\theta_H)$ is the cost-to-go estimate for the following $\sigma_H'$ from $t=H'+1$ to $T$.
 
-For coordination games, it is usually true that the earlier the termination, the better the final outcome is: similar to games with benefit discounts. Take the table turning task for example, the faster the two agents reach agreement on the direction to go, the faster progress they make, despite the potentially longer routes. Therefore, biased search to strategies with early termination has its empirically advantage; agents can even trade off computation depth with breadth to better explore its action profile. 
+For coordination games, it is usually true that the earlier the termination, 
+the better the final outcome is. One game example is the bargaining game with 
+benefit discounts. 
+Take another example of the table-turning coordination task, the faster the two agents reach 
+agreement on the direction to go, the earlier they start wasting efforts and make progress, despite the 
+potentially suboptimal (longer) route selection. Therefore, biased search to 
+strategies with early 
+termination has its empirically advantage; agents can even trade off 
+computation depth with breadth to better explore its action profile. 
 
+\textbf{Strategy response time and turn-taking formulation:}
+Since high-level actions or intents are not directly observable by other 
+agents, as suggested by Section ~\ref{sec:belief_update}, strategies take time 
+for other agents to infer; further, agents need time to replan to newly 
+observed strategy, and to execute the new plan with potential changes in 
+motions. As a result, with proper waiting time after the initial action, the 
+decision timing of both agents can be clearly separated to prevent 
+oscillations, which transfers the game formulation into turn-taking, as 
+illustrated in Figure ~\ref{fig:turn_taking}. 
+Turn-taking games simplify the 
+simulation setting by neglecting current time action profile sampling to 
+predict other agents' concurrent actions, therefore save computation. 
+\begin{figure}[t]
+      \centering
+      \vspace{-1em}
+      \includegraphics[scale=0.2]{turn_taking}
+      \vspace{-1.4em}
+      %\hspace{-5em}
+      \caption{
+        Human-robot turn-taking games with robot anticipating action value based on finite-horizon predictions. $\tau^R$ and $\tau^H$ are approximate time intervals for robot and human response times. The game may terminate at either player's decision nodes.}
+      \vspace{-1.7em}
+     \label{fig:turn_taking}
+\end{figure}
 \section{Human-Robot Game}
 \subsection{Human Behavior and Decision-Making Model}\label{sec:human_behavior}
 Since one of the main purposes of our proposed framework is to model \textit{human} interaction with AI agents, we are now introducing our hypotheses regarding human behaviors and decision-making mechanism; by implementing these hypotheses into the suggest framework, we will achieve better analysis of how different paradigms in human-robot coordination affect the overall convergence.
@@ -698,22 +729,11 @@ We will define the agents' action set as following: $A^R = \{a^{pf}, a^y\}$, $A^
 
 Empirical study on human-robot crossing has suggested distinctive velocity and trajectory profiles among two classes of avoidance actions ~\cite{paris2007pedestrian}. Agents who intend to pass first often accelerate and bend their trajectories away from the other. Agents who intend to yield often slow down. Such changes in motion profiles are clear signals for agent passing intents, and one can observe those responses within a short period of time, around $0.7$ sec.
 
-\begin{figure}[t]
-      \centering
-      \vspace{-1em}
-      \includegraphics[scale=0.2]{turn_taking}
-      \vspace{-1.4em}
-      %\hspace{-5em}
-      \caption{
-        Human-robot turn-taking games with robot anticipating action value based on finite-horizon predictions. $\tau^R$ and $\tau^H$ are approximate time intervals for robot and human response times. The game may terminate at either player's decision nodes.}
-      \vspace{-1.7em}
-     \label{fig:turn_taking}
-\end{figure}
 
 The minimum time for human agents to react to their action changes, $\tau^H$, is assumed to be between $0.7$s to $0.9$s for such a model. For more complex domains, higher values should be considered.
 
 \subsection{Response-time-adapted turn-taking structure}
-While the interaction process is modeled as a simultaneous-move game in Section ~\ref{sec:realtime_game}, with the time delays in action realization, it is often played as a \textit{turn-taking} game. With proper waiting time after the initial action, the decision timing of both agents can be clearly separated to prevent oscillations. Despite the fact that a simultaneous-move setting is more natural when dealing with interactions, turn-taking games simplify the simulation setting and therefore save computation. The overall turn-taking game used in this instantiation is illustrated in Figure ~\ref{fig:turn_taking}.
+While the interaction process is modeled as a simultaneous-move game in Section ~\ref{sec:realtime_game}, with the time delays in action realization, it is often played as a \textit{turn-taking} game. 
 
 \begin{figure*}[t]
       \vspace{-1em}
