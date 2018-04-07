@@ -247,7 +247,8 @@ Consider a two-player game with agent $R$ and $H$ and a strategy profile $s^* = 
 \vspace{-.2em}
 Markov games~\cite{littman1994markov} are defined on top of Markov Decision Process, with finite state space $s \in S$, finite action space $a \in A$, and other agents' action space 
 $a' \in A'$.  Agent reward function is a function of the state, the action, and the other agents' actions: $r(s,a,a')$. The framework is commonly used for multi-agent reinforcement 
-learning, where agent action value $Q(x,a)$ is defined to take in the other agents' actions:
+learning, where agent action value $Q(x,a)$ is defined to take other agents' 
+actions in consideration:
 \begin{equation}
   Q(s,a,a') = r(s,a,a') + \gamma \Sigma_{s'}\mathcal{T}(s'|s,a,a')V(s'),
 \end{equation}
@@ -518,9 +519,9 @@ in our framework (but not restricted to such formulation), to plan in the
 high-level action space $A^i$, agent $i$ needs to update his beliefs of the 
 following:
 
-(a) Future strategy profiles of other agents $b^i_t(\sigma^{-i}_{t:T|I^i_h})$: 
-the strategy profile prediction based on history plays, $p(\sigma_h|I^i_h)$, 
-where $t\leq h\leq T$ is the future time step of 
+(a) Future strategy profiles of other agents $b^i_t(\sigma^{-i}_{t:T|I^i_l})$: 
+the strategy profile prediction based on history plays, $p(\sigma_h|I^i_l)$, 
+where $t\leq l\leq T$ is the future time step of 
 interest.
 
 (b) Type estimate of other agents $b^i_t(\theta_t^{-i})$: 
@@ -533,19 +534,19 @@ We note that belief updates are usually computationally cheap, so agents may run
 observations.
  
 \subsubsection{Receding-horizon planning}\label{sec:receding}
-Due to the potential demand of fast re-planning in dynamic environments, agents may only be computationally available to plan for finite-step lookahead $H<T$. Therefore, at each time step $t=h$,$h<T$, agents instead try to optimize for $t=h:H'$, where $H'=min(h+H,T)$, based on updated model of future strategy 
-anticipation of other agents' $p(\sigma_{h:H'}|I^i_h)$. This online re-planning 
+Due to the potential demand of fast re-planning in dynamic environments, agents may only be computationally available to plan for finite-step lookahead $L<T$. Therefore, at each time step $t=l$,$l<T$, agents instead try to optimize for $t=l:L'$, where $L'=min(l+L,T)$, based on updated model of future strategy 
+anticipation of other agents' $p(\sigma_{l:L'}|I^i_l)$. This online re-planning 
 for finite horizon strategy, known as receding-horizon planning, can be formulated as the following:
 \begin{equation}
   \begin{aligned}
-  a^{i*}_{h:H'} = \argmax_{a^i_{h:H'}} 
-  \Sigma_{t=h}^{H'} 
+  a^{i*}_{l:L'} = \argmax_{a^i_{l:L'}} 
+  \Sigma_{t=l}^{L'} 
   \mathbb{E}_{x_t,\sigma_{t},\theta_t|\mathcal{T},I^i_t} \big{[}
     r^i(x_t,\sigma_t,&\theta_t)\big{]}+ \\
-    \hat{V}^i_{H'+1}(x_H',\sigma_H',&\theta_H'), 
+    \hat{V}^i_{L'+1}(x_L',\sigma_L',&\theta_L'), 
   \end{aligned}
   \end{equation}
-where $\hat{V}_{H+1}(x_H,\sigma_H,\theta_H)$ is the cost-to-go estimate for the following $\sigma_H'$ from $t=H'+1$ to $T$.
+where $\hat{V}_{L+1}(x_L,\sigma_L,\theta_L)$ is the cost-to-go estimate for the following $\sigma_L'$ from $t=L'+1$ to $T$.
 
 For coordination games, it is usually true that the earlier the termination, 
 the better the final outcome is. One game example is the bargaining game with 
@@ -580,43 +581,127 @@ predict other agents' concurrent actions, therefore save computation.
       \vspace{-1.7em}
      \label{fig:turn_taking}
 \end{figure}
-\section{Human-Robot Game}
-\subsection{Human Behavior and Decision-Making Model}\label{sec:human_behavior}
-Since one of the main purposes of our proposed framework is to model \textit{human} interaction with AI agents, we are now introducing our hypotheses regarding human behaviors and decision-making mechanism; by implementing these hypotheses into the suggest framework, we will achieve better analysis of how different paradigms in human-robot coordination affect the overall convergence.
+\section{Human Behaviors}\label{sec:human_behavior}
+Since one of the main purposes of our proposed framework is to model 
+\textit{human} interaction with AI agents, we are now introducing our 
+hypotheses regarding human behaviors and their decision-making mechanism; by 
+implementing these hypotheses into the suggested framework, we will achieve 
+better analysis of how different paradigms in human-robot coordination affect 
+the overall game result.
+\vspace{-.2em}
+\subsection{Adaptation to other agents}\label{sec:adaptability}
+\vspace{-.2em}
+In interaction, oftentimes humans observe other agents and adapt their 
+strategies accordingly ~\cite{nikolaidis2016formalizing,yang2017evaluating}. 
+This is because humans update their beliefs of the other agents based on past 
+interaction; during then, they acquire samples of others' motion realizations 
+and strategies, which directly affect their own action rewards $r^H_t$. 
+Therefore, adaptation can be seen as a dynamic strategy to maximize self 
+interests. We incorporate such behaviors in our proposed framework 
+through the dynamic type parameter $\theta^H_t$, and refer human adaptive 
+policy to Equation ~\ref{eq:pi}. 
 
-\vspace{-.2em}
-\subsubsection{Adaptability to other agents}\label{sec:adaptability}
-\vspace{-.2em}
-In interaction, it is many times the case that humans observe other agents and adapt their strategies accordingly ~\cite{nikolaidis2016formalizing,yang2017evaluating}. Our modeling of this behavior, in the proposed framework, suggests that an agent's type $\theta^H_t$ is parameterized by a static parameter $z^H$, which is associated with his personal preferences that do not change in short period of time, and by a \textit{time-variant} parameter $b^H_t(\theta^{-H}_t)$, to capture the agent's dynamic \textit{beliefs} of other agents' types. More specifically,
+Further, we propose that a human's type $\theta^H_t$ is parameterized by a 
+static parameter $z^H$, and a dynamic inference parameter 
+$b^H_t(\theta^{-H}_t)$. The static parameter, $z^H$, is associated with 
+domain-specific personal 
+preferences, such as urgency to travel to destination, which do not change in 
+short period of time; and the 
+dynamic inference parameter, $b^H_t(\theta^{-H}_t)$, captures the agent's 
+time-evolving \textit{beliefs} of other agents' (potentially dynamic) types. More specifically,
 \begin{equation}
   \theta^H_t = \begin{bmatrix}
     z^H \\
-    b^H_t(\theta^{-H}_t)
+    b^H_t(\theta^{-H}_t).
   \end{bmatrix}
 \end{equation}
 
-the static type parameter, $z^H$, features personal preferences such as travel efficiency versus travel energy in navigation domains. The time-variant parameter, $b^H_t(\theta^{-H}_t)$, features humans' perception on other agents' types. As for the detailed form in the belief, we hypothesize that humans possess certain \textit{information budget} to reason about other agents' behaviors.
+%the static type parameter, $z^H$, features personal preferences such as travel efficiency versus travel energy in navigation domains. The time-variant parameter, $b^H_t(\theta^{-H}_t)$, features humans' perception on other agents' types. 
+As for the detailed formulation in human belief, we hypothesize that humans 
+possess certain \textit{prior} of the other agents' behaviors, such as assuming 
+elderly to move slower and robots to be compliant; when new observations come 
+in, humans make use of certain \textit{information budget} to reason about 
+other agents' behaviors to update their beliefs.
 
 %Below, we propose our hypothesis on the humans' information budget, which corresponds to their computational capability to infer about other agents' decision-making model. The decision-making model is the policy that outputs the agent's high-level action(s):
-We now define the concept of \textit{information budget} to be an agent's computational capability to infer about other agents' decision-making model. The decision-making model is the policy that outputs the agent's high-level action(s), i.e., $a^i_{t:t+H} \sim \pi^i(x_t,\theta^i_t)$. There are several possible categories of \textit{information budget} as will be outlined below:
+\subsection{Depth of Inference and Biased Adaptation}
+We now define the concept of \textit{information budget} to be an agent's 
+computational capability to infer about other agents' strategy, 
+which includes assumptions over their decision-making model. Here, the 
+decision-making model is referred to the policy that outputs 
+the agent's high-level action(s), i.e., 
+$a^i_{t:t+L} \sim \pi^i(x_t,\theta^i_t)$. With different information budgets, 
+agents can update their beliefs based on different assumptions over the 
+other agents' decision-making model. 
+The categories of \textit{information budget} are outlined below:
 
 \begin{itemize}
-	\item \textbf{No Information} - $b^i_t(\theta^{-i}_t) = \emptyset$. Agents keep no information of the other agents' behavior; they parametrize their policies solely based on personal preferences, but make no use of other agents' behaviors to characterize the game outcome. We assume human behaviors to not belong to this category while interacting with robots.
-	\item \textbf{One-Layer Inference} - $b^i_t(\theta^{-i}_t) = \hat{z}^{-i}$. Agents assume the other agents maintain no information of themselves, but only act according to their static preferences $\theta^{-i}_t = z^{-i}$. Therefore, agents adapt to the others as if their own actions have no impact on other agents' decision-making model: $p(a^{-i}_{t+H}|x_t, z^{-i})$. We assume human behaviors to belong to this category while interacting with robots and will apply it for planning in our framework.
-	\item \textbf{Two-Layers Inference} - $b^i_t(\theta^{-i}_t) = [\hat{z}^{-i}, \hat{\hat{z}}^i]$. Agents assume the other agents are also adaptive to themselves,
-	$\theta^{-i}_t = [z^{-i}, \hat{z}^{i}]$, with one-layer inference. Therefore, when planning for more than one period, agents act adaptively, at the same time evaluating their actions' potential impacts on the other agents' future strategies. When planning for one period, Agents have the budget to compute two-layers inference: to plan according to what they predict the others' predictions about themselves $a^i_t \sim \pi^i(x_t, b^i_t(\pi^{-i}(x_t,b^{-i}_t(\pi^i(x_t,\hat{\theta}^i)))))$. This is the maximal budget we assume humans can afford for real-time inference, and is not applied for planning due to its intrinsic complexity. 
+	\item \textbf{Zero Information} - $b^i_t(\theta^{-i}_t) = \emptyset$. Agents 
+    allocate zero budget, therefore keep no information of the other agents' 
+    behaviors during interaction; they 
+    parametrize their policies solely based on (static) personal preferences, 
+    but make 
+    no use of other agents' actions/motions to characterize game outcomes. 
+    Such agents pay no attention to the game, and we 
+    assume \textit{aware} humans do \textit{not} belong to this category.
+	\item \textbf{One-Layer Inference} - $b^i_t(\theta^{-i}_t) = \hat{z}^{-i}$. 
+    Agents assume the other agents to act only according to their static 
+    preferences, $z^{-i}$, which means that they assume others to maintain no 
+    information of themselves, $b^i_t(b^{-i}_t(\theta^i_t))=\emptyset$.  
+    Therefore, agents adapt to the others as if their own actions have no 
+    impact on other agents' strategies or decision-making model, parametrized 
+    as 
+    $p(a^{-i}_{t:t+L}|x_t, z^{-i})$. We assume humans belong to this 
+    category while interacting with robots and will apply it for planning 
+    inference in our framework.
+	\item \textbf{Two-Layer Inference} - $b^i_t(\theta^{-i}_t) = [\hat{z}^{-i}, \hat{\hat{z}}^i]$. Agents assume the other agents are also adaptive to themselves,
+	$\theta^{-i}_t = [z^{-i}, \hat{z}^{i}]$, with one-layer inference. 
+    Therefore, when planning for more than one period, agents act adaptively, 
+    at the same time evaluating their actions' potential impacts on the 
+    other agents' future strategies. For example, when planning for only one game period, 
+    agents with the budget to compute two-layer inference plan according to 
+    what they 
+    predict the others' predictions about themselves 
+    $a^i_t \sim \pi^i(x_t, b^i_t(\pi^{-i}(x_t,b^{-i}_t(\pi^i(x_t,{z}^i)))))$
+    . When applied for long-horizon planning, agents need to distinguish 
+    updates for either $\hat{z}^{-i}$ or $\hat{\hat{z}}^i$, and replan while 
+    considering the others' one-layer inference of their own choices of 
+    actions. 
+    
+    Due to the intrinsic complexity, this is the maximal budget we assume 
+    humans can afford for real-time inference, and is assumed only 
+    affordable for one-shot games but not for long-horizon planning. 
 \end{itemize}
 
-Therefore, with the information budget assumption $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies being adaptive to their perceived, presumably static, behavior of other agents. The higher adaptation rate is, the more flexible they 
-appear in the joint policy. 
+Therefore, with the information budget assumption over human inference for long-horizon 
+planning $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies 
+being adaptive to their perceived, presumably static, behavior of other 
+agents. The higher adaptation rate is, the more compliant they 
+appear to the other agents' strategies, therefore, more flexible in the joint policy. 
 
-\color{red}\subsubsection{Bounded memory belief updates}
+\textit{Biased Adaptation:}
 
-***I AM NOT SURE WHY WE ARE TALKING ABOUT THIS***As introduced in Section ~\ref{sec:belief_update}, we also assume humans maintain their 
-beliefs of other agents' types as well as their future strategy profile through out online planning. Here, we further assume humans to either run Bayesian updates, or possess \textit{bounded} memory on past observations and interaction history for belief updates\cite{nikolaidis2016formalizing}: $b^H_t(\sigma_{t}|I^i_{t-(t-n)}),$ and $b^H_t(\theta^{-i}_t|o_{t-n:t})$.
+Although $\theta^i_t$ may be partially inferred by other agents $-i$ through 
+observations, it is assumed to be not directly observable throughout the 
+interaction based on domain-related parameter complexity. It can be treated as 
+the \textit{mental state} on human agents, which are 
+hidden from other agents, sometimes, even from themselves.  
+
+Given prior estimate of such hidden parameter, 
+
+\textit{Human Lookahead Planning:}
+%\color{red}\subsubsection{Bounded memory belief updates}
+%***I AM NOT SURE WHY WE ARE TALKING ABOUT THIS***As introduced in Section ~\ref{sec:belief_update}, we also assume humans maintain their 
+%beliefs of other agents' types as well as their future strategy profile through out online planning. Here, we further assume humans to either run Bayesian updates, or possess \textit{bounded} memory on past observations and interaction history for belief updates\cite{nikolaidis2016formalizing}: $b^H_t(\sigma_{t}|I^i_{t-(t-n)}),$ and $b^H_t(\theta^{-i}_t|o_{t-n:t})$.
 
 \subsubsection{Finite-step lookahead}
-As introduced in Section ~\ref{sec:receding}, we also assume humans re-planning online with finite-step lookahead. Finite-step lookahead can be either \textit{0-step lookahead} (i.e., $H=0$), where agents act as if the current game is the termination game or \textit{multi-step lookahead} (i.e., $H>0$), where agents plan as the game has more than one period. We note that if $H>0$, adaptive behaviors due to belief updates are expected ~\cite{nikolaidis2016formalizing}.
+As introduced in Section ~\ref{sec:receding}, we also assume humans re-plan 
+online with finite-step lookahead, $L^H<T$. Finite-step lookahead can be either 
+\textit{0-step lookahead} (i.e., $L^H=0$), where agents act as if the current 
+game is the termination game, or \textit{multi-step lookahead} (i.e., $L^H>0$), 
+where agents plan as the game has more than one period. We note that if $L^H>0$, 
+adaptive behaviors due to belief updates are expected, given information 
+budget assumption: $b^H_t(\theta^{-H}_t)\neq \emptyset$.
 
 \subsubsection{Anticipation of other agents' policy}
 As pointed out in Section ~\ref{sec:adaptability}, humans adapt their policies based on their beliefs of other agents' behavior. When planning at time $t$, agents predict other agents' action profile $\sigma_{t:t+H}$ based on past interactions:
@@ -629,8 +714,8 @@ To anticipate other agents' actions $a^{-H}_{t}|s_{0:t}$, one may assume
 their policies are non-adaptive, $a^{-H}_t \sim \pi^{-H(x_t,z^{-H})}$, 
 associated with the one-layer inference. 
 %(i.e, two-layers inference for planning). In this paper, we discuss human decisions based on only one-layer inference.
-
-\color{black}\subsection{Influential factors in human-robot interaction}
+%\color{black}
+\subsection{Influential factors in human-robot interaction}
 As pointed out in Section ~\ref{sec:human_behavior}, human policies for high-level decisions are parametrized by $\theta^i_t$, which include that person's static type $z^H$ and dynamically perceived types $b^H_t(\theta^{-H}_t)$ of other agents. With different perceptions on the other, humans act differently. For example, pedestrians take over others' roads when they are in a hurry; however, they yield when encountering the elderly. Similar situation 
 applies to human-robot interaction: people have distinctive behaviors based on their prior assumptions of robots, which affect their policies and their adaptabilities when new observations come in. In this section we discuss how to use the above proposed model in order to describe	 existing phenomena in human-robot interactions. 
 
