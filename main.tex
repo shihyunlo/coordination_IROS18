@@ -519,8 +519,8 @@ in our framework (but not restricted to such formulation), to plan in the
 high-level action space $A^i$, agent $i$ needs to update his beliefs of the 
 following:
 
-(a) Future strategy profiles of other agents $b^i_t(\sigma^{-i}_{t:T|I^i_l})$: 
-the strategy profile prediction based on history plays, $p(\sigma_h|I^i_l)$, 
+(a) Future strategy profiles of other agents $b^i_t(\sigma^{-i}_{t:T}|x_l,I^i_l)$: 
+the strategy profile prediction based on history plays, $p(\sigma_l|x_l,I^i_l)$, 
 where $t\leq l\leq T$ is the future time step of 
 interest.
 
@@ -535,7 +535,7 @@ observations.
  
 \subsubsection{Receding-horizon planning}\label{sec:receding}
 Due to the potential demand of fast re-planning in dynamic environments, agents may only be computationally available to plan for finite-step lookahead $L<T$. Therefore, at each time step $t=l$,$l<T$, agents instead try to optimize for $t=l:L'$, where $L'=min(l+L,T)$, based on updated model of future strategy 
-anticipation of other agents' $p(\sigma_{l:L'}|I^i_l)$. This online re-planning 
+anticipation of other agents' $p(\sigma_{l:L'}|x_l,I^i_l)$. This online re-planning 
 for finite horizon strategy, known as receding-horizon planning, can be formulated as the following:
 \begin{equation}
   \begin{aligned}
@@ -674,7 +674,7 @@ The categories of \textit{information budget} are outlined below:
 \end{itemize}
 
 Therefore, with the information budget assumption over human inference for long-horizon 
-planning $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies 
+planning, $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies 
 being adaptive to their perceived, presumably static, behavior of other 
 agents. The higher adaptation rate is, the more compliant they 
 appear to the other agents' strategies, therefore, more flexible in the joint policy. 
@@ -682,44 +682,64 @@ appear to the other agents' strategies, therefore, more flexible in the joint po
 \textit{Biased Adaptation:}
 
 Although $\theta^i_t$ may be partially inferred by other agents $-i$ through 
-observations, it is assumed to be not directly observable throughout the 
-interaction based on domain-related parameter complexity. It can be treated as 
+observations, it is assumed to be not directly observable. 
+Type $\theta^H_t$ can be treated as 
 the \textit{mental state} on human agents, which are 
 hidden from other agents, sometimes, even from themselves.  
 
-Given prior estimate of such hidden parameter, 
+The more complex the domain is, the more complicated the way type is related 
+to an agent's policy. Given prior estimate of such hidden parameter and its 
+belief update rule, sometimes its variables may have coupled effects to the 
+resultant observations. In that case, the agent has extra degrees of freedom to 
+allocate different levels of attention on 
+each variable to apply belief updates, therefore only that the 
+agent most concerns gets updated. We refer this as \textit{biased adaptation} in human 
+behavior, which saves computation for both belief updates and replanning.  
 
 \textit{Human Lookahead Planning:}
 %\color{red}\subsubsection{Bounded memory belief updates}
 %***I AM NOT SURE WHY WE ARE TALKING ABOUT THIS***As introduced in Section ~\ref{sec:belief_update}, we also assume humans maintain their 
 %beliefs of other agents' types as well as their future strategy profile through out online planning. Here, we further assume humans to either run Bayesian updates, or possess \textit{bounded} memory on past observations and interaction history for belief updates\cite{nikolaidis2016formalizing}: $b^H_t(\sigma_{t}|I^i_{t-(t-n)}),$ and $b^H_t(\theta^{-i}_t|o_{t-n:t})$.
 
-\subsubsection{Finite-step lookahead}
+%\subsubsection{Finite-step lookahead}
 As introduced in Section ~\ref{sec:receding}, we also assume humans re-plan 
-online with finite-step lookahead, $L^H<T$. Finite-step lookahead can be either 
+online with finite-step lookahead, $L^H<T$, with belief updates on prediction 
+models such as the strategy profile of other agents 
+$b^H_t(\pi^{-H}(x_t,\theta^{-H}_t))$. Finite-step lookahead can be either 
 \textit{0-step lookahead} (i.e., $L^H=0$), where agents act as if the current 
 game is the termination game, or \textit{multi-step lookahead} (i.e., $L^H>0$), 
 where agents plan as the game has more than one period. We note that if $L^H>0$, 
 adaptive behaviors due to belief updates are expected, given information 
 budget assumption: $b^H_t(\theta^{-H}_t)\neq \emptyset$.
 
-\subsubsection{Anticipation of other agents' policy}
-As pointed out in Section ~\ref{sec:adaptability}, humans adapt their policies based on their beliefs of other agents' behavior. When planning at time $t$, agents predict other agents' action profile $\sigma_{t:t+H}$ based on past interactions:
 
-\begin{equation}~\label{eq:human_decision1}
-a^H_t \sim \pi^H(x_t, b^H_t(a^{-H}_{t}|\sigma_{0:t-1})).
-\end{equation}
+%\subsubsection{Anticipation of other agents' policy}
+%As pointed out in Section ~\ref{sec:human_behavior}, humans adapt their policies based on their beliefs of other agents' behavior. When planning at time $t$, agents predict other agents' action profile $\sigma_{t:t+H}$ based on past interactions:
 
-To anticipate other agents' actions $a^{-H}_{t}|s_{0:t}$, one may assume 
-their policies are non-adaptive, $a^{-H}_t \sim \pi^{-H(x_t,z^{-H})}$, 
-associated with the one-layer inference. 
+%\begin{equation}~\label{eq:human_decision1}
+%a^H_t \sim \pi^H(x_t, b^H_t(a^{-H}_{t}|\sigma_{0:t-1})).
+%\end{equation}
+
+%To anticipate other agents' actions $a^{-H}_{t}|s_{0:t}$, one may assume 
+%their policies are non-adaptive, $a^{-H}_t \sim \pi^{-H(x_t,z^{-H})}$, 
+%associated with the one-layer inference. 
 %(i.e, two-layers inference for planning). In this paper, we discuss human decisions based on only one-layer inference.
 %\color{black}
 \subsection{Influential factors in human-robot interaction}
 As pointed out in Section ~\ref{sec:human_behavior}, human policies for high-level decisions are parametrized by $\theta^i_t$, which include that person's static type $z^H$ and dynamically perceived types $b^H_t(\theta^{-H}_t)$ of other agents. With different perceptions on the other, humans act differently. For example, pedestrians take over others' roads when they are in a hurry; however, they yield when encountering the elderly. Similar situation 
 applies to human-robot interaction: people have distinctive behaviors based on their prior assumptions of robots, which affect their policies and their adaptabilities when new observations come in. In this section we discuss how to use the above proposed model in order to describe	 existing phenomena in human-robot interactions. 
 
-\subsubsection{Static preferences}
+\subsubsection{Perceived robot capability}~\label{sec:perceived}
+The gap between true robot capability and human perceived robot capability has shown to deteriorate both joint and individual work efficiency in different task domains ~\cite{dragan2015effects}. Here, we characterize human perceived robot capability for human-robot interaction into two categories which are functional capability and social inference capability.
+
+\begin{itemize}
+	\item \textit{Functional capability - } This includes the belief of whether a robot is able to \textit{identify interaction}. Before engaging interactions, agents need to ensure that $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met by all parties, or else confusions may arise. Due to lack of social signaling capability, such as gazes, humans may be uncertain whether the robot is aware of the potential interactions. This may result in distantly-avoiding behaviors through out the interaction, since people are not sure whether they should engage ~\cite{dragan2015effects}. This also includes the knowledge of robot action set, $A^R$, and the confidence of whether the robot is able to \textit{succeed in its target actions}, $a^R_t$, especially when complex domains are considered ~\cite{chen2018planning}. 
+	\item \textit{Social inference capability - } This involves the question whether human perceive the robot to be capable of engaging with. Implicit communication has a big part in most interactions ~\cite{knepper2017implicit} and therefore it is very important to be able to notice it. Robots should have the ability to \textit{identify humans' intended high-level actions} based on the inference from past observations, and to \textit{express its own intended action} in a clear, context-aware, or, legible manner ~\cite{dragan2013legibility}. Failing to present such capabilities deteriorates human patience and overall efficiency on given tasks ~\cite{cha2015perceived}. 
+\end{itemize}
+
+The above two perceived capabilities are prerequisites for humans to engage in the coordination process with robots. In complex domains, those criteria have shown to be challenging ~\cite{knepper2017implicit}, therefore prior experiences on cross-training, teaching, and learning ~\cite{zhang2017plan} may be required to prepare for natural engagement. 
+
+\subsubsection{Static variables, $z^H$}
 
 \begin{itemize}
 	\item \textit{Personal preferences:} Since people have different perception and long-time experience in interactions with the environment, they preserve distinctive characteristics in their behaviors that do not change in short period of time. Therefore, when planning considering joint actions, robots should be aware of such types to plan accordingly for agent comfort and overall efficiency ~\cite{gombolay2015coordination}. In our proposed framework, personal preferences contribute to agents' policy realizations, transition functions, and affect the joint performances. Regarding the reward function, they can be characterized as feature weighting $y^i$~\cite{dorsa2017active}:
@@ -727,7 +747,9 @@ applies to human-robot interaction: people have distinctive behaviors based on t
 	r^i = -y^{iT}C, 
 	\end{equation}
 	
-	where $C$ is some vector of cost function.
+	where $C$ is some vector of cost function. Take social navigation for 
+    example, time delay is a domain-specific cost function, and personal 
+    urgency level is the associated weight for the cost term.
 	\item \textit{Level of self-interest:} When agents are deployed in public environments, the notion of public welfare plays in to assess policy fairness ~\cite{fehr2004social}. While the public welfare is the self-interest in collaborative tasks, in non-cooperative games, agents have incentives to deviate from cooperative behaviors for personal benefits ~\cite{fujiwara2015non}. When individuals plan in a shared workspace with personal objectives to achieve, resource conflicts may occur. 
 	While cooperative policies are the most efficient for social welfare, agents may gain more resource allocation when playing selfishly. This notion of fairness can be characterized as weighting on all parties' interest $\alpha^i$:
 	\begin{equation}
@@ -741,20 +763,18 @@ applies to human-robot interaction: people have distinctive behaviors based on t
 
 We note that the level of self-interest, $\alpha^i$, and the personal preferences, $y^i$, jointly contribute to the static preferences, $z^i$.
 
-\subsubsection{Perceived robot capability}~\label{sec:perceived}
-The gap between true robot capability and human perceived robot capability has shown to deteriorate both joint and individual work efficiency in different task domains ~\cite{dragan2015effects}. Here, we characterize human perceived robot capability for human-robot interaction into two categories which are functional capability and social inference capability.
-
+\subsubsection{Dynamic parameter, $b^H_t(z^{R})$}% and reciprocity}
 \begin{itemize}
-	\item \textit{Functional capability - } This includes the belief of whether a robot is able to \textit{identify interaction}. Before engaging interactions, agents need to ensure that $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met by all parties, or else confusions may arise. Due to lack of social signaling capability, such as gazes, humans may be uncertain whether the robot is aware of the potential interactions. This may result in distantly-avoiding behaviors through out the interaction, since people are not sure whether they should engage ~\cite{dragan2015effects}. This also includes the knowledge of robot action set, $A^R$, and the confidence of whether the robot is able to \textit{succeed in its target actions}, $a^R_t$, especially when complex domains are considered ~\cite{chen2018planning}. 
-	\item \textit{Social inference capability - } This involves the question whether human perceive the robot to be capable of engaging with. Implicit communication has a big part in most interactions ~\cite{knepper2017implicit} and therefore it is very important to be able to notice it. Robots should have the ability to \textit{identify humans' intended high-level actions} based on the inference from past observations, and to \textit{express its own intended action} in a clear, context-aware, or, legible manner ~\cite{dragan2013legibility}. Failing to present such capabilities deteriorates human patience and overall efficiency on given tasks ~\cite{cha2015perceived}. 
-\end{itemize}
-
-The above two perceived capabilities are prerequisites for humans to engage in the coordination process with robots. In complex domains, those criteria have shown to be challenging ~\cite{knepper2017implicit}, therefore prior experiences on cross-training, teaching, and learning ~\cite{zhang2017plan} may be required to prepare for natural engagement. 
-
-\subsubsection{Social trust}% and reciprocity}
-Perceived capabilities are preliminary for human trust to interact with robots ~\cite{yang2017evaluating}, since the knowledge of the action set of the robot enables 
+  \item \textit{Perceived robot preferences:} As humans have domain-specific 
+    preferences, they also infer such preferences of the robot to predict 
+    their strategy. Take social navigation for example, it could be the 
+    perceived level of urgency of the robot given observed tasks at hand.   
+  \item \textit{Perceived robot level of self-interest, or, social trust on collaborativity:}
+  Perceived capabilities are preliminary for human trust to interact with robots ~\cite{yang2017evaluating}, since the knowledge of the action set of the robot enables 
 human prediction of robot future actions. When there are resource conflicts in shared workspaces, self-interested agents may not be socially compliant to the other agents. 
 In this case, trust on social collaborativity in conflicted situations, captured by humans' belief of robot static type $b^H_t(z^R)$, affects human policies through their anticipation of robot policy. While perceiving robots as socially trust-worthy agents, humans predict robots to have non-hostile behaviors and may cooperate at ease.   
+\end{itemize}
+
 
 
 \section{Problem Instantiation}
