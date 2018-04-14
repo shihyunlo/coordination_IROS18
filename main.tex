@@ -740,20 +740,33 @@ The gap between true robot capability and human perceived robot capability has s
 The above two perceived capabilities are prerequisites for humans to engage in the coordination process with robots. In complex domains, those criteria have shown to be challenging ~\cite{knepper2017implicit}, therefore prior experiences on cross-training, teaching, and learning ~\cite{zhang2017plan} may be required to prepare for natural engagement. 
 
 \subsubsection{Static variables, $z^H$}
+The static variables characterize human behaviors that are assumed constant 
+throughout the interaction, which include the following two categories when we 
+consider specific task domains and shared workspaces among humans and robots. 
 
 \begin{itemize}
-	\item \textit{Personal preferences:} Since people have different perception and long-time experience in interactions with the environment, they preserve distinctive characteristics in their behaviors that do not change in short period of time. Therefore, when planning considering joint actions, robots should be aware of such types to plan accordingly for agent comfort and overall efficiency ~\cite{gombolay2015coordination}. In our proposed framework, personal preferences contribute to agents' policy realizations, transition functions, and affect the joint performances. Regarding the reward function, they can be characterized as feature weighting $y^i$~\cite{dorsa2017active}:
-	\begin{equation}
-	r^i = -y^{iT}C, 
+	\item \textit{Personal preferences:} Since people have different perception 
+    and long-time experience in interactions with the environment, they 
+    preserve distinctive characteristics in their behaviors that do not change 
+    in short period of time. Therefore, when planning considering joint 
+    actions, robots should be aware of such types to plan accordingly for 
+    agent comfort and overall efficiency ~\cite{gombolay2015coordination}. In 
+    our proposed framework, personal preferences contribute to agents' policy 
+    realizations, transition functions, and affect the joint performances. 
+    They directly affect the agent's reward function,$r^i$ through individual 
+    weighting $y^i$ on the cost function $C$ ~\cite{dorsa2017active}:
+	
+    \begin{equation}
+	r^i = -y^{iT}C. 
 	\end{equation}
 	
-	where $C$ is some vector of cost function. Take social navigation for 
+	Take social navigation for 
     example, time delay is a domain-specific cost function, and personal 
-    urgency level is the associated weight for the cost term.
-	\item \textit{Level of self-interest:} When agents are deployed in public environments, the notion of public welfare plays in to assess policy fairness ~\cite{fehr2004social}. While the public welfare is the self-interest in collaborative tasks, in non-cooperative games, agents have incentives to deviate from cooperative behaviors for personal benefits ~\cite{fujiwara2015non}. When individuals plan in a shared workspace with personal objectives to achieve, resource conflicts may occur. 
+    urgency level is the associated weighting for that cost term.
+	\item \textit{Level of self-interest:} When agents are deployed in a shared workspace, the notion of public welfare plays in to assess policy fairness ~\cite{fehr2004social}. While the public welfare is the self-interest in collaborative tasks, in non-cooperative games, agents have incentives to deviate from cooperative behaviors for personal benefits ~\cite{fujiwara2015non}. When individuals plan in a shared workspace with personal objectives to achieve, resource conflicts may occur. 
 	While cooperative policies are the most efficient for social welfare, agents may gain more resource allocation when playing selfishly. This notion of fairness can be characterized as weighting on all parties' interest $\alpha^i$:
 	\begin{equation}
-	r'^{i} = \alpha^ir^i+ \small{\frac{1-\alpha^i}{k-1}}\sum r^{-i}.
+    r'^{i} = \alpha^ir^i+ ({1-\alpha^i}) r^{-i}.
 	\end{equation}
 	
 	%\begin{equation}
@@ -761,9 +774,16 @@ The above two perceived capabilities are prerequisites for humans to engage in t
 	%\end{equation}
 \end{itemize}
 
-We note that the level of self-interest, $\alpha^i$, and the personal preferences, $y^i$, jointly contribute to the static preferences, $z^i$.
+We note that the level of self-interest, $\alpha^i$, and the personal 
+preferences, $y^i$, jointly contribute to the static variables, $z^i$. 
+Further, the way they contribute to the agent's behavior may have coupled 
+effects that are not distinguishable through direct observations.
 
-\subsubsection{Dynamic parameter, $b^H_t(z^{R})$}% and reciprocity}
+\subsubsection{Dynamic variables, $b^H_t(z^{R})$}% and reciprocity}
+The dynamic variables are to describe the agent's perceptions of the other 
+agents' (here, the robot's) static variables. Since perceptions (or belief) are 
+online adjusted throughout the interaction, they are dynamical properties and 
+contribute to the transitions of the agent's policy in real-time.
 \begin{itemize}
   \item \textit{Perceived robot preferences:} As humans have domain-specific 
     preferences, they also infer such preferences of the robot to predict 
@@ -801,7 +821,8 @@ Great progress has been made in the past two decades in pedestrian simulations ~
 In this section we make use of the social force model with explicit collision prediction ~\cite{zanlungo2011social}, which was inspired by the social-force model but equipped with explicit avoidance behaviors. Other choices of human behavioral model for action realizations 
 $g(x_t,a^H_t,\theta^H_t)$ can also fit in the framework for simulation; we choose this model for its underlying motion \textit{legibility} concept in distinguishing choices of avoidance behaviors, as can be seen in Figure ~\ref{fig:legibility}.  
 
-When two agents have intersecting paths and have similar timing to arrive at the intersection, explicit avoidance behaviors are involved. Particularly, an agent has to decide whether to avoid in front or behind the other. This leaves the coordination to agree on two action combinations: (passing$\_$first,yielding), or (yielding,passing$\_$first). \textcolor{red}{***shouldn't it be:(passing$\_$first,yielding), or (yielding$\_$first,passing)?***}
+When two agents have intersecting paths and have similar timing to arrive at the intersection, explicit avoidance behaviors are involved. Particularly, an agent has to decide whether to avoid in front or behind the other. This leaves the coordination to agree on two action combinations: (passing$\_$first,yielding), or (yielding,passing$\_$first). 
+%\textcolor{red}{***shouldn't it be:(passing$\_$first,yielding), or (yielding$\_$first,passing)?***}
 
 We define the state space as following: $x_t^R = \begin{bmatrix}
 p^R_t\\
@@ -855,7 +876,10 @@ While the interaction process is modeled as a simultaneous-move game in Section 
 \subsection{Experiments}
 We hypothesize that our proposed framework can explain different types of avoidance behaviors when their paths intersect with robots. We use our framework to simulate a particular type, cautious behavior, in comparison with collected trajectory data, to show that the framework can capture distinctive interaction patterns among people. We deploy a mobile robot into a building atrium, and record human crossing trajectories using tracking packages on laser scans ~\cite{leigh2015person}. Eight participants were requested to head towards a set of goals, while the robot followed a given route that intersected with human eight times. The robot was implemented with a local planner with emergent slow-down when sensing an object within $1$ meter. 
 
-\textcolor{red}{***I need you to explain this paragraph to me***} We analyze the results received for 0-step, 1-step, and 2-step lookahead with the same prior on robot strategy profile. With 0-step lookahead, virtual pedestrians act \textcolor{red}{***What does it mean "act compliantly, how?***} compliantly after observing the other agent's action, due to the assumption of immediate termination. With 1-step lookahead, agents assume the game may end with the robot playing minimax strategy, therefore they play based on conservative value estimate. With 2-step lookahead, virtual pedestrians is capable of planning for the optimistic (2nd step) in the worst case robot strategy (1st step). As a result, their behavior in the third case is less conservative compared to the previous two. 
+%\textcolor{red}{***I need you to explain this paragraph to me***} 
+We analyze the results received for 0-step, 1-step, and 2-step lookahead with the same prior on robot strategy profile. With 0-step lookahead, virtual pedestrians act 
+%\textcolor{red}{***What does it mean "act compliantly, how?***} 
+compliantly after observing the other agent's action, due to the assumption of immediate termination. With 1-step lookahead, agents assume the game may end with the robot playing minimax strategy, therefore they play based on conservative value estimate. With 2-step lookahead, virtual pedestrians is capable of planning for the optimistic (2nd step) in the worst case robot strategy (1st step). As a result, their behavior in the third case is less conservative compared to the previous two. 
 
 \begin{figure}[t]
       \centering
@@ -876,11 +900,26 @@ We simulate virtual pedestrians with type $\theta^H_t = [z^H, b^H_t(z^R)]$, 2-st
 \textcolor{red}{***Comments regarding to Figure \ref{fig:adaptation}: (1) You need to write in the figure what each color stands for. (2) You need to explain (you can do this as a footnote) the different movements in the curves that presents the simulated pedestrian velocity.***}
 
 \subsubsection{Perceived capabilities}
-\textcolor{red}{***What are you trying to say in this subsubsection?***} The complete set of perceived capabilities are specified in Section ~\ref{sec:perceived} as 
-prerequisites for humans to engage in the coordination process with robots. When dealing with social navigation, people, if noticing robot coming toward them, may be unsure regarding to whether the robot sees them or not (i.e., $\mathcal{C}_{MA}$); whether the robot is aware of the potential collision (i.e., $\mathcal{C}_{PI}$); whether the robot can identify the underlying intention if they choose an avoidance action (i.e., social inference capability on perception); whether they can identify the underlying intention of the robot if it chooses an avoidance action (i.e., social inference capability on motion generation). 
+%\textcolor{red}{***What are you trying to say in this subsubsection?***} 
+The complete knowledge of the robot's capabilities is specified in Section 
+~\ref{sec:perceived} as prerequisites for humans to engage in the 
+coordination process with robots. When people notice potential collision with 
+a robot, they may be unsure whether the robot sees them or not (i.e., 
+$\mathcal{C}_{MA}$); moreover, they may be unsure whether the robot is capable 
+of sensing the potential collision (i.e., $\mathcal{C}_{PI}$); they may not be 
+certain that the robot can identify their intention when choosing 
+an avoidance action (i.e., 
+social inference capability on perception); finally, they may not be able to 
+identify the intention of the robot if it chooses an avoidance action (i.e., 
+social inference capability on motion generation). 
 
 \subsubsection{Types in path crossing}
-\textcolor{red}{***I did not understand what are you saying in this paragraph***}Agents perceived other agents' behaviors and update their own type $\theta^H_t$. In social navigation, personal spacing is a common example, as people act repellently more to unfamiliar agents. People's urgency to travel to their own goals are common factors to describe navigation preferences. In simulation, we simulate agents to choose avoidance actions based on the following cost formulation:
+%\textcolor{red}{***I did not understand what are you saying in this paragraph***}
+Agents perceived other agents' behaviors and update their own type $\theta^H_t$. In social navigation, 
+%personal spacing is a common example, as people act repellently more to unfamiliar agents. 
+people's urgency levels to travel to their own goals are common factors to 
+describe navigation preferences. In simulation, we simulate agents to choose 
+avoidance actions based on the following cost formulation:
 \begin{equation}
   r^H_t = -\eta \alpha C^H_t  -(1-\alpha) C^{-H}_t,
 \end{equation}
