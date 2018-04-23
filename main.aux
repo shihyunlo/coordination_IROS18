@@ -43,31 +43,22 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {V-A}Game Setting}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {V-B}Game Solutions}{3}}
 \citation{knepper2017implicit}
-\citation{nikolaidis2016formalizing}
-\citation{yang2017evaluating}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Two-player human-robot interaction, modeled as a simultaneous-move game. }}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Two-player human-robot interaction, modeled as a simultaneous-move game tree. }}{4}}
 \newlabel{fig:game_tree}{{2}{4}}
+\newlabel{eq:pi}{{9}{4}}
 \newlabel{sec:belief_update}{{V-B.1}{4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {V-B.1}belief updates}{4}}
-\newlabel{sec:receding}{{V-B.2}{4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {V-B.2}Receding-horizon planning}{4}}
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Human-Robot Game}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VI-A}Human Behavior and Decision-Making Model}{4}}
-\newlabel{sec:human_behavior}{{VI-A}{4}}
 \citation{nikolaidis2016formalizing}
-\citation{nikolaidis2016formalizing}
-\citation{gombolay2015coordination}
-\citation{dorsa2017active}
-\citation{fehr2004social}
-\citation{fujiwara2015non}
-\newlabel{sec:adaptability}{{VI-A.1}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.1}Adaptability to other agents}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.2}Bounded memory belief updates}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.3}Finite-step lookahead}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.4}Anticipation of other agents' policy}{5}}
-\newlabel{eq:human_decision1}{{12}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VI-B}Influential factors in human-robot interaction}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-B.1}Static preferences}{5}}
+\citation{yang2017evaluating}
+\newlabel{sec:receding}{{V-B.2}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {V-B.2}Receding-horizon planning}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Human Behaviors}{5}}
+\newlabel{sec:human_behavior}{{VI}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  Human-robot turn-taking games with robot anticipating action value based on finite-horizon predictions. $\tau ^R$ and $\tau ^H$ are approximate time intervals for robot and human response times. The game may terminate at either player's decision nodes.}}{5}}
+\newlabel{fig:turn_taking}{{3}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VI-A}Adaptation to other agents}{5}}
+\newlabel{sec:adaptability}{{VI-A}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VI-B}Depth of Inference and Biased Adaptation}{5}}
 \citation{dragan2015effects}
 \citation{dragan2015effects}
 \citation{chen2018planning}
@@ -76,6 +67,13 @@
 \citation{cha2015perceived}
 \citation{knepper2017implicit}
 \citation{zhang2017plan}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VI-C}Influential factors in human-robot interaction}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-C.1}Perceived robot capability}{6}}
+\newlabel{sec:perceived}{{VI-C.1}{6}}
+\citation{gombolay2015coordination}
+\citation{dorsa2017active}
+\citation{fehr2004social}
+\citation{fujiwara2015non}
 \citation{yang2017evaluating}
 \citation{karamouzas2009predictive}
 \citation{zanlungo2011social}
@@ -87,23 +85,21 @@
 \citation{bai2015intention}
 \citation{unhelkar2015human}
 \citation{zanlungo2011social}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-B.2}Perceived robot capability}{6}}
-\newlabel{sec:perceived}{{VI-B.2}{6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-B.3}Social trust}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Collision avoidance actions based on closest position estimate. Red dashed arrow (social force direction): yielding agent with later arrival timing at the intersection; blue solid arrow: passing-first agent. }}{6}}
-\newlabel{fig:legibility}{{3}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Problem Instantiation}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VII-A}Game start and termination criteria}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-C.2}Static variables, $z^H$}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-C.3}Dynamic variables, $b^H_t(z^{R})$}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Collision avoidance actions based on closest position estimate. Red dashed arrow (social force direction): yielding agent with later arrival timing at the intersection; blue solid arrow: passing-first agent. }}{7}}
+\newlabel{fig:legibility}{{4}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Problem Instantiation}{7}}
 \citation{pettre2009experiment}
 \citation{paris2007pedestrian}
 \citation{leigh2015person}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  Human-robot turn-taking games with robot anticipating action value based on finite-horizon predictions. $\tau ^R$ and $\tau ^H$ are approximate time intervals for robot and human response times. The game may terminate at either player's decision nodes.}}{7}}
-\newlabel{fig:turn_taking}{{4}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VII-B}Intentions in path crossing and time delay}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VII-C}Response-time-adapted turn-taking structure}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VII-D}Experiments}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.1}Perceived capabilities}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.2}Types in path crossing}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VII-A}Game start and termination criteria}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VII-B}Intentions in path crossing and time delay}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VII-C}Response-time-adapted turn-taking structure}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VII-D}Experiments}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.1}Perceived capabilities}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.2}Types in path crossing}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.3}Social trust}{8}}
 \bibstyle{plain}
 \bibdata{reference}
 \bibcite{bai2015intention}{1}
@@ -115,20 +111,19 @@
 \bibcite{dragan2013legibility}{7}
 \bibcite{fehr2004social}{8}
 \bibcite{foerster2017learning}{9}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces SIMULATED pedestrian yielding, compared with REAL recording. We observed many types of behaviors during the experiments, and illustrate one common type in human-robot crossing: cautious, shown in the left box. Compared with people with gradual slow-down and speed-up (noted as ``normal'', shown in the right box), cautious agents wait for the robot until it passes the intersection (shown in the bottom-left photo). We simulate agent yielding and compare the x-y trajectory (top), the velocity profile over time (middle), and relative distance (bottom) with the true recordings, right-side of each box.}}{8}}
-\newlabel{fig:cautious_recording}{{5}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces SIMULATED cautious agent updating belief on robot strategies. While the simulated pedestrian yields at the beginning (with -0.7 sec arrival timing difference), after observing robot yielding behavior, she updates her belief and changes the action in the next time frame.}}{8}}
-\newlabel{fig:adaptation}{{6}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.3}Social trust}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.4}Human exploration and adaptation}{8}}
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion and Future Work}{8}}
-\@writefile{toc}{\contentsline {section}{References}{8}}
 \bibcite{fujiwara2015non}{10}
 \bibcite{gombolay2015coordination}{11}
 \bibcite{helbing1995social}{12}
 \bibcite{karamouzas2009predictive}{13}
 \bibcite{knepper2017implicit}{14}
 \bibcite{kruse2012legible}{15}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces SIMULATED pedestrian yielding, compared with REAL recording. We observed many types of behaviors during the experiments, and illustrate one common type in human-robot crossing: cautious, shown in the left box. Compared with people with gradual slow-down and speed-up (noted as ``normal'', shown in the right box), cautious agents wait for the robot until it passes the intersection (shown in the bottom-left photo). We simulate agent yielding and compare the x-y trajectory (top), the velocity profile over time (middle), and relative distance (bottom) with the true recordings, right-side of each box.}}{9}}
+\newlabel{fig:cautious_recording}{{5}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces SIMULATED cautious agent updating belief on robot strategies. While the simulated pedestrian yields at the beginning (with -0.7 sec arrival timing difference), after observing robot yielding behavior, she updates her belief and changes the action in the next time frame.}}{9}}
+\newlabel{fig:adaptation}{{6}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VII-D.4}Human exploration and adaptation}{9}}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion and Future Work}{9}}
+\@writefile{toc}{\contentsline {section}{References}{9}}
 \bibcite{kuderer2012feature}{16}
 \bibcite{kwon2016human}{17}
 \bibcite{leigh2015person}{18}

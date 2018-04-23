@@ -200,22 +200,21 @@ evaluated at $\sigma \in \Sigma$.
 In \textit{repeated games} (i.e., games which repeat for more than one action per player), $G^T$, players receive cumulative utilities over a 
 time horizon $T$, defined as:
 \begin{equation}
-	V^i=\Sigma_{t=0}^{T} f^i_t(\sigma_t).
+	V^i=\Sigma_{t=0}^{T} f^i(\sigma_t).
 \end{equation}
-Where $\sigma_t$ is the action profile at time $t$.
-We will define a \textit{strategy profile} to be the series of action profiles $\sigma_t$ over time, i.e., $s = \sigma_0 \times \cdots \sigma_T \in S$. We note that in repeated games, agents need to consider not only the current outcome of an action, but also its impact on the other agents' future actions (which eventually will affect their own expected cumulative rewards).
+Where $\sigma_t \in \Sigma_t$ is the action profile at time $t$.
+We will define a \textit{strategy profile}, $\sigma_{0:T}$, to be the series of action profiles $\sigma_t$ over time, i.e., $\sigma_0 \times \cdots \sigma_T$. One important feature in repeated games is that agents need to consider not only the current outcome of an action, but also its impact on the other agents' future actions (which eventually will affect their own expected cumulative rewards).
 
 %human robot interaction as a game
-Let $A^H$ and $ A^R$ be the action space of humans and robots, $a^H \in A^H$ 
-and $a^R \in A^R$. A \textit{Nash Equilibrium} in such a game is defined to be such that 
+Let $A^H$ and $ A^R$ be the action space of humans and robots. A \textit{Nash Equilibrium} in such a game is defined to be such that 
 no agent (human or robot) benefits from unilateral deviation from his current 
 strategy (i.e., set of actions). Formally:
 \begin{equation}
-	\forall i \in \{H,R\}, t,a^{i*}_t \in A^i, f^i(a^{i*}_t,a^{-i*}_t) \geq f^i(a^{i}_t,a^{-i*}_t). 
+	\forall i \in \{H,R\}, t,a^{i}_t \in A^i, f^i(a^{*i}_t,a^{*-i}_t) \geq f^i(a^{i}_t,a^{*-i}_t). 
 \end{equation}
 
-where $a^{-i}_t$ refers to actions taken at time $t$ by all agents but $i$.
-Consider a two-player game with agent $R$ and $H$ and a strategy profile $s^* = (a^{R*}_{0:T},a^{H*}_{0:T})$. Here $a_t^{-H} = a_t^R$ and $a_t^{-R} = a_t^H$. 
+where $a^R \in A^R$,  $a^H \in A^H$, $a^{*i}_t$ is the optimal action of agent $i$ at time $t$, and $a^{-i}_t$ refers to actions taken at time $t$ by all agents but $i$.
+Consider a two-player game with agent $R$ and $H$ , here $a_t^{-H} = a_t^R$ and $a_t^{-R} = a_t^H$. 
 
  
 %too much.. only motivate it as games
@@ -262,113 +261,73 @@ Our model includes $k$ agents working in a joint state space $X$, where each ind
 input space $u_t^i \in U^i$. 
 
 While actions $a_t^i \in A^i$ define the \textit{high-level, finite} actions an 
-agent can take to affect the game outcome, $u_t^i$ defines the low-level continuous-space
+agent can take to affect the game outcome, $u_t^i \in U^i$ defines the low-level continuous-space
 realization of such actions, by:
 \begin{equation}\label{eq:g_function}
   u_t^i = g^i(x_t, a^i_t, \theta^i_t),
 \end{equation}
-where $\theta^i_t \in \Theta^i$ is some parametrization of the agent's (potentially time-variant) behavior.
+where $x_t$ stands for all the agents' state representation at time step $t$, i.e., $x_t = (x^1_t, x^2_t,...,x^k)\in X$ and $\theta^i_t \in \Theta^i$ is some parametrization of the agent's (potentially time-variant) behavior.
 $g^i:X \times A^i \times \Theta^i \rightarrow U$ can take in any model 
 formulation, possibly stochastic, to sample inputs from $p(u_t^i|x_t,a^i_t,\theta_t^i)$. 
 One example for high-level actions is the table-turning directions, clockwise 
 or counterclockwise; the 
 low-level inputs to realize such actions are motor torque commands to 
 control the position and orientation (the state) of the end effector of the 
-manipulator. We will use $x_t$ 
-to denote all agents' state representation at 
-time $t$, i.e., $x_t = (x^1_t,\ldots,x^k_t) \in X$. Note that, $u_t^i$ is a 
+manipulator. Note that, $u_t^i$ is a 
 function of $x_t$ and not solely of $x^i_t$, since agents adjust their 
 motions (the realization of their high-level actions) based on other agents' 
-status in the joint state space. One example would be collision avoidance 
+status in the joint state space. An example could be collision avoidance 
 among two dynamic agents.
 
-Given control input $u_t^i$, agent state transition function $\mathcal{T}^i$ 
-can be individually presented by: $p(x^i_{t+1}|x^i_t,u^i_t)$
-. Since dealing with high-level actions is much more intuitive than dealing with 
-the low-level ones, we will use a different representation of the state 
-transition function of agent $i$, $p(x^i_{t+1}|x_t,a^i_t,\theta^i_t)$, by marginalizing over $u^i_t$:
+Given a control input $u_t^i$, agent state transition function $\mathcal{T}^i_{low}$ 
+can be individually represented by: $p(x^i_{t+1}|x^i_t,u^i_t)$. However, since dealing with high-level actions is much more intuitive than dealing with the low-level ones, we will use a different representation for agent $i$'s state transition function by marginalizing over $u^i_t$ as follows:
 \begin{equation}
   p(x^i_{t+1}|x_t,a^i_t,\theta^i_t) = \int_{u^i \in U^i} 
   p(x_{t+1}^i|x^i_t,u^i_t) p(u^i_t|x^t,a^i_t,\theta^i_t)du^i.
 \end{equation}
 
-We note that we use $X$ as a part of agent $i$'s new representation of the 
-state transition function (
-$\mathcal{T}^i:X \times A^i \times \Theta^i \rightarrow X^i$), due to the fact 
-that action realization, $g^i$, takes in the joint state $x_t$. The \textit{joint state 
-transition function}, $\mathcal{T}$, then represents a collective behavior 
-among all agents, therefore takes in the following form: 
+We note that we use $X$ as a part of agent $i$'s state transition function's new representation ($\mathcal{T}^i_{high}:X \times A^i \times \Theta^i \rightarrow X^i$), due to the fact that the action realization, $g^i$, takes in the joint state $x_t$. The \textit{joint state transition function}, $\mathcal{T}$, however, represents a collective behavior among all agents and therefore takes in the following form: 
 $\mathcal{T}:X \times \Sigma \times \Theta \rightarrow X$. 
 
-After taking control command $u_t^i$ at state $x_t$, agent $i$ receives an immediate reward of $r^i_t$ calculated according to: 
+After taking control input $u_t^i$ at state $x_t$, agent $i$ receives an immediate reward of r$^i_t$ calculated according to: 
 \begin{equation}\label{eq:r_control_input}
-  r^i_t = r^i(x_t,u^i_t,u^{-i}_t),
+  \text{r}^i_t = r^i_{low}(x_t,u^i_t,u^{-i}_t),
 \end{equation}
-where $u^{-i}_t$ is the control input of other agents at time $t$. 
+where $u^{-i}_t$ is the control input of other agents at time $t$, and the agent reward function $r^i_{low}: X \times U \rightarrow \mathbb{R}$ considers 
+all agents' states $x_t$ and inputs $u_t$ ($\in U = U^1\times \cdots \times U^k)$ 
+for evaluation. 
 
-The agent reward function $r^i: X \times U \rightarrow \mathbb{R}$ considers 
-all agents' states $x_t$ and inputs $u_t \in U = U^1\times \cdots \times U^k$ 
-for evaluation. Using Equation ~\ref{eq:g_function}, a new representation of 
-$r^i$ using high-level actions ($r^i:X\times \Sigma \times \Theta \rightarrow \mathbb{R}$) can 
-be presented by:
+Using Equation ~\ref{eq:g_function}, a new representation of 
+$r^i_{low}$, using high-level actions ($r^i_{high}:X\times \Sigma \times \Theta \rightarrow \mathbb{R}$), can be used in order to calculate r$^i_t$ as follows:
 \begin{equation}\label{eq:r_function}
-r^i_t = r^i(x_t,\sigma_t,\theta_t).
+\text{r}^i_t = r^i_{high}(x_t,\sigma_t,\theta_t).
 \end{equation}
 
-%\subsection{Bayesian Games with State Transitions}
-%Games where agents receive outcomes depending on their own types 
-%$\theta^i \in \Theta^i$ and others' $\theta^{-i} \in \Theta^{-i}$ are defined 
-%as Bayesian games, where the individual 
-%utility function is defined as: 
-%$f^i:\Sigma \times \Theta \rightarrow \mathbb{R}$. 
-%The type variable $\theta^i$ is not directly observable by other agents $-i$, 
-%and an agents' policies $\pi^i$ is parametrized by his or her type, by:
-%\begin{equation}
-%  a_t^i \sim \pi^i(\theta^i).
-%\end{equation}
-
-%In games that involve multiple periods, an agent observe other agents' policies 
-%$\pi^{-i}$, update his or her \textit{beliefs} of their types 
-%$b^i_t(\theta^{-i}) \in f_{\Theta^{-i}}$, 
-%and finally updates the policy $\pi^{-i}$. $f_{\Theta^{-i}}$ is some 
-%probability density function over the target type space $\Theta^{-i}$. The 
-%policy then takes in the time-invariant type $\theta^i$, time-variant type 
-%belief $b^i_t(\theta^{-i})$:
-%\begin{equation}
-%  a^i_t \sim \pi^i(b^i_t(theta^{-i}))
-%\end{equation}
-
-%\subsection{Policies for Bayesian Games with State Transitions}
 \subsection{Analysis}
-Given the reward function $r^i$ defined in Equation \ref{eq:r_function}, the optimal 
-policy is to find the strategy $a^{i*}_{0:T}$ that maximizes the cumulative rewards,
+Given the reward function $r^i_{high}$ as defined in Equation \ref{eq:r_function}, the optimal policy is to find the strategy $a^{/*i}_{0:T}$ that maximizes the cumulative rewards,
 \begin{equation}\label{eq:optimal}
 \begin{aligned}
   a^{i*}_{0:T} = \argmax_{a^i_{0:T}} 
   \Sigma_{t=0}^{T} 
   \mathbb{E}_{x_t,\sigma_{t},\theta_t|\mathcal{T},\sigma_{0:t-1}} \big{[}
-  r^i_t(x_t,\sigma_t,&\theta_t)\big{]}+ \\ 
+  r^i(x_t,\sigma_t,&\theta_t)\big{]}+ \\ 
   V^i_{T+1}(x_T,\sigma_T,&\theta_T), 
 \end{aligned}
 \end{equation}
-where $V^i_{T+1}$ is some cost-to-go function for terminating using $\sigma_T$ at 
-time $T$.
+where $V^i_{T+1}$ is some cost-to-go function for terminating, given the action profile $\sigma_T$ at time $T$.
 
 Despite the general formalism of this framework which allows planning directly 
 with the low-level control inputs $u^i_t$, 
 %and although discrete actions are computationally more expensive for plan evaluation, 
-for the rest of the paper we will consider the high-level action space for planning. This is due to the fact that using a high level actions space (which is discrete) is much cheaper to perform a search and oftentimes easily obtained for domain-specific applications. Discrete action planning also well approximate human planning with hierarchical reasoning.  
+for the rest of the paper we will consider the high-level action space for planning. This is due to the fact that high level action space is oftentimes easily obtained for domain-specific applications. In addition, if using a high level actions space (which is discrete) it is much cheaper to perform a search. Discrete action planning also well approximate human planning with hierarchical reasoning.  
 
-We present Markov games with time-variant types as a framework to incorporate 
-human 1) adaptive and 2) typed behaviors in interactions with robots, and to 
-design algorithms that leverages multi-agent action effects for 
-human-aware robot planning.   
+We present Markov games with time-variant types as a framework to incorporate human adaptiveness and typed behaviors in interactions with robots, and to design algorithms that leverages multi-agent action effects for human-aware robot planning.   
 %to analyze the convergence criteria of human-robot coordinating 
 %process. 
 We first introduce general solutions for the framework in both 
 pre-computation and online setting in Section ~\ref{sec:realtime_game}; we 
 then introduce our approximation of human decision-making mechanism to 
-incorporate research topics on human interaction behaviors with robots in 
+incorporate research topics on human behaviors when interacting with robots in 
 Section ~\ref{sec:human_behavior}; lastly, we use the proposed model to 
 simulate human-robot navigation with path crossing.
 
@@ -380,24 +339,21 @@ To formally discuss the coordinating process between humans and robots, we
 define the real-time game setting through game \textit{start} and \textit{termination} criteria. Those criteria are very important as they define the time frame in which each agent considers the other agents' behaviors.
 
 \begin{enumerate}
-	\item \textbf{Game start criteria -} In order for the game to begin, two 
-    criteria need to hold for agents to start acting according to the 
-    perceived strategy of the other agents:
+	\item \textbf{Game start criteria -} In order for the game to begin, the following two 
+    criteria need to hold:
 	\begin{itemize}
 		\item $\mathcal{C}_{PI}$ (\textit{potential interaction}) - The criteria 
       is met when agents' actions affect the outcome of each other.
 		\item $\mathcal{C}_{MA}$ (\textit{mutual awareness}) - The criteria is met when agents are aware of each other.
 	\end{itemize} 
-	\item \textbf{Game termination criteria -} After interactions start at time 
+	\item \textbf{Game termination criteria -} After the interaction starts at time 
     $t=0$, the game repeats \textit{finitely} until a termination criteria 
     $\beta: X \times \Sigma \rightarrow \{True,False\}$ is satisfied. 
     Termination criteria may be a predefined criteria, $t>T$, where $T$ is a 
     pre-specified time frame of mandatory co-working. Termination criteria may 
     also take a dynamic format, such as finish the game whenever 
-    $\mathcal{C}_{PI}$ no longer holds. One example can be navigation in 
-    crowds. When pedestrians are past the route intersections with one 
-    another, the 
-    game terminates, as no further intervention is expected.
+    $\mathcal{C}_{PI}$ no longer holds. An example can be navigation in 
+    crowds. When pedestrians are past the route intersections, the game terminates, as no further intervention is expected.
 \end{enumerate}
 
 
@@ -407,52 +363,45 @@ If both $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met, the game unfolds
 until the termination criteria is met. Within this game 
 time frame, agent $i$ is interested in finding the solution (i.e., strategy) 
 which optimizes his future cumulative rewards (calculated according to Equation 
-~\ref{eq:optimal}). This process is formally presented by the 
+~\ref{eq:optimal}). This process is formally presented by a
 simultaneous-move game tree representation (see example in Figure 
 ~\ref{fig:game_tree}), which contains:
+***Shih-Yun, please change the tree description according to the new tree***
 \begin{enumerate}
   \item Decision nodes: nodes where players make action choices, 
-    $a^i_t \in A^i$, based on current state $x_t$ (solid circles). Each 
-    decision node is associated with one player only, $i=1..k$.
+    $a^i_t \in A^i$, based on current state $x_t$ (solid circles). Each decision node is associated with only one player out of all the $k$ players.
   \item Terminal nodes: nodes where game outcomes 
     $V(x_T,\sigma_T,\theta_T)$ are assigned (hollow circles at the bottom)
-  \item History set: $I^i_t$, history plays which the agent observed before current 
-    time, associated with each decision node. Decision nodes connected with a dashed line share the same history 
-    set, to incorporate games with simultaneous moves, where players share the same history set in one play.  
+  \item History set: plays history of all other agents before current time associated with each decision node, i.e,  $\sigma_t \in \Sigma_t$. 
 \end{enumerate}
 
 \begin{figure}[t]
 	\centering
-	\vspace{-3em}
-	\includegraphics[scale=0.21]{game_tree}
+	%\vspace{-3em}
+	\includegraphics[scale=0.4]{newGameTree}
 	\vspace{-5em}
 	%\hspace{-5em}
-	\caption{Two-player human-robot interaction, modeled as a 
-		simultaneous-move game. }
+	\caption{Two-player human-robot interaction, modeled as a simultaneous-move game tree. }
 	\vspace{-1.4em}
 	\label{fig:game_tree}
 \end{figure}
 
-\textbf{Action profile prediction, strategy evaluation, and search for 
+***Shih-Yun, please change it the way we discussed, add number of lines which present the subject you are interested to talk about before each subject and remove the bold headline***\textbf{Action profile prediction, strategy evaluation, and search for 
 solution action sequence}:
 
-We note that the policy of how an agent $i$ makes his high-level decision can 
-be abbreviated as a function of his (possibly time-variant) type $\theta^i_t$,
+We note that the policy of how an agent $i$ makes his high-level decision regarding to the action he is about to take can be abbreviated, without loss of generality, as a function of his (possibly time-variant) type $\theta^i_t$,
 \begin{equation}~\label{eq:pi}
 a^i_t \sim \pi^i(x_t,\theta^i_t),
 \end{equation}
-without loss of generality; as $\theta^i_t$ can be time-variant to capture 
-human adaptive behaviors in uncertain environments.  
+where $\theta^i_t$ can be time-variant in order to to capture human adaptive behaviors in uncertain environments.  
 
 More specifically, at each decision node, agent $i$ chooses action(s) based on 
 current state $x_t$ for evaluation. In order to do so, agent $i$ needs to 
 compute the following:
 \begin{enumerate}
-  \item $p(\sigma^{-i}_t|I^i_t,x_t)$: action profile probability of other 
-    agents given history set, and
-  \item $r^i_t$ or $V^i_T$: 
-    reward estimate of current action profile of evaluation, or value estimate 
-    if at termination nodes.
+  \item $p(\sigma^{-i}_t|\sigma^i_{0:t-1},x_t)$: action profile probability of other 
+    agents given history set.
+  \item r$^i_t$ or $V^i_T$: reward estimate of the current action profile or the value estimate if the agent is at termination nodes***Shih-Yun, please update this according to the new representation of the tree***.
 \end{enumerate}
 %$\theta^i_t$ contains three components: 
 %$\theta^i_t = (\theta^i, b^i_t(\theta^{-i}_t),b^i_t(a^{-i}_t))$. 
@@ -460,22 +409,10 @@ We note that the form of the game outcomes, either defined by the cumulative
 rewards (as commonly seen in Markov Decision Process) or terminal values (as 
 commonly seen in extensive-form games), has no effect on the solution algorithm. 
 
-We also note that, for the purpose of action evaluation, there are other 
-suitable computational models, such as that in Equation ~\ref{eq:pi}, 
-or the direct mapping from $x^i_t$ to $u^i_t$. Here we 
-present this high-level model for its generality, and further implement the 
-model to simulate specific human-robot interaction behaviors described in the 
-literature, using rules from the behavioral game theory literature.  
+Finally we note that, for the purpose of action evaluation, there exist other suitable computational models, such as the one appearing in Equation ~\ref{eq:pi}, or a direct mapping from $x^i_t$ to $u^i_t$. We chose to present this high-level model for its generality, and further implement the model to simulate specific human-robot interaction behaviors as described in literature, using behavioral game theory rules.  
 
-Due to the forward state transitions in Markov Games, backward induction, a 
-common solution for extensive-form games, is no longer applicable. Instead, 
-forward-search approaches such as Monte Carlo Tree Search can be applied: at 
-each iteration, randomly sample an action $a^i_t$ for evaluation and then expand the search 
-tree by sampling the action profile $p(\sigma^t|I^R_t,x_t)$. To compute the 
-reward of a stage game $r^i_t$, or the value at termination nodes $V_T$, 
-Equation ~\ref{eq:r_control_input} can be applied by sampling $u_t$ from 
-Equation ~\ref{eq:g_function}, given prior on other agents' types 
-$p(\theta^{-i}_t)$. 
+Due to the forward state transitions in Markov Games, backward induction, a common solution for extensive-form games, is no longer applicable. Instead, forward-search approaches such as Monte Carlo Tree Search can be applied: at each iteration, one would randomly sample an action $a^i_t$ for evaluation and expands the search 
+tree by sampling the action profile $p(\sigma^t|\sigma^R_{0:t-1},x_t)$. To compute the reward r$^i_t$, Equation ~\ref{eq:r_control_input} can be applied by sampling $u_t$ from Equation ~\ref{eq:g_function}, given prior on other agents' types $p(\theta^{-i}_t)$. This can also be done for the value at ***Shih-Yun, we now don't have termination node, we need to think about what to write here***termination nodes $V_T$.
 %players observe past interactions to predict other agents' 
 %future policies 
 %$\pi^{-i}(x_t,\theta^i_t|\sigma_{0:t-1})$, and to estimate the type parameter 
@@ -484,7 +421,7 @@ $p(\theta^{-i}_t)$.
 %the type parameter estimate are updated. 
 
 %\vspace{-.2em}
-\textbf{Online solutions with prediction model updates}:
+***Shih-Yun, please remove it as before***\textbf{Online solutions with prediction model updates}:
 %\vspace{-.2em}
 
 When planning for long-horizon purposes, agents ideally want to optimize their 
@@ -492,35 +429,29 @@ outcome considering full-horizon reward accumulation, as introduced in Equation
 ~\ref{eq:optimal}. However, due to modeling errors and typed behaviors among 
 humans, pre-trained models may not well accommodate newly observed behaviors. 
 Pre-computed solutions therefore may not suit well to the newly 
-encountered agents, therefore, online re-plan is needed to well adapt to new 
+encountered agents. Thus, online re-plan is needed to well adapt to new 
 situations, using real-time received observation data. 
-Inaccurate prediction includes those of other agents' future action profiles, action realizations, and state transitions. 
+***Shih-Yun, please move it to the middle of the paragraph as we discussed*** Inaccurate prediction includes those of other agents' future action profiles, action realizations, and state transitions. 
 
-Therefore we are proposing an \textit{online game 
-strategies} as the solution to deal with real-world uncertainties. Instead of running search algorithms to solve for the total 
-horizon, the agent will run \textit{belief updates} whenever new 
-observations arrive, and \textit{re-plan for certain horizon} from 
-current time $t$, for as much lookahead horizon $H$ as computational resource 
-allows. We assume agents have knowledge of the termination timing, $\beta_t$, 
-even in the dynamic setting.
+In order to deal with real world interactions (which involve many uncertainties) we are proposing the use in an \textit{online game 
+strategies}. Instead of using the search algorithms for the entire 
+horizon, the agent will use \textit{belief updates} whenever new 
+observations arrive, and will \textit{re-plan for a specific period in the horizon} from the current time step $t$, until the longest computationally possible lookahead horizon $H$. We assume agents have knowledge of termination time, $T$, even in the dynamic setting.
 
 The following provides a detailed explanation regarding the belief update and 
 Receding-horizon planning of each agent.
  
 \subsubsection{belief updates}\label{sec:belief_update}
-During real-world interactions, observations can be from direct measures, such as the relative positions and velocities of all agents. Observations can also be implicit as to infer private messages, through ways like eye contacts or body languages, to express messages such as intent~\cite{knepper2017implicit}.
+During real-world interactions, observations can be received from direct measures, such as relative positions and velocities of all agents. Observations can also be received implicitly through ways like eye contacts or body languages, to express an intention ~\cite{knepper2017implicit}.
 
 With either form of observations, $o^i_{t:t+\tau} \in O^i$, where $1/\tau$ is the 
 observation  
 update rate and $O^i$ is his observation data space, agents can better infer about 
-future motions of the other agents. Given computational models for motion 
-predictions, such as $u^{-i}_t \sim g^{-i}(x_t,a^{-i},\theta^{-i}_t)$ proposed 
-in our framework (but not restricted to such formulation), to plan in the 
-high-level action space $A^i$, agent $i$ needs to update his beliefs of the 
-following:
+future motions of the other agents. In order to plan in the high-level action space $A^i$, given computational models for motion 
+predictions such as $u^{-i}_t \sim g^{-i}(x_t,a^{-i},\theta^{-i}_t)$ proposed in our framework (but not restricted to such formulation), agent $i$ needs to update his beliefs regarding the following:
 
-(a) Future strategy profiles of other agents $b^i_t(\sigma^{-i}_{t:T}|x_l,I^i_l)$: 
-the strategy profile prediction based on history plays, $p(\sigma_l|x_l,I^i_l)$, 
+(a) Future strategy profiles of other agents $b^i_t(\sigma^{-i}_{t:T}|x_l,\sigma^i_{t:l})$: 
+the strategy profile prediction based on history plays, $p(\sigma_l|x_l,\sigma^i_{t:l})$, 
 where $t\leq l\leq T$ is the future time step of 
 interest.
 
@@ -530,46 +461,33 @@ the Bayesian setting), in order to sample the joint state transition function
 $\mathcal{T}$ and to compute action reward $r^i_t$.
 
 
-We note that belief updates are usually computationally cheap, so agents may run it at a high rate (potentially higher than re-plan rate) to deal with noisy 
+We note that belief updates are usually computationally cheap, so agents may run it at a high rate (potentially higher than ***Shih-Yun, you need to explain where we discussed the re-plan in the paper so people will understand what is the re-plan****re-plan rate) to deal with noisy 
 observations.
  
 \subsubsection{Receding-horizon planning}\label{sec:receding}
-Due to the potential demand of fast re-planning in dynamic environments, agents may only be computationally available to plan for finite-step lookahead $L<T$. Therefore, at each time step $t=l$,$l<T$, agents instead try to optimize for $t=l:L'$, where $L'=min(l+L,T)$, based on updated model of future strategy 
-anticipation of other agents' $p(\sigma_{l:L'}|x_l,I^i_l)$. This online re-planning 
-for finite horizon strategy, known as receding-horizon planning, can be formulated as the following:
+Due to the potential demand of fast re-planning in dynamic environments, agents may only be computationally available to plan for finite-step lookahead $L<T$. Therefore, at each time step $t=l$,$l<T$, agents will try to optimize for $t=l:L'$, where $L'=min(l+L,T)$, based on the updated model of future strategy anticipation of other agents' $p(\sigma_{l:L'}|x_l,I^i_l)$. This online re-planning 
+for finite horizon strategy, known as receding-horizon planning, can be formulated as follows:
 \begin{equation}
   \begin{aligned}
   a^{i*}_{l:L'} = \argmax_{a^i_{l:L'}} 
   \Sigma_{t=l}^{L'} 
-  \mathbb{E}_{x_t,\sigma_{t},\theta_t|\mathcal{T},I^i_t} \big{[}
+  \mathbb{E}_{x_t,\sigma_{t},\theta_t|\mathcal{T},\sigma^i_{0:t}} \big{[}
     r^i(x_t,\sigma_t,&\theta_t)\big{]}+ \\
     \hat{V}^i_{L'+1}(x_L',\sigma_L',&\theta_L'), 
   \end{aligned}
   \end{equation}
-where $\hat{V}_{L+1}(x_L,\sigma_L,\theta_L)$ is the cost-to-go estimate for the following $\sigma_L'$ from $t=L'+1$ to $T$.
+where $\hat{V}_{L+1}(x_L,\sigma_L,\theta_L)$ is some cost-to-go estimate for using action profile $\sigma'_L$ from $t=L'+1$ to $T$.
 
-For coordination games, it is usually true that the earlier the termination, 
-the better the final outcome is. One game example is the bargaining game with 
-benefit discounts. 
-Take another example of the table-turning coordination task, the faster the two agents reach 
-agreement on the direction to go, the earlier they start wasting efforts and make progress, despite the 
-potentially suboptimal (longer) route selection. Therefore, biased search to 
-strategies with early 
-termination has its empirically advantage; agents can even trade off 
-computation depth with breadth to better explore its action profile. 
+In coordination games, it is usually the case that as earlier the termination is, the better is the final outcome. An example can be the bargaining game with benefit discounts. 
+In the table-turning task example, the faster the two agents reach 
+agreement on which direction to go, the earlier they start investing their efforts on the actual problem and make progress. This is despite the 
+potentially suboptimal (longer) route selection. Therefore, biased search toward strategies with early termination has empiric advantage; as a result, many times agents will prefer trading off computation depth for breadth to achieve better exploration its action profile. 
 
-\textbf{Strategy response time and turn-taking formulation:}
+***Shih-Yun, please remove it according to what we discussed***\textbf{Strategy response time and turn-taking formulation:}
 Since high-level actions or intents are not directly observable by other 
-agents, as suggested by Section ~\ref{sec:belief_update}, strategies take time 
-for other agents to infer; further, agents need time to replan to newly 
-observed strategy, and to execute the new plan with potential changes in 
-motions. As a result, with proper waiting time after the initial action, the 
-decision timing of both agents can be clearly separated to prevent 
-oscillations, which transfers the game formulation into turn-taking, as 
-illustrated in Figure ~\ref{fig:turn_taking}. 
-Turn-taking games simplify the 
-simulation setting by neglecting current time action profile sampling to 
-predict other agents' concurrent actions, therefore save computation. 
+agents, as suggested by Section ***Shih-Yun,wrong section, please update*** ~\ref{sec:belief_update}, strategies take time 
+for other agents to infer; further, agents need time to replan given a newly observed strategy, and to execute the new plan with potential changes in motions. As a result, with a proper waiting time after the initial action, the decision timing of both agents can be clearly separated to prevent oscillations. Thus, the game formulation take the form of turn-taking, as illustrated in Figure ~\ref{fig:turn_taking}. 
+We note that turn-taking games simplify the simulation's setting and save computation due to the negligence of current-time action-profile sampling. This is due to the fact that there is no need to predict other agents' concurrent actions. 
 \begin{figure}[t]
       \centering
       \vspace{-1em}
@@ -584,17 +502,13 @@ predict other agents' concurrent actions, therefore save computation.
 \section{Human Behaviors}\label{sec:human_behavior}
 Since one of the main purposes of our proposed framework is to model 
 \textit{human} interaction with AI agents, we are now introducing our 
-hypotheses regarding human behaviors and their decision-making mechanism; by 
-implementing these hypotheses into the suggested framework, we will achieve 
-better analysis of how different paradigms in human-robot coordination affect 
-the overall game result.
+hypotheses regarding human behaviors and their decision-making mechanism; by implementing these hypotheses in the suggested framework, we will achieve a better analysis of the different paradigms in human-robot coordination and how they affect the overall game result.
 \vspace{-.2em}
 \subsection{Adaptation to other agents}\label{sec:adaptability}
 \vspace{-.2em}
 In interaction, oftentimes humans observe other agents and adapt their 
 strategies accordingly ~\cite{nikolaidis2016formalizing,yang2017evaluating}. 
-This is because humans update their beliefs of the other agents based on past 
-interaction; during then, they acquire samples of others' motion realizations 
+This is because humans update their beliefs of the other agents based on past interaction; during which, they acquire samples of others' motion realizations 
 and strategies, which directly affect their own action rewards $r^H_t$. 
 Therefore, adaptation can be seen as a dynamic strategy to maximize self 
 interests. We incorporate such behaviors in our proposed framework 
@@ -620,7 +534,7 @@ time-evolving \textit{beliefs} of other agents' (potentially dynamic) types. Mor
 As for the detailed formulation in human belief, we hypothesize that humans 
 possess certain \textit{prior} of the other agents' behaviors, such as assuming 
 elderly to move slower and robots to be compliant; when new observations come 
-in, humans make use of certain \textit{information budget} to reason about 
+in, humans make use of certain \textit{information budget}***Shih-Yun, this was not defined yet, please talk in more general terms here, the formal definition is in the next paragraph*** to reason about 
 other agents' behaviors to update their beliefs.
 
 %Below, we propose our hypothesis on the humans' information budget, which corresponds to their computational capability to infer about other agents' decision-making model. The decision-making model is the policy that outputs the agent's high-level action(s):
@@ -630,38 +544,29 @@ computational capability to infer about other agents' strategy,
 which includes assumptions over their decision-making model. Here, the 
 decision-making model is referred to the policy that outputs 
 the agent's high-level action(s), i.e., 
-$a^i_{t:t+L} \sim \pi^i(x_t,\theta^i_t)$. With different information budgets, 
-agents can update their beliefs based on different assumptions over the 
-other agents' decision-making model. 
-The categories of \textit{information budget} are outlined below:
+$a^i_{t} \sim \pi^i(x_t,\theta^i_t)$. With different information budgets, 
+agents will update their beliefs based on different assumptions over the 
+other agents' decision-making model. The different categories of \textit{information budget} are outlined below:
 
 \begin{itemize}
-	\item \textbf{Zero Information} - $b^i_t(\theta^{-i}_t) = \emptyset$. Agents 
-    allocate zero budget, therefore keep no information of the other agents' 
-    behaviors during interaction; they 
-    parametrize their policies solely based on (static) personal preferences, 
-    but make 
-    no use of other agents' actions/motions to characterize game outcomes. 
-    Such agents pay no attention to the game, and we 
-    assume \textit{aware} humans do \textit{not} belong to this category.
+	\item \textbf{Zero Information} - $b^i_t(\theta^{-i}_t) = \emptyset$. Agents allocate zero budget, therefore keep no information of the other agents' behaviors during the interaction; they 
+    parametrize their policies solely based on (static) personal preferences, and make no use of other agents' actions/motions to characterize game outcomes. Such agents pay no attention to the game, and we assume \textit{aware} humans do \textit{not} belong to this category.
 	\item \textbf{One-Layer Inference} - $b^i_t(\theta^{-i}_t) = \hat{z}^{-i}$. 
-    Agents assume the other agents to act only according to their static 
-    preferences, $z^{-i}$, which means that they assume others to maintain no 
-    information of themselves, $b^i_t(b^{-i}_t(\theta^i_t))=\emptyset$.  
-    Therefore, agents adapt to the others as if their own actions have no 
+    Agents assume other agents act only according their static 
+    preferences, $z^{-i}$. This means that they assume others to maintain no information of themselves (i.e, $b^i_t(b^{-i}_t(\theta^i_t))=\emptyset$).  
+    Therefore, agents adapt the others as if their own actions have no 
     impact on other agents' strategies or decision-making model, parametrized 
     as 
-    $p(a^{-i}_{t:t+L}|x_t, z^{-i})$. We assume humans belong to this 
-    category while interacting with robots and will apply it for planning 
-    inference in our framework.
-	\item \textbf{Two-Layer Inference} - $b^i_t(\theta^{-i}_t) = [\hat{z}^{-i}, \hat{\hat{z}}^i]$. Agents assume the other agents are also adaptive to themselves,
-	$\theta^{-i}_t = [z^{-i}, \hat{z}^{i}]$, with one-layer inference. 
+    $p(a^{-i}_{t}|x_t, z^{-i})$. We assume humans belong to this 
+    category while interacting with robots. We will apply one level inference as part of planning inference in our framework.
+	\item \textbf{Two-Layer Inference} - $b^i_t(\theta^{-i}_t) = [\hat{z}^{-i}, \hat{\hat{z}}^i]$. Agents assume other agents are also adaptive to their actions with one-layer inference (i.e,
+	$\theta^{-i}_t = [z^{-i}, \hat{z}^{i}]$). 
     Therefore, when planning for more than one period, agents act adaptively, 
     at the same time evaluating their actions' potential impacts on the 
     other agents' future strategies. For example, when planning for only one game period, 
-    agents with the budget to compute two-layer inference plan according to 
+    agents with two layer inference budget plan according to 
     what they 
-    predict the others' predictions about themselves 
+    predict the others' predictions about themselves are, i.e.,
     $a^i_t \sim \pi^i(x_t, b^i_t(\pi^{-i}(x_t,b^{-i}_t(\pi^i(x_t,{z}^i)))))$
     . When applied for long-horizon planning, agents need to distinguish 
     updates for either $\hat{z}^{-i}$ or $\hat{\hat{z}}^i$, and replan while 
@@ -673,21 +578,21 @@ The categories of \textit{information budget} are outlined below:
     affordable for one-shot games but not for long-horizon planning. 
 \end{itemize}
 
-Therefore, with the information budget assumption over human inference for long-horizon 
+Therefore, given the information budget assumption over human inference for long-horizon 
 planning, $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies 
 being adaptive to their perceived, presumably static, behavior of other 
-agents. The higher adaptation rate is, the more compliant they 
-appear to the other agents' strategies, therefore, more flexible in the joint policy. 
+agents. The higher the adaptation rate is, the more compliant they 
+appear to the other agents' strategies and therefore the joint policy is more flexible. 
 
-\textit{Biased Adaptation:}
+***Shih-Yun, please add connection to the former part***\textit{Biased Adaptation:}
 
 Although $\theta^i_t$ may be partially inferred by other agents $-i$ through 
 observations, it is assumed to be not directly observable. 
 Type $\theta^H_t$ can be treated as 
-the \textit{mental state} on human agents, which are 
-hidden from other agents, sometimes, even from themselves.  
+the \textit{mental state} of the human agents, which are 
+hidden from other agents, and sometimes even from themselves.  
 
-The more complex the domain is, the more complicated the way type is related 
+The more complex the domain is, the more complicated is the way type is related 
 to an agent's policy. Given prior estimate of such hidden parameter and its 
 belief update rule, sometimes its variables may have coupled effects to the 
 resultant observations. In that case, the agent has extra degrees of freedom to 
@@ -696,21 +601,20 @@ each variable to apply belief updates, therefore only that the
 agent most concerns gets updated. We refer this as \textit{biased adaptation} in human 
 behavior, which saves computation for both belief updates and replanning.  
 
-\textit{Human Lookahead Planning:}
+***Shih-Yun, please add connection to the former part***\textit{Human Lookahead Planning:}
 %\color{red}\subsubsection{Bounded memory belief updates}
 %***I AM NOT SURE WHY WE ARE TALKING ABOUT THIS***As introduced in Section ~\ref{sec:belief_update}, we also assume humans maintain their 
 %beliefs of other agents' types as well as their future strategy profile through out online planning. Here, we further assume humans to either run Bayesian updates, or possess \textit{bounded} memory on past observations and interaction history for belief updates\cite{nikolaidis2016formalizing}: $b^H_t(\sigma_{t}|I^i_{t-(t-n)}),$ and $b^H_t(\theta^{-i}_t|o_{t-n:t})$.
 
 %\subsubsection{Finite-step lookahead}
-As introduced in Section ~\ref{sec:receding}, we also assume humans re-plan 
+As introduced in Section ***Shih-Yun, wrong section, please update***~\ref{sec:receding}, we also assume humans re-plan 
 online with finite-step lookahead, $L^H<T$, with belief updates on prediction 
 models such as the strategy profile of other agents 
 $b^H_t(\pi^{-H}(x_t,\theta^{-H}_t))$. Finite-step lookahead can be either 
 \textit{0-step lookahead} (i.e., $L^H=0$), where agents act as if the current 
 game is the termination game, or \textit{multi-step lookahead} (i.e., $L^H>0$), 
 where agents plan as the game has more than one period. We note that if $L^H>0$, 
-adaptive behaviors due to belief updates are expected, given information 
-budget assumption: $b^H_t(\theta^{-H}_t)\neq \emptyset$.
+adaptive behaviors due to belief updates are expected, assuming one layer inference information budget.
 
 
 %\subsubsection{Anticipation of other agents' policy}
@@ -726,11 +630,11 @@ budget assumption: $b^H_t(\theta^{-H}_t)\neq \emptyset$.
 %(i.e, two-layers inference for planning). In this paper, we discuss human decisions based on only one-layer inference.
 %\color{black}
 \subsection{Influential factors in human-robot interaction}
-As pointed out in Section ~\ref{sec:human_behavior}, human policies for high-level decisions are parametrized by $\theta^i_t$, which include that person's static type $z^H$ and dynamically perceived types $b^H_t(\theta^{-H}_t)$ of other agents. With different perceptions on the other, humans act differently. For example, pedestrians take over others' roads when they are in a hurry; however, they yield when encountering the elderly. Similar situation 
-applies to human-robot interaction: people have distinctive behaviors based on their prior assumptions of robots, which affect their policies and their adaptabilities when new observations come in. In this section we discuss how to use the above proposed model in order to describe	 existing phenomena in human-robot interactions. 
+As pointed out in Section ~\ref{sec:human_behavior}, human policies for high-level decisions are parametrized by $\theta^i_t$, which includes both the person's static type, $z^H$, and his dynamically perceived types of other agents, $b^H_t(\theta^{-H}_t)$. We note that with different perceptions on others, humans act differently. For example, pedestrians take over others' roads when they are in a hurry; however, they yield when encountering the elderly. Similar situation 
+applies to human-robot interaction: people have distinctive behaviors based on their prior assumptions regarding robots, which affect their policies and their adaptabilities when new observations come in. Here we discuss how to use the above proposed model in order to describe	 existing phenomena in human-robot interactions. 
 
 \subsubsection{Perceived robot capability}~\label{sec:perceived}
-The gap between true robot capability and human perceived robot capability has shown to deteriorate both joint and individual work efficiency in different task domains ~\cite{dragan2015effects}. Here, we characterize human perceived robot capability for human-robot interaction into two categories which are functional capability and social inference capability.
+The gap between the true capabilities of a robot and human perceived of those capabilities has shown to deteriorate both joint and individual work efficiency in different task domains ~\cite{dragan2015effects}. Here, we characterize human perceived robot capability for human-robot interaction using two categories: \textit{functional capability} and \textit{social inference capability}.
 
 \begin{itemize}
 	\item \textit{Functional capability - } This includes the belief of whether a robot is able to \textit{identify interaction}. Before engaging interactions, agents need to ensure that $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met by all parties, or else confusions may arise. Due to lack of social signaling capability, such as gazes, humans may be uncertain whether the robot is aware of the potential interactions. This may result in distantly-avoiding behaviors through out the interaction, since people are not sure whether they should engage ~\cite{dragan2015effects}. This also includes the knowledge of robot action set, $A^R$, and the confidence of whether the robot is able to \textit{succeed in its target actions}, $a^R_t$, especially when complex domains are considered ~\cite{chen2018planning}. 
