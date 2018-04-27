@@ -267,8 +267,8 @@ realization of such actions, by:
   u_t^i = g^i(x_t, a^i_t, \theta^i_t),
 \end{equation}
 where $x_t$ stands for all the agents' state representation at time step $t$, i.e., $x_t = (x^1_t, x^2_t,...,x^k)\in X$ and $\theta^i_t \in \Theta^i$ is some parametrization of the agent's (potentially time-variant) behavior.
-$g^i:X \times A^i \times \Theta^i \rightarrow U$ can take in any model 
-formulation, possibly stochastic, to sample inputs from $p(u_t^i|x_t,a^i_t,\theta_t^i)$. 
+$g^i:X \times A^i \times \Theta^i \rightarrow U$ is a general formulation that 
+can take in any mathematical model, possibly stochastic, to sample inputs from $p(u_t^i|x_t,a^i_t,\theta_t^i)$. 
 One example for high-level actions is the table-turning directions, clockwise 
 or counterclockwise; the 
 low-level inputs to realize such actions are motor torque commands to 
@@ -276,18 +276,34 @@ control the position and orientation (the state) of the end effector of the
 manipulator. Note that, $u_t^i$ is a 
 function of $x_t$ and not solely of $x^i_t$, since agents adjust their 
 motions (the realization of their high-level actions) based on other agents' 
-status in the joint state space. An example could be collision avoidance 
-among two dynamic agents.
+status in the joint state space. 
+An example could be collision 
+avoidance among two dynamic agents.
+The high-level actions can be thought as the 
+domain-specific \textit{intents}~\ref{dragan2013generating} of the agents, and 
+the way such intents are realized has variations among individuals.  
 
 Given a control input $u_t^i$, agent state transition function $\mathcal{T}^i_{low}$ 
-can be individually represented by: $p(x^i_{t+1}|x^i_t,u^i_t)$. However, since dealing with high-level actions is much more intuitive than dealing with the low-level ones, we will use a different representation for agent $i$'s state transition function by marginalizing over $u^i_t$ as follows:
+can be individually represented by: $p(x^i_{t+1}|x^i_t,u^i_t)$. However, since 
+dealing with high-level actions is much more intuitive than dealing with the 
+low-level ones (which is especially important when considering motion \textit{legibility}), we will use a different representation for agent $i$'s 
+state transition function by marginalizing over $u^i_t$ as follows:
 \begin{equation}
   p(x^i_{t+1}|x_t,a^i_t,\theta^i_t) = \int_{u^i \in U^i} 
   p(x_{t+1}^i|x^i_t,u^i_t) p(u^i_t|x^t,a^i_t,\theta^i_t)du^i.
 \end{equation}
 
-We note that we use $X$ as a part of agent $i$'s state transition function's new representation ($\mathcal{T}^i_{high}:X \times A^i \times \Theta^i \rightarrow X^i$), due to the fact that the action realization, $g^i$, takes in the joint state $x_t$. The \textit{joint state transition function}, $\mathcal{T}$, however, represents a collective behavior among all agents and therefore takes in the following form: 
-$\mathcal{T}:X \times \Sigma \times \Theta \rightarrow X$. 
+We note that we use $X$ as a part of agent $i$'s state transition function's 
+new representation (
+$\mathcal{T}^i_{high}:X \times A^i \times \Theta^i \rightarrow X^i$), due to 
+the fact that the action realization, $g^i$, takes in the joint state $x_t$. 
+The \textit{joint state transition function}, $\mathcal{T}$, which 
+represents a collective behavior among all agents, therefore takes in the 
+following form: 
+$\mathcal{T}:X \times \Sigma \times \Theta \rightarrow X$, or 
+$mathcal{T}:X \times A^i \times \Theta^i \times U^{-i} \rightarrow X$, 
+depending on how the strategy predictive model of other agents' motions 
+(either in the high level or low level) is defined per application. 
 
 After taking control input $u_t^i$ at state $x_t$, agent $i$ receives an immediate reward of r$^i_t$ calculated according to: 
 \begin{equation}\label{eq:r_control_input}
@@ -297,8 +313,10 @@ where $u^{-i}_t$ is the control input of other agents at time $t$, and the agent
 all agents' states $x_t$ and inputs $u_t$ ($\in U = U^1\times \cdots \times U^k)$ 
 for evaluation. 
 
-Using Equation ~\ref{eq:g_function}, a new representation of 
-$r^i_{low}$, using high-level actions ($r^i_{high}:X\times \Sigma \times \Theta \rightarrow \mathbb{R}$), can be used in order to calculate r$^i_t$ as follows:
+Again, using Equation ~\ref{eq:g_function}, the reward function can also be 
+represented by high-level actions (
+$r^i_{high}:X\times \Sigma \times \Theta \rightarrow \mathbb{R}$), to 
+calculate r$^i_t$ as follows:
 \begin{equation}\label{eq:r_function}
 \text{r}^i_t = r^i_{high}(x_t,\sigma_t,\theta_t).
 \end{equation}
@@ -321,7 +339,7 @@ with the low-level control inputs $u^i_t$,
 %and although discrete actions are computationally more expensive for plan evaluation, 
 for the rest of the paper we will consider the high-level action space for planning. This is due to the fact that high level action space is oftentimes easily obtained for domain-specific applications. In addition, if using a high level actions space (which is discrete) it is much cheaper to perform a search. Discrete action planning also well approximate human planning with hierarchical reasoning.  
 
-We present Markov games with time-variant types as a framework to incorporate human adaptiveness and typed behaviors in interactions with robots, and to design algorithms that leverages multi-agent action effects for human-aware robot planning.   
+We present Markov games with time-variant types as a framework to incorporate human adaptation and typed behaviors in interactions with robots, and to design algorithms that leverages multi-agent action effects for human-aware robot planning.   
 %to analyze the convergence criteria of human-robot coordinating 
 %process. 
 We first introduce general solutions for the framework in both 
