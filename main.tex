@@ -20,7 +20,7 @@
 \newcommand{\argmin}{\arg\!\min}
 \newcommand{\argmax}{\arg\!\!\max}
 \newtheorem{thm}{Hypothesis}
-\linespread{0.968}
+\linespread{0.98}
 \title{\LARGE \bf
 Markov Games with Time-variant Types as a Framework for Human-robot Coordination
 }
@@ -374,37 +374,50 @@ define the real-time game setting through game \textit{start} and \textit{termin
     crowds. When pedestrians are past the route intersections, the game terminates, as no further intervention is expected.
 \end{enumerate}
 
+The sequential game formulation (in normal form) can be seen in Figure 
+~\ref{fig:game_tree}-Left, where all agents (here, one robot and one 
+human) make actions simultaneously and receive individual outcomes at each 
+\textit{episode}. Due to the 
+Markov property and state-dependent reward function formulation (as in 
+Equation ~\ref{r_function}), the outcomes of each game episode vary according 
+to the action profile (actions played by all agents) in the previous episode.
 
 \subsection{Game Solutions}
-
 If both $\mathcal{C}_{PI}$ and $\mathcal{C}_{MA}$ are met, the game unfolds 
 until the termination criteria is met. Within this game 
 time frame, agent $i$ is interested in finding the solution (i.e., strategy) 
 which optimizes his future cumulative rewards (calculated according to Equation 
 ~\ref{eq:optimal}). This process is formally presented by a
-simultaneous-move game tree representation (see example in Figure 
-~\ref{fig:game_tree}), which contains:
-***Shih-Yun, please change the tree description according to the new tree***
+simultaneous-move game tree representation (shown in Figure 
+~\ref{fig:game_tree}-Right), which contains:
+%***Shih-Yun, please change the tree description according to the new tree***
 \begin{enumerate}
   \item Decision nodes: nodes where players make action choices, 
     $a^i_t \in A^i$, based on current state $x_t$ (solid circles). Each decision node is associated with only one player out of all the $k$ players.
-  \item Terminal nodes: nodes where game outcomes 
+  \item History set: strategy history of all agents before current time, associated with each decision node, i.e,  $\sigma_{0:t-1}$. 
+  \item Terminal nodes: nodes where (cumulative) game outcomes 
     $V(x_T,\sigma_T,\theta_T)$ are assigned (hollow circles at the bottom)
-  \item History set: plays history of all other agents before current time associated with each decision node, i.e,  $\sigma_t \in \Sigma_t$. 
 \end{enumerate}
 
 \begin{figure}[t]
 	\centering
 	%\vspace{-3em}
-	\includegraphics[scale=0.4]{newGameTree}
-	\vspace{-5em}
-	%\hspace{-5em}
-	\caption{Two-player human-robot interaction, modeled as a simultaneous-move game tree. }
+	\hspace{-1.7em}
+	\includegraphics[width=0.3\columnwidth]{newGameTree}
+	\vspace{-.75em}
+	\hspace{-2em}
+  \includegraphics[width=0.8\columnwidth]{game_tree}
+	\vspace{-2.4em}
+	\hspace{-1em}
+	\caption{Two-player human-robot interaction, modeled as a simultaneous-move 
+  game tree using normal-form representation (Left), and extensive-form 
+  representation (Right). }
 	\vspace{-1.4em}
 	\label{fig:game_tree}
 \end{figure}
 
-***Shih-Yun, please change it the way we discussed, add number of lines which present the subject you are interested to talk about before each subject and remove the bold headline***\textbf{Action profile prediction, strategy evaluation, and search for 
+%***Shih-Yun, please change it the way we discussed, add number of lines which present the subject you are interested to talk about before each subject and remove the bold headline***
+\textbf{Action profile prediction, strategy evaluation, and search for 
 solution action sequence}:
 
 We note that the policy of how an agent $i$ makes his high-level decision regarding to the action he is about to take can be abbreviated, without loss of generality, as a function of his (possibly time-variant) type $\theta^i_t$,
