@@ -280,7 +280,7 @@ status in the joint state space.
 An example could be collision 
 avoidance among two dynamic agents.
 The high-level actions can be thought as the 
-domain-specific \textit{intents}~\ref{dragan2013generating} of the agents, and 
+domain-specific \textit{intents}~\cite{dragan2013generating} of the agents, and 
 the way such intents are realized has variations among individuals.  
 
 Given a control input $u_t^i$, agent state transition function $\mathcal{T}^i_{low}$ 
@@ -473,22 +473,25 @@ behavior (as described in literature), using behavioral game theory rules.
 %the type parameter estimate are updated. 
 
 %\vspace{-.2em}
-***Shih-Yun, please remove it as before***\textbf{Online solutions with prediction model updates}:
+%***Shih-Yun, please remove it as before***
+%\textbf{Online solutions with prediction model updates}:
+\subsection{Online solutions}
 %\vspace{-.2em}
 
 When planning for long-horizon purposes, agents ideally want to optimize their 
 outcome considering full-horizon reward accumulation, as introduced in Equation 
 ~\ref{eq:optimal}. However, due to modeling errors and typed behaviors among 
 humans, pre-trained models may not well accommodate newly observed behaviors. 
+Inaccurate prediction includes those of other agents' future action profiles, action realizations, and state transitions. 
 Pre-computed solutions therefore may not suit well to the newly 
-encountered agents. Thus, online re-plan is needed to well adapt to new 
+encountered agents. Thus, online \textit{re-plan} is needed to well adapt to new 
 situations, using real-time received observation data. 
-***Shih-Yun, please move it to the middle of the paragraph as we discussed*** Inaccurate prediction includes those of other agents' future action profiles, action realizations, and state transitions. 
+%***Shih-Yun, please move it to the middle of the paragraph as we discussed*** 
 
 In order to deal with real world interactions (which involve many uncertainties) we are proposing the use in an \textit{online game 
 strategies}. Instead of using the search algorithms for the entire 
 horizon, the agent will use \textit{belief updates} whenever new 
-observations arrive, and will \textit{re-plan for a specific period in the horizon} from the current time step $t$, until the longest computationally possible lookahead horizon $H$. We assume agents have knowledge of termination time, $T$, even in the dynamic setting.
+observations arrive, and will \textit{re-plan for specific periods in the horizon} from the current time step $t$, until the longest computationally possible lookahead horizon $L$. We assume agents have knowledge of termination time, $T$, even in the dynamic setting.
 
 The following provides a detailed explanation regarding the belief update and 
 Receding-horizon planning of each agent.
@@ -533,11 +536,16 @@ where $\hat{V}_{L+1}(x_L,\sigma_L,\theta_L)$ is some cost-to-go estimate for usi
 In coordination games, it is usually the case that as earlier the termination is, the better is the final outcome. An example can be the bargaining game with benefit discounts. 
 In the table-turning task example, the faster the two agents reach 
 agreement on which direction to go, the earlier they start investing their efforts on the actual problem and make progress. This is despite the 
-potentially suboptimal (longer) route selection. Therefore, biased search toward strategies with early termination has empiric advantage; as a result, many times agents will prefer trading off computation depth for breadth to achieve better exploration its action profile. 
+potentially suboptimal (longer) route selection. Therefore, biased search toward strategies with early termination has empiric advantage.
+%; as a result, many times agents will prefer trading off computation depth for breadth to achieve better exploration its action profile. 
 
-***Shih-Yun, please remove it according to what we discussed***\textbf{Strategy response time and turn-taking formulation:}
+%***Shih-Yun, please remove it according to what we discussed***
+%\textbf{Strategy response time and turn-taking formulation:}
+\subsection{Time delay in decisions}
 Since high-level actions or intents are not directly observable by other 
-agents, as suggested by Section ***Shih-Yun,wrong section, please update*** ~\ref{sec:belief_update}, strategies take time 
+agents, as suggested by Section 
+%***Shih-Yun,wrong section, please update***
+~\ref{sec:belief_update}, strategies take time 
 for other agents to infer; further, agents need time to replan given a newly observed strategy, and to execute the new plan with potential changes in motions. As a result, with a proper waiting time after the initial action, the decision timing of both agents can be clearly separated to prevent oscillations. Thus, the game formulation take the form of turn-taking, as illustrated in Figure ~\ref{fig:turn_taking}. 
 We note that turn-taking games simplify the simulation's setting and save computation due to the negligence of current-time action-profile sampling. This is due to the fact that there is no need to predict other agents' concurrent actions. 
 \begin{figure}[t]
@@ -556,23 +564,29 @@ Since one of the main purposes of our proposed framework is to model
 \textit{human} interaction with AI agents, we are now introducing our 
 hypotheses regarding human behaviors and their decision-making mechanism; by implementing these hypotheses in the suggested framework, we will achieve a better analysis of the different paradigms in human-robot coordination and how they affect the overall game result.
 \vspace{-.2em}
-\subsection{Adaptation to other agents}\label{sec:adaptability}
+\subsection{Types, Beliefs, and Adaptation}\label{sec:adaptability}
 \vspace{-.2em}
 In interaction, oftentimes humans observe other agents and adapt their 
 strategies accordingly ~\cite{nikolaidis2016formalizing,yang2017evaluating}. 
-This is because humans update their beliefs of the other agents based on past interaction; during which, they acquire samples of others' motion realizations 
-and strategies, which directly affect their own action rewards $r^H_t$. 
-Therefore, adaptation can be seen as a dynamic strategy to maximize self 
-interests. We incorporate such behaviors in our proposed framework 
-through the dynamic type parameter $\theta^H_t$, and refer human adaptive 
-policy to Equation ~\ref{eq:pi}. 
+Using the Bayesian inference setting and the sequential rationality assumption 
+in dynamic games, we can explain such 
+adaptive behavior making use of Equation ~\ref{eq:pi}; we assume that humans 
+dynamically update their type parameters along the interaction and then adapt 
+their strategies according to the new type parameters. 
+
+From the implementation perspective, belief updates can be realized through 
+the following process:  agents acquire samples of others' motion realizations 
+and strategies, which directly affect their own action rewards $r^i_t$. 
+Then, adaptation is conducted to adjust the strategy, such that online agents 
+can maximize self interests according to the new estimate of cumulative 
+rewards, as suggested in Equation ~\ref{eq:optimal}. 
 
 Further, we propose that a human's type $\theta^H_t$ is parameterized by a 
-static parameter $z^H$, and a dynamic inference parameter 
-$b^H_t(\theta^{-H}_t)$. The static parameter, $z^H$, is associated with 
+static preference parameter $z^H$, and a dynamic inference parameter 
+$b^H_t(\theta^{-H}_t)$. The static preference parameter, $z^H$, is associated with 
 domain-specific personal 
-preferences, such as urgency to travel to destination, which do not change in 
-short period of time; and the 
+tendencies, such as urgency to travel to destination, which is assumed to not 
+change in short period of time; and the 
 dynamic inference parameter, $b^H_t(\theta^{-H}_t)$, captures the agent's 
 time-evolving \textit{beliefs} of other agents' (potentially dynamic) types. More specifically,
 \begin{equation}
@@ -583,25 +597,28 @@ time-evolving \textit{beliefs} of other agents' (potentially dynamic) types. Mor
 \end{equation}
 
 %the static type parameter, $z^H$, features personal preferences such as travel efficiency versus travel energy in navigation domains. The time-variant parameter, $b^H_t(\theta^{-H}_t)$, features humans' perception on other agents' types. 
-As for the detailed formulation in human belief, we hypothesize that humans 
+As for the detailed structure in human beliefs, we hypothesize that humans 
 possess certain \textit{prior} of the other agents' behaviors, such as assuming 
 elderly to move slower and robots to be compliant; when new observations come 
-in, humans make use of certain \textit{information budget}***Shih-Yun, this was not defined yet, please talk in more general terms here, the formal definition is in the next paragraph*** to reason about 
-other agents' behaviors to update their beliefs.
+in, humans make use of certain computation resource, later defined as their \textit{information budget},
+%***Shih-Yun, this was not defined yet, please talk in more general terms here, the formal definition is in the next paragraph*** 
+to reason about 
+other agents' behaviors and update their beliefs.
 
 %Below, we propose our hypothesis on the humans' information budget, which corresponds to their computational capability to infer about other agents' decision-making model. The decision-making model is the policy that outputs the agent's high-level action(s):
-\subsection{Depth of Inference and Biased Adaptation}
+\subsection{Depth of Inference}
 We now define the concept of \textit{information budget} to be an agent's 
-computational capability to infer about other agents' strategy, 
-which includes assumptions over their decision-making model. Here, the 
+bounded mental representation of other agents' strategies, 
+which includes assumptions over their decision-making models. Here, the 
 decision-making model is referred to the policy that outputs 
 the agent's high-level action(s), i.e., 
 $a^i_{t} \sim \pi^i(x_t,\theta^i_t)$. With different information budgets, 
 agents will update their beliefs based on different assumptions over the 
-other agents' decision-making model. The different categories of \textit{information budget} are outlined below:
+other agents' decision-making model. The different categories of 
+\textit{information budget}  and the associated depth of inference are outlined below:
 
 \begin{itemize}
-	\item \textbf{Zero Information} - $b^i_t(\theta^{-i}_t) = \emptyset$. Agents allocate zero budget, therefore keep no information of the other agents' behaviors during the interaction; they 
+	\item \textbf{Zero Inference} - $b^i_t(\theta^{-i}_t) = \emptyset$. Agents allocate zero budget, therefore keep no information of the other agents' behaviors during the interaction; they 
     parametrize their policies solely based on (static) personal preferences, and make no use of other agents' actions/motions to characterize game outcomes. Such agents pay no attention to the game, and we assume \textit{aware} humans do \textit{not} belong to this category.
 	\item \textbf{One-Layer Inference} - $b^i_t(\theta^{-i}_t) = \hat{z}^{-i}$. 
     Agents assume other agents act only according their static 
@@ -630,37 +647,56 @@ other agents' decision-making model. The different categories of \textit{informa
     affordable for one-shot games but not for long-horizon planning. 
 \end{itemize}
 
-Therefore, given the information budget assumption over human inference for long-horizon 
+Therefore, given the one-layer information budget assumption over human inference for long-horizon 
 planning, $b^H_t(\theta^H_t) = \hat{z}^{-H}$, we consider human policies 
 being adaptive to their perceived, presumably static, behavior of other 
-agents. The higher the adaptation rate is, the more compliant they 
-appear to the other agents' strategies and therefore the joint policy is more flexible. 
+agents. The higher the adaptation rate is, the faster the belief updates, 
+which then affects the agent's strategy in the joint workspace. 
 
-***Shih-Yun, please add connection to the former part***\textit{Biased Adaptation:}
+The higher rate the agent conducts one-layer inference to other agents' 
+behaviors, the more compliant the agent appears to the their strategies; therefore his policy is more flexible. 
 
-Although $\theta^i_t$ may be partially inferred by other agents $-i$ through 
-observations, it is assumed to be not directly observable. 
+%***Shih-Yun, please add connection to the former part***
+
+
+\subsection{Biased Adaptation Due to Limited Inference Computation}
 Type $\theta^H_t$ can be treated as 
 the \textit{mental state} of the human agents, which are 
 hidden from other agents, and sometimes even from themselves.  
+Given different information budgets, humans make assumptions over other 
+agents' behavior models for inference, and adapt their strategies accordingly. 
 
+Although $\theta^i_t$ may be partially inferred by other agents $-i$ through 
+observations, it is assumed to be not directly observable, especially when the 
+domain is complicated. 
 The more complex the domain is, the more complicated is the way type is related 
-to an agent's policy. Given prior estimate of such hidden parameter and its 
-belief update rule, sometimes its variables may have coupled effects to the 
-resultant observations. In that case, the agent has extra degrees of freedom to 
+to an agent's policy. Given more information budget, the agent needs to infer 
+with higher complexity, and further has to decide how to adapt his 
+strategies according to such updated belief. This strategy update mechanism 
+requires non-trivial computation(reasoning), especially when the information 
+contains coupled effects to the type parameter for inference. For example, a 
+agent who yields may be at his leisure, or may be afraid about the coming agent.     
+
+Given prior estimate of the hidden parameter and its 
+belief update rule, when it variables may have coupled effects to the 
+resultant observations, the agent has extra degrees of freedom to 
 allocate different levels of attention on 
-each variable to apply belief updates, therefore only that the 
-agent most concerns gets updated. We refer this as \textit{biased adaptation} in human 
+each variable, to apply belief updates and strategy adaptation. Therefore, 
+only that the agent most concerns gets updated and then interpreted in his 
+future strategy design. We refer this as 
+\textit{biased adaptation} in human 
 behavior, which saves computation for both belief updates and replanning.  
 
-***Shih-Yun, please add connection to the former part***\textit{Human Lookahead Planning:}
+%***Shih-Yun, please add connection to the former part***
 %\color{red}\subsubsection{Bounded memory belief updates}
 %***I AM NOT SURE WHY WE ARE TALKING ABOUT THIS***As introduced in Section ~\ref{sec:belief_update}, we also assume humans maintain their 
 %beliefs of other agents' types as well as their future strategy profile through out online planning. Here, we further assume humans to either run Bayesian updates, or possess \textit{bounded} memory on past observations and interaction history for belief updates\cite{nikolaidis2016formalizing}: $b^H_t(\sigma_{t}|I^i_{t-(t-n)}),$ and $b^H_t(\theta^{-i}_t|o_{t-n:t})$.
 
 %\subsubsection{Finite-step lookahead}
-As introduced in Section ***Shih-Yun, wrong section, please update***~\ref{sec:receding}, we also assume humans re-plan 
-online with finite-step lookahead, $L^H<T$, with belief updates on prediction 
+As introduced in Section
+%***Shih-Yun, wrong section, please update***~\ref{sec:receding}, 
+we also assume humans re-plan 
+online with (short) finite-step lookahead, $L^H<T$, with belief updates on prediction 
 models such as the strategy profile of other agents 
 $b^H_t(\pi^{-H}(x_t,\theta^{-H}_t))$. Finite-step lookahead can be either 
 \textit{0-step lookahead} (i.e., $L^H=0$), where agents act as if the current 
