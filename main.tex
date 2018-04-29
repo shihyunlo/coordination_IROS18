@@ -395,7 +395,7 @@ simultaneous-move game tree representation (shown in Figure
   \item Decision nodes: nodes where players make action choices, 
     $a^i_t \in A^i$, based on current state $x_t$ (solid circles). Each decision node is associated with only one player out of all the $k$ players.
   \item History set: strategy history of all agents before current time, associated with each decision node, i.e,  $\sigma_{0:t-1}$. 
-  \item Terminal nodes: nodes where (cumulative) game outcomes 
+  \item Terminal nodes: nodes where final (cumulative) game outcomes 
     $V(x_T,\sigma_T,\theta_T)$ are assigned (hollow circles at the bottom)
 \end{enumerate}
 
@@ -416,34 +416,55 @@ simultaneous-move game tree representation (shown in Figure
 	\label{fig:game_tree}
 \end{figure}
 
-%***Shih-Yun, please change it the way we discussed, add number of lines which present the subject you are interested to talk about before each subject and remove the bold headline***
-\textbf{Action profile prediction, strategy evaluation, and search for 
-solution action sequence}:
+%\textbf{Action profile prediction, strategy evaluation, and search for 
+%solution action sequence}:
 
-We note that the policy of how an agent $i$ makes his high-level decision regarding to the action he is about to take can be abbreviated, without loss of generality, as a function of his (possibly time-variant) type $\theta^i_t$,
-\begin{equation}~\label{eq:pi}
-a^i_t \sim \pi^i(x_t,\theta^i_t),
-\end{equation}
-where $\theta^i_t$ can be time-variant in order to to capture human adaptive behaviors in uncertain environments.  
 
-More specifically, at each decision node, agent $i$ chooses action(s) based on 
-current state $x_t$ for evaluation. In order to do so, agent $i$ needs to 
-compute the following:
-\begin{enumerate}
-  \item $p(\sigma^{-i}_t|\sigma^i_{0:t-1},x_t)$: action profile probability of other 
-    agents given history set.
-  \item r$^i_t$ or $V^i_T$: reward estimate of the current action profile or the value estimate if the agent is at termination nodes***Shih-Yun, please update this according to the new representation of the tree***.
-\end{enumerate}
+More specifically, at each decision node, agent $i$ chooses an action that has 
+the best expected value (or, cumulative rewards) at termination. 
+Due to the forward state transitions in Markov Games, backward induction, a common solution for extensive-form games, is no longer applicable. 
+Instead, forward-search approaches such as Monte Carlo Tree Search can be 
+applied, which selects action profiles for evaluation through roll-outs.
+
+At each iteration, for agent $i$, an (already expended) decision node is 
+selected to randomly sample an action $a^i_t$ for evaluation and tree 
+expansion. The evaluation requires further sampling of the action profile of 
+other agents $a^{-i}_t$ and the type of all agents $\theta_t$, to compute the 
+reward r$^i_t$ as in Equation ~\ref{eq:r_function}. One can also apply the $g$ 
+function from Equation ~\ref{eq:g_function} to sample $u_t$ to compute reward 
+r$^i_t$ as in Equation ~\ref{eq:r_control_input}.
+
+%In order to do so, agent $i$ needs to compute the following:
+%\begin{enumerate}
+%  \item $p(\sigma^{-i}_t|\sigma^i_{0:t-1},x_t)$: action profile probability of other 
+%    agents given history set.
+%  \item r$^i_t$ or $V^i_T$: reward estimate of the current action profile or the value estimate if the agent is at termination nodes***Shih-Yun, please update this according to the new representation of the tree***.
+%\end{enumerate}
 %$\theta^i_t$ contains three components: 
 %$\theta^i_t = (\theta^i, b^i_t(\theta^{-i}_t),b^i_t(a^{-i}_t))$. 
 We note that the form of the game outcomes, either defined by the cumulative 
 rewards (as commonly seen in Markov Decision Process) or terminal values (as 
 commonly seen in extensive-form games), has no effect on the solution algorithm. 
 
-Finally we note that, for the purpose of action evaluation, there exist other suitable computational models, such as the one appearing in Equation ~\ref{eq:pi}, or a direct mapping from $x^i_t$ to $u^i_t$. We chose to present this high-level model for its generality, and further implement the model to simulate specific human-robot interaction behaviors as described in literature, using behavioral game theory rules.  
+To sample the other agents' action profile at time $t$, the policy of how 
+the other agent(s) $-i$ chooses the high-level action $a^{-i}_t$ can be 
+abbreviated, without loss of generality, as a function of his (possibly 
+time-variant) type 
+$\theta^{-i}_t$,
+\begin{equation}~\label{eq:pi}
+  a^{-i}_t \sim \pi^{-i}(x_t,\theta^{-i}_t),
+\end{equation}
+where $\theta^{-i}_t$ can be time-variant. This formulation provides a 
+mathematical model to capture human typed adaptive behavior in uncertain 
+environments, which is commonly addressed in human-robot interaction literature.  
 
-Due to the forward state transitions in Markov Games, backward induction, a common solution for extensive-form games, is no longer applicable. Instead, forward-search approaches such as Monte Carlo Tree Search can be applied: at each iteration, one would randomly sample an action $a^i_t$ for evaluation and expands the search 
-tree by sampling the action profile $p(\sigma^t|\sigma^R_{0:t-1},x_t)$. To compute the reward r$^i_t$, Equation ~\ref{eq:r_control_input} can be applied by sampling $u_t$ from Equation ~\ref{eq:g_function}, given prior on other agents' types $p(\theta^{-i}_t)$. This can also be done for the value at ***Shih-Yun, we now don't have termination node, we need to think about what to write here***termination nodes $V_T$.
+Finally we note that, for the purpose of motion prediction for an agent's own 
+action evaluation, there exist other suitable computational models for 
+prediction, such as a direct mapping to the low-level control inputs 
+$u^{-i}_t$. We chose to present this high-level model for its generality, and 
+further implement the model to simulate specific human-robot interaction 
+behavior (as described in literature), using behavioral game theory rules.  
+
 %players observe past interactions to predict other agents' 
 %future policies 
 %$\pi^{-i}(x_t,\theta^i_t|\sigma_{0:t-1})$, and to estimate the type parameter 
